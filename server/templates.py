@@ -1,15 +1,14 @@
 import os
-import sys
 import json
 import re
-import inspect
+
+from . import JIRA_ADDON_DIR
+
+TEMPLATES_DIR = os.path.join(JIRA_ADDON_DIR, "templates")
+
 
 import ayon_api
 from ayon_api.operations import OperationsSession
-
-TEMPLATES_DIR = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "templates"
-)
 
 def run_endpoint(project_name, template_name, placeholder_map, folder_paths):
     ayon_template_data = _get_ayon_template_data(
