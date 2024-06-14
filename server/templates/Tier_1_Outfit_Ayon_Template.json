@@ -1,0 +1,35 @@
+{
+    "ayon_template": {
+        "asset_name": "%Tier1CharacterNameOutfitName%",
+        "directory_path": "Characters\\%Tier1CharacterName%",
+        "tasks": {
+            "Concept": {
+                "current_phase": "",
+                "concept_jira_id": "5",
+                "concept_jira_ticket": ""
+            },
+            "Model": {
+                "current_phase": "",
+                "stood up_jira_id": "8",
+                "stood up_jira_ticket": "",
+                "presentable_jira_id": "15",
+                "presentable_jira_ticket": "",
+                "shippable_jira_id": "17",
+                "shippable_jira_ticket": "",
+                "polished_jira_id": "19",
+                "polished_jira_ticket": ""
+            },
+            "Rigging": {
+                "current_phase": "",
+                "stood up_jira_id": "9",
+                "stood up_jira_ticket": "",
+                "presentable_jira_id": "14",
+                "presentable_jira_ticket": "",
+                "shippable_jira_id": "18",
+                "shippable_jira_ticket": "",
+                "polished_jira_id": "20",
+                "polished_jira_ticket": ""
+            }
+        }
+    }
+}
