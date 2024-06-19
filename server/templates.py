@@ -25,19 +25,47 @@ def run_endpoint(
         placeholder_map,
         folder_paths
 ):
+    """Main endpoint - creates Jira and Ayon elements creation."""
     ayon_template_data = _get_ayon_template_data(
         template_name, placeholder_map)
     jira_template_data = _get_jira_template_data(
         template_name, placeholder_map)
 
-    custom_id_to_jira_id = _process_jira_template_data(
-        jira_project_code, jira_template_data)
+    jira_conn = _get_jira_conn()
 
-    _process_ayon_template_data(
-        project_name, ayon_template_data, folder_paths, custom_id_to_jira_id)
+    # create epics and issues in Jira
+    custom_id_to_jira_key = _process_jira_template_data(
+        jira_conn, jira_project_code, jira_template_data)
+
+    # create ayon tasks, fill Jira keys
+    jira_key_to_ayon_task_id = _process_ayon_template_data(
+        project_name, ayon_template_data, folder_paths, custom_id_to_jira_key)
+
+    # update Jira issues with AYON tasks
+    for jira_key, ayon_task_id in jira_key_to_ayon_task_id.items():
+        jira_conn.issue_update(jira_key, {AYON_TASK_FIELD: ayon_task_id})
+
+
+def _get_jira_conn():
+    from atlassian import Jira
+
+    creds = _get_jira_creds()
+    jira_conn = Jira(
+        url=creds["url"],
+        username=creds["username"],
+        password=creds["password"]
+    )
+
+    return jira_conn
+
 
 def _process_ayon_template_data(
-        project_name, ayon_template_data, folder_paths, custom_id_to_jira_id):
+        project_name, ayon_template_data, folder_paths, custom_id_to_jira_key):
+    """Creates tasks in Ayon for `folder_path` and provides Jira metadata
+
+    Converts Custom IDs from template into real Jira Ids
+    """
+    print("Starting AYON processing")
     tasks = ayon_template_data["ayon_template"]["tasks"]
     if not tasks or not folder_paths:
         return
@@ -49,43 +77,60 @@ def _process_ayon_template_data(
             continue
 
         for task_name, task_data in tasks.items():
-            task_data = _replace_custom_ids(custom_id_to_jira_id, task_data)
+            task_data = _replace_custom_ids(custom_id_to_jira_key, task_data)
             task_type = _convert_task(task_name)
             op_session.create_task(
                 project_name,
                 task_name,
                 task_type,
                 folder_entity["id"],
-                data=task_data
+                data={"jira": task_data}
             )
 
     op_session.commit()
 
+    print(f"Created {len(tasks.values())} tasks")
 
-def _replace_custom_ids(custom_id_to_jira_id, task_data):
+    jira_key_to_ayon_task_id = _get_jira_key_to_ayon_task_id(
+        custom_id_to_jira_key, folder_entity, project_name, tasks)
+
+    return jira_key_to_ayon_task_id
+
+
+def _get_jira_key_to_ayon_task_id(custom_id_to_jira_key, folder_entity,
+                                  project_name, tasks):
+    """Returns dict of created Jira keys to Ayon task id to link from Jira"""
+    created_tasks = ayon_api.get_tasks(
+        project_name, folder_ids=[folder_entity["id"]])
+    created_tasks = {task["name"]: task["id"] for task in created_tasks}
+    jira_key_to_ayon_task_id = {}
+    for task_name, task_data in tasks.items():
+        for key, value in task_data.items():
+            if not value:
+                continue
+            jira_key = custom_id_to_jira_key[value]
+            jira_key_to_ayon_task_id[jira_key] = created_tasks[task_name]
+    return jira_key_to_ayon_task_id
+
+
+def _replace_custom_ids(custom_id_to_jira_key, task_data):
     """Replaces custom id from template with real Jira id."""
+    final_meta = {}
     for key, value in task_data.items():
         if key == "current_phase":
             continue
         if not value:
             continue
-        jira_id = custom_id_to_jira_id.get(value)
-        if jira_id:
-            task_data[key] = jira_id
+        jira_key = custom_id_to_jira_key.get(value)
+        if jira_key:
+            key = key.replace("_id", "_ticket")
+            final_meta[key] = jira_key
 
-    return task_data
+    return final_meta
 
 
-def _process_jira_template_data(project_code, jira_template_data):
-    print("Starting ")
-    from atlassian import Jira
-
-    creds = _get_jira_creds()
-    jira_conn = Jira(
-        url=creds["url"],
-        username=creds["username"],
-        password=creds["password"]
-    )
+def _process_jira_template_data(jira_conn, project_code, jira_template_data):
+    print("Starting JIRA processing")
 
     # issues = _get_all_issues(jira_conn, project_code)  # for development
     epics = _get_all_epics(jira_conn, project_code)
@@ -93,7 +138,7 @@ def _process_jira_template_data(project_code, jira_template_data):
         epic_info["summary"]: epic_id
         for epic_id, epic_info in epics.items()
     }
-    custom_id_to_task_id = {}
+    custom_id_to_task_key = {}
     for item in jira_template_data["jira_template"]:
         epic_name = item["Epic Link"]
         epic_id = epic_name_to_ids.get(epic_name)
@@ -101,16 +146,18 @@ def _process_jira_template_data(project_code, jira_template_data):
             epic_id = _create_epic(jira_conn, project_code, item)
             epic_name_to_ids[epic_name] = epic_id
 
-        task_id = _create_task(jira_conn, project_code, item, epic_id)
+        task_key = _create_task(jira_conn, project_code, item, epic_id)
         custom_id = item["Custom ID"]
-        custom_id_to_task_id[custom_id] = task_id
+        custom_id_to_task_key[custom_id] = task_key
 
-    _add_links(custom_id_to_task_id, jira_conn, jira_template_data)
+    _add_links(custom_id_to_task_key, jira_conn, jira_template_data)
 
-    return custom_id_to_task_id
+    print(f"Created {len(custom_id_to_task_key.keys())} issues.")
+    return custom_id_to_task_key
 
 
 def _create_task(jira_conn, project_code, item, epic_id):
+    """Creates Jira task"""
     custom_id = item["Custom ID"]
     task_dict = {
         "project": {"key": project_code},
@@ -127,11 +174,11 @@ def _create_task(jira_conn, project_code, item, epic_id):
     if epic_id:
         task_dict["parent"] = {"id": epic_id}
     task = jira_conn.create_issue(task_dict)
-    task_id = task["id"]
-    return task_id
+    return task["key"]
 
 
 def _create_epic(jira_conn, project_code, item):
+    """Creates Jira epic"""
     epic_dict = {
         "project": {"key": project_code},
         "summary": item["Epic Link"],
@@ -141,9 +188,10 @@ def _create_epic(jira_conn, project_code, item):
     return  epic["id"]
 
 
-def _add_links(custom_id_to_task_id, jira_conn, jira_template_data):
+def _add_links(custom_id_to_task_key, jira_conn, jira_template_data):
+    """Adds 'Depends' (nonstandard) and Blocks links between Jira tasks"""
     for item in jira_template_data["jira_template"]:
-        task_id = custom_id_to_task_id[item["Custom ID"]]
+        task_key = custom_id_to_task_key[item["Custom ID"]]
         depends_on_id = item["Depends_On"]
 
         if depends_on_id:
@@ -152,11 +200,11 @@ def _add_links(custom_id_to_task_id, jira_conn, jira_template_data):
                 depends_on_id = depends_on_id.strip()
                 if not depends_on_id:
                     continue
-                depends_on_id = custom_id_to_task_id[depends_on_id]
+                depends_on_key = custom_id_to_task_key[depends_on_id]
                 link_dict = {
                     "type": {"name": "Depends"},
-                    "inwardIssue": {"id": task_id},
-                    "outwardIssue": {"id": depends_on_id},
+                    "inwardIssue": {"key": task_key},
+                    "outwardIssue": {"key": depends_on_key},
                 }
                 jira_conn.create_issue_link(link_dict)
 
@@ -168,16 +216,20 @@ def _add_links(custom_id_to_task_id, jira_conn, jira_template_data):
                 blocks_id = blocks_id.strip()
                 if not blocks_id:
                     continue
-                blocks_id = custom_id_to_task_id[blocks_id]
+                blocks_key = custom_id_to_task_key[blocks_id]
                 link_dict = {
                     "type": {"name": "Blocks"},
-                    "inwardIssue": {"id": task_id},
-                    "outwardIssue": {"id": blocks_id},
+                    "inwardIssue": {"key": task_key},
+                    "outwardIssue": {"key": blocks_key},
                 }
                 jira_conn.create_issue_link(link_dict)
 
 
 def _get_all_epics(jira_conn, project_code):
+    """Gets all epics for project code.
+
+    TODO loop through pagination
+    """
     jql_request = (f"project = '{project_code}' AND "
                     "issuetype = Epic ")
 
@@ -192,7 +244,10 @@ def _get_all_epics(jira_conn, project_code):
 
 
 def _get_all_issues(jira_conn, project_code):
-    """Query Jira for all issues in project with `project_code`"""
+    """Query Jira for all issues in project with `project_code`
+
+    Currently used only for development to learn custom fields.
+    """
     jql_request = (f"project = '{project_code}' AND "
                     "issuetype = Task ")
     content = jira_conn.jql(jql_request)
@@ -209,6 +264,7 @@ def _get_all_issues(jira_conn, project_code):
 
 
 def _get_ayon_template_data(template_name, placeholder_map):
+    """Returns processed content of AYON template as dict"""
     content = _get_template_content(template_name, "Ayon")
     content = _apply_placeholder_map(content, placeholder_map)
     return json.loads(content)
