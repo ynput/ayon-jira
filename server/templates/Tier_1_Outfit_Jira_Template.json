@@ -2,7 +2,7 @@
     "jira_template": [
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Concept",
-            "Component ": "Design",
+            "Component": "Design",
             "AYON Task": "",
             "Summary": "Specify any design requirements for %Tier1CharacterNameOutfitName%",
             "Description": "What does this secondary  outfit need to accomplish for design?",
@@ -16,7 +16,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Concept",
-            "Component ": "Narrative",
+            "Component": "Narrative",
             "AYON Task": "",
             "Summary": "Create narrative description for %Tier1CharacterNameOutfitName%'s secondary outfit",
             "Description": "What does this secondary  outfit need to accomplish narratively?",
@@ -30,7 +30,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Concept",
-            "Component ": "Concept Art",
+            "Component": "Concept Art",
             "AYON Task": "",
             "Summary": "Create concept art brief for %Tier1CharacterNameOutfitName% secondary outfit",
             "Description": "Brief for character concept work.  Izaak.",
@@ -44,7 +44,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Concept",
-            "Component ": "Concept Art",
+            "Component": "Concept Art",
             "AYON Task": "Concept",
             "Summary": "Create concept art for %Tier1CharacterNameOutfitName% secondary outfit",
             "Description": "High fidelity 2d design of specific character secondary  outfit, or range of faction secondary  outfits.  Must include front, back, details, material callouts, and highlight customization options.  Present to Tech Anim and Character Artist or Character Art Lead.",
@@ -58,7 +58,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Concept",
-            "Component ": "Tech Anim",
+            "Component": "Tech Anim",
             "AYON Task": "",
             "Summary": "Skeleton and rig planning for %Tier1CharacterNameOutfitName% secondary outfit",
             "Description": "Skeleton hierarchy planning to account for additional joints depending on secondary  outfit, if it\u2019s alien, scale of character, etc.  Specify which skeleton this character is to use.  Highlight and escalate any challenges with the concept, or custom skeletal needs. ",
@@ -72,7 +72,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Concept",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "",
             "Summary": "Create brief for %Tier1CharacterNameOutfitName% secondary outfit",
             "Description": "Whether this is being created internally or externally, a brief should be created utilizing the now created concept art.  Pre-define material ID breakup, customization opportunities, and naming conventions.",
@@ -86,7 +86,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Stood Up",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "Create proxy mesh for %Tier1CharacterNameOutfitName% secondary outfit",
             "Description": "Matching concept and base body mesh proportions and joint locations, model/sculpt the proxy secondary  outfit for  %Tier1CharacterNameOutfitName%.  This mesh is a  clean animatable decimation fully representing the silhouette and overall proportions of the model including all of its secondary pieces and character customization requirements (ie - Jacket on/off if applicable).  This version must be delivered to and approved by Tech-Anim for proper deforming/animating, before continuing with the next stages.  The proxy does not have to be fully optimized but please stay within reasonable poly count (150k tris) for delivery.  Do not texture and UV this character but do assign material ID's and auto-unwrap so that we can place tinted tiling materials over the appropriate locations of the character for more accurate presentation and review in engine.  Review by Art Director, Lead, Tech Anim.  Initial delivery for review as DCC files.",
@@ -100,7 +100,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Stood Up",
-            "Component ": "Tech Anim",
+            "Component": "Tech Anim",
             "AYON Task": "Rigging",
             "Summary": "Skin and Rig proxy mesh for %Tier1CharacterNameOutfitName% secondary outfit, skeleton for secondary outfit",
             "Description": "Skin and Rig and run animation tests on %Tier1CharacterNameOutfitName%'s proxy mesh. Physics Asset creation, cloth sim & dynamics set-up to start profiling. Re-open Character Art proxy mesh creation task as needed for revisions on this loop.  Create skeleton to support specific secondary  outfit.",
@@ -114,7 +114,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Stood Up",
-            "Component ": "Tech Anim",
+            "Component": "Tech Anim",
             "AYON Task": "",
             "Summary": "Update or create cosmetic DA for %Tier1CharacterNameOutfitName%",
             "Description": "Update or create Cosmetic DA file for %Tier1CharacterNameOutfitName% which combines the rigged proxy secondary  outfit with its proxy head and hair.",
@@ -128,7 +128,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Presentable",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit High Poly",
             "Description": "Start refining details based on the approved Proxy model.  Every physical and structural element should be represented in clean high fidelity.  Review gate.  All bevels, wrinkles, surface damage, etc.  Generally avoid ultra fine details like stitching and sub-surface texture, this can come from the material.  Before continuing the source file must be prepared for Low Poly,  delivered and approved.  ",
@@ -142,7 +142,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Presentable",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit Low Poly",
             "Description": "Optimize mesh with tris and quads.  Run clean-up tools.  We\u2019re expecting clean topology, consistent poly \ndistribution, extra edge loops at joints for animation, closed geometry and appropriate contact between all physical \nelements (nothing floating).  Silhouette defining Polygon's should not have optimization faceting at ~0.5 meter view distance, we prioritize higher polycounts over quality loss especially at this tier of character. This will be the final, game resolution model for animators. ",
@@ -156,7 +156,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Presentable",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit UV and Bake",
             "Description": "UV and then bake the required texture maps for %Tier1CharacterNameOutfitName%'s secondary  outfit. \nUV0:  Try to keep the shells clean and organized.  Keep UVs as straight as possible on straps and hard surface elements.  Pay attention to the orientation of shells so that your texture patterns flow correctly on the model. Please avoid exposed seams, obviously mirrored UVs, stretched or distorted UVs, and inconsistent texel density.  \nUV1:  Used for applying graphic textures on a layer.  \nMake minor modifications to low poly mesh if needed to mitigate baking errors. Tune the \u2018baking cage\u2019 to produce clean bake maps without artifacts or seams.\n\nSee \u2018Texturing\u2019 documentation and overall character briefs for more information on our specific map and UV set requirements.\n",
@@ -170,7 +170,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Presentable",
-            "Component ": "Tech Anim",
+            "Component": "Tech Anim",
             "AYON Task": "Rigging",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit Rig",
             "Description": "Copy skin weights and rig the UV'd low poly mesh, physics asset pass for collision & ragdoll, dynamics AnimBP pass",
@@ -184,7 +184,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Presentable",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit Texture",
             "Description": "Our characters are textured with a series of (0-1 baked and UV\u2019d) textures in a traditional Albedo/Roughness/Metallic PBR methodology, using Unreal 5.  These crafted textures are used as the base layer in a material layer blend system, which supports many additional layers of blended detail maps, semi procedural wear/tear/dirt layers, and even full material overrides/customization via RGB masks.\nOur character support multiple material IDs, and should be pre-specified from the Character Brief.\nReview should be done on static mesh in editor.  Any unreal based material improvements (detail maps, shader work) should be visible here. ",
@@ -198,7 +198,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Presentable",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "",
             "Summary": "%Tier1CharacterNameOutfitName% DA update, material application, tech check",
             "Description": "Ensure the DA is using the real head, hair, and body.  All materials are applied correctly. Ensure all textures are appropriate size and compression",
@@ -212,7 +212,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Shippable",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit shippable polish",
             "Description": "Dedicated polish time for %Tier1CharacterNameOutfitName%'s secondary  outfit.",
@@ -226,7 +226,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Shippable",
-            "Component ": "Tech Anim",
+            "Component": "Tech Anim",
             "AYON Task": "Rigging",
             "Summary": "%Tier1CharacterNameOutfitName% skin/rig secondary outfit shippable polish",
             "Description": "Polish and tech check for the skinning and rigging of %Tier1CharacterNameOutfitName%'s Tier 1 secondary  outfit.  All list minute checks and quality targets for putting this on disk forever if needed.",
@@ -240,7 +240,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Polished",
-            "Component ": "Character Art",
+            "Component": "Character Art",
             "AYON Task": "Model",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit final polish",
             "Description": "Dedicated time for director feedback on %Tier1CharacterNameOutfitName%'s hair, head, and secondary  outfit.  Ultra safe but Metacritic improving polish notes. ",
@@ -254,7 +254,7 @@
         },
         {
             "Epic Link": "%Tier1CharacterNameOutfitName% - Polished",
-            "Component ": "Tech Anim",
+            "Component": "Tech Anim",
             "AYON Task": "Rigging",
             "Summary": "%Tier1CharacterNameOutfitName% secondary outfit final polish",
             "Description": "Dedicated time for director feedback on %Tier1CharacterNameOutfitName%'s hair, head, and secondary  outfit.  Ultra safe but Metacritic improving polish notes. ",
