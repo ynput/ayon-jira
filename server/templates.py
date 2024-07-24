@@ -76,16 +76,32 @@ def _process_ayon_template_data(
             print(f"Not found folder for {folder_path}!")
             continue
 
+        existing_tasks = ayon_api.get_tasks(
+            project_name, folder_ids=[folder_entity["id"]])
+
+        existing_tasks_by_name = {task["name"]: task
+                                  for task in existing_tasks}
+
         for task_name, task_data in tasks.items():
             task_data = _replace_custom_ids(custom_id_to_jira_key, task_data)
-            task_type = _convert_task(task_name)
-            op_session.create_task(
-                project_name,
-                task_name,
-                task_type,
-                folder_entity["id"],
-                data={"jira": task_data}
-            )
+            task_type = _convert_task_type(task_name)
+            existing_task = existing_tasks_by_name.get(task_name)
+            if existing_task:
+                update_data = {"data": {"jira": task_data}}
+                op_session.update_entity(
+                    project_name,
+                    "task",
+                    existing_task["id"],
+                    update_data
+                )
+            else:
+                op_session.create_task(
+                    project_name,
+                    task_name,
+                    task_type,
+                    folder_entity["id"],
+                    data={"jira": task_data}
+                )
 
     op_session.commit()
 
