@@ -9,9 +9,10 @@ CURRENT_DIR = os.path.join(
 )
 TEMPLATES_DIR = os.path.join(CURRENT_DIR, "templates")
 
-CUSTOM_ID_FIELD = "customfield_10035"
-AYON_TASK_FIELD = "customfield_10033"
-COMPONENT_FIELD = "customfield_10034"
+# must be filled with values from Customer !  TODO yank to .ini
+CUSTOM_ID_FIELD = "customfield_10035"  # MUST BE ADDED ON Tasks AND Epics
+AYON_TASK_FIELD = "customfield_10033"  # MUST BE ADDED ON Tasks
+COMPONENT_FIELD = "customfield_10034"  # MUST BE ADDED ON Tasks
 
 
 import ayon_api
@@ -19,11 +20,11 @@ from ayon_api.operations import OperationsSession
 
 
 def run_endpoint(
-        project_name,
-        jira_project_code,
-        template_name,
-        placeholder_map,
-        folder_paths
+    project_name,
+    jira_project_code,
+    template_name,
+    placeholder_map,
+    folder_paths
 ):
     """Main endpoint - creates Jira and Ayon elements creation."""
     ayon_template_data = _get_ayon_template_data(
@@ -35,7 +36,7 @@ def run_endpoint(
 
     # create epics and issues in Jira
     custom_id_to_jira_key = _process_jira_template_data(
-        jira_conn, jira_project_code, jira_template_data)
+        jira_conn, jira_project_code, jira_template_data, folder_paths)
 
     # create ayon tasks, fill Jira keys
     jira_key_to_ayon_task_id = _process_ayon_template_data(
@@ -145,36 +146,77 @@ def _replace_custom_ids(custom_id_to_jira_key, task_data):
     return final_meta
 
 
-def _process_jira_template_data(jira_conn, project_code, jira_template_data):
+def _process_jira_template_data(
+        jira_conn, project_code, jira_template_data, folder_paths):
     print("Starting JIRA processing")
 
-    # issues = _get_all_issues(jira_conn, project_code)  # for development
-    epics = _get_all_epics(jira_conn, project_code)
-    epic_name_to_ids = {
-        epic_info["summary"]: epic_id
-        for epic_id, epic_info in epics.items()
-    }
     custom_id_to_task_key = {}
-    for item in jira_template_data["jira_template"]:
-        epic_name = item["Epic Link"]
-        epic_id = epic_name_to_ids.get(epic_name)
-        if not epic_id:
-            epic_id = _create_epic(jira_conn, project_code, item)
-            epic_name_to_ids[epic_name] = epic_id
+    tasks_created = tasks_updated = epics_created = 0
+    for folder_path in folder_paths:
+        folder_name = os.path.basename(folder_path)
+        epics = _get_all_epics(
+            jira_conn,
+            project_code,
+            {"Custom_ID": f"~ '{folder_name}_*'"}
+        )
+        epic_name_to_ids = {
+            epic_info["summary"]: epic_id
+            for epic_id, epic_info in epics.items()
+        }
 
-        task_key = _create_task(jira_conn, project_code, item, epic_id)
-        custom_id = item["Custom ID"]
-        custom_id_to_task_key[custom_id] = task_key
+        issues = _get_all_issues(
+            jira_conn,
+            project_code,
+            {"Custom_ID": f"~ '{folder_name}_*'"}
+        )
+        issues_by_custom_id = {issue["custom_id"]: issue
+                               for issue in issues.values()}
+
+        for item in jira_template_data["jira_template"]:
+            epic_name = item["Epic Link"]
+            epic_id = epic_name_to_ids.get(epic_name)
+
+            custom_id = item["Custom ID"]
+            folder_name = os.path.basename(folder_path)
+            full_custom_id = f"{folder_name}_{custom_id}"
+            if not epic_id:
+                epic_id = _create_jira_epic(
+                    jira_conn, project_code, item, full_custom_id)
+                epic_name_to_ids[epic_name] = epic_id
+                epics_created += 1
+
+            existing_task = issues_by_custom_id.get(full_custom_id)
+            task_content = _create_jira_task_content(
+                full_custom_id, epic_id, item, project_code)
+            if existing_task:
+                task_key = existing_task["key"]
+                task_content["description"] = task_content["description"] + "huu"
+                existing_task.update(task_content)
+                tasks_updated += 1
+            else:
+                task_key = _create_jira_task(
+                    jira_conn,
+                    task_content
+                )
+                tasks_created += 1
+            custom_id_to_task_key[custom_id] = task_key
 
     _add_links(custom_id_to_task_key, jira_conn, jira_template_data)
 
-    print(f"Created {len(custom_id_to_task_key.keys())} issues.")
+    print(f"Created {tasks_created} issues.")
+    print(f"Updated {tasks_updated} issues.")
+    print(f"Created {epics_created} epics.")
     return custom_id_to_task_key
 
 
-def _create_task(jira_conn, project_code, item, epic_id):
+def _create_jira_task(jira_conn, task_content):
     """Creates Jira task"""
-    custom_id = item["Custom ID"]
+
+    task = jira_conn.create_issue(task_content)
+    return task["key"]
+
+
+def _create_jira_task_content(full_custom_id, epic_id, item, project_code):
     task_dict = {
         "project": {"key": project_code},
         "summary": item["Summary"],
@@ -183,29 +225,33 @@ def _create_task(jira_conn, project_code, item, epic_id):
         "description": item["Description"],
         # "priority": {"name": item["Priority"]},
         COMPONENT_FIELD: item["Component"],
-        CUSTOM_ID_FIELD: f"Character1_{custom_id}",
+        CUSTOM_ID_FIELD: full_custom_id,
         # "Original Estimate": {"name": "Priority"},
         # "Int vs Ext": {"name": "Priority"},
     }
     if epic_id:
         task_dict["parent"] = {"id": epic_id}
-    task = jira_conn.create_issue(task_dict)
-    return task["key"]
+    return task_dict
 
 
-def _create_epic(jira_conn, project_code, item):
+def _create_jira_epic(jira_conn, project_code, item, custom_id):
     """Creates Jira epic"""
     epic_dict = {
         "project": {"key": project_code},
         "summary": item["Epic Link"],
         "issuetype": {"name": "Epic"},
+        # for querying back, summary not allowed in IN ()
+        CUSTOM_ID_FIELD: custom_id,
     }
     epic = jira_conn.create_issue(epic_dict)
-    return  epic["id"]
+    return epic["id"]
 
 
 def _add_links(custom_id_to_task_key, jira_conn, jira_template_data):
-    """Adds 'Depends' (nonstandard) and Blocks links between Jira tasks"""
+    """Adds 'Depends' (nonstandard) and Blocks links between Jira tasks
+
+    TODO figure out updates
+    """
     for item in jira_template_data["jira_template"]:
         task_key = custom_id_to_task_key[item["Custom ID"]]
         depends_on_id = item["Depends_On"]
@@ -241,13 +287,15 @@ def _add_links(custom_id_to_task_key, jira_conn, jira_template_data):
                 jira_conn.create_issue_link(link_dict)
 
 
-def _get_all_epics(jira_conn, project_code):
+def _get_all_epics(jira_conn, project_code, kwargs=None):
     """Gets all epics for project code.
 
     TODO loop through pagination
     """
     jql_request = (f"project = '{project_code}' AND "
                     "issuetype = Epic ")
+
+    jql_request += _add_additional_arguments(kwargs)
 
     content = jira_conn.jql(jql_request)
     epics = {}
@@ -259,15 +307,19 @@ def _get_all_epics(jira_conn, project_code):
     return epics
 
 
-def _get_all_issues(jira_conn, project_code):
+def _get_all_issues(jira_conn, project_code, kwargs=None):
     """Query Jira for all issues in project with `project_code`
 
     Currently used only for development to learn custom fields.
     """
     jql_request = (f"project = '{project_code}' AND "
-                    "issuetype = Task ")
+                   f"issuetype = Task")
+
+    jql_request += _add_additional_arguments(kwargs)
+
     content = jira_conn.jql(jql_request)
     issues = {}
+
     for issue in content["issues"]:
         issues[issue["id"]] = {
             "key": issue["key"],
@@ -277,6 +329,25 @@ def _get_all_issues(jira_conn, project_code):
         }
 
     return issues
+
+
+def _add_additional_arguments(kwargs):
+    """Allows to add AND arguments.
+
+    It expects dictionary, where values:
+        ('a', 'b', 'c)
+        '~ 'Value*''
+        '= 'Value''
+    """
+    additional_filter = ""
+    if kwargs:
+        for key, value in kwargs.items():
+            if isinstance(value, set) or isinstance(value, list):
+                quoted_values = ', '.join(f'"{val}"' for val in value)
+                additional_filter += f" AND {key} in ({quoted_values})"
+            else:
+                additional_filter += f" AND {key} {value}"
+    return additional_filter
 
 
 def _get_ayon_template_data(template_name, placeholder_map):
@@ -319,7 +390,7 @@ def _apply_placeholder_map(template_content, placeholder_map):
     return template_content
 
 
-def _convert_task(task_name):
+def _convert_task_type(task_type):
     """Converts non-existent task types.
 
     Should be queried from Server.
@@ -327,9 +398,9 @@ def _convert_task(task_name):
     convert_tasks = {"Concept": "Generic",
                      "Model": "Modeling"}
 
-    if task_name in convert_tasks:
-        return convert_tasks[task_name]
-    return task_name
+    if task_type in convert_tasks:
+        return convert_tasks[task_type]
+    return task_type
 
 
 def _set_env_vars(env_path=None):
