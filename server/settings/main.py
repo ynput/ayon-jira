@@ -3,7 +3,7 @@ from ayon_server.settings import (
     ensure_unique_names,
     SettingsField,
 )
-
+from .publish_plugins import JiraPublishPlugins
 
 class PhaseItemModel(BaseSettingsModel):
     _layout = "expanded"
@@ -45,6 +45,13 @@ class JiraSettings(BaseSettingsModel):
         description="Allows mapping single AYON task to multiple Jira tickets"
     )
 
+    publish: JiraPublishPlugins = SettingsField(
+        default_factory=JiraPublishPlugins,
+        title="Publish plugins",
+        description="Fill combination of families, task names and hosts "
+                    "when to send notification",
+    )
+
 
 DEFAULT_VALUES = {
     "enabled": True,
@@ -52,5 +59,21 @@ DEFAULT_VALUES = {
     "jira_username": "",
     "jira_password": "",
     "jira_project_code": "",
-    "phases": []
+    "phases": [],
+    "publish": {
+        "CollectJiraNotifications": {
+            "enabled": True,
+            "optional": True,
+            "profiles": [
+                {
+                    "hosts": [],
+                    "task_names": [],
+                    "task_types": [],
+                    "product_names": [],
+                    "product_types": [],
+                    # "comment": ""
+                }
+            ]
+        }
+    }
 }
