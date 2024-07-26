@@ -4,14 +4,17 @@ from nxtools import logging
 from typing import Any, Dict, Type
 from fastapi import Depends, Body
 
-from ayon_server.addons import BaseServerAddon
+from ayon_server.addons import BaseServerAddon, AddonLibrary
 from ayon_server.entities.user import UserEntity
 from ayon_server.api import (
     dep_current_user,
     dep_project_name,
 )
+from ayon_server.lib.postgres import Postgres
+from ayon_server.entities.core import attribute_library
 
 from .settings import JiraSettings, DEFAULT_VALUES
+from .addon_settings_access import sort_versions
 
 JIRA_ADDON_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__))
@@ -41,7 +44,128 @@ class JiraAddon(BaseServerAddon):
         )
 
     async def setup(self):
-        pass
+        need_restart = await self.create_required_attributes()
+        if need_restart:
+            self.request_server_restart()
+        await self._update_enums()
+
+    async def create_required_attributes(self) -> bool:
+        """Make sure there are required 'applications' and 'tools' attributes.
+        This only checks for the existence of the attributes, it does not populate
+        them with any data. When an attribute is added, server needs to be restarted,
+        while adding enum data to the attribute does not require a restart.
+        Returns:
+            bool: 'True' if an attribute was created or updated.
+        """
+
+        # keep track of the last attribute position (for adding new attributes)
+        jira_current_phase_def = self._get_jira_current_phase_def()
+
+        attribute_name = jira_current_phase_def["name"]
+        async with Postgres.acquire() as conn, conn.transaction():
+            query = (
+                f"SELECT BOOL_OR(name = '{attribute_name}') AS "
+                 "has_jira_current_phase FROM attributes;"
+            )
+            result = (await conn.fetch(query))[0]
+
+            attributes_to_create = {}
+            if not result["has_jira_current_phase"]:
+                attrib_name = jira_current_phase_def["name"]
+                attributes_to_create[attrib_name] = {
+                    "scope": jira_current_phase_def["scope"],
+                    "data": {
+                        "title": jira_current_phase_def["title"],
+                        "type": jira_current_phase_def["type"],
+                        "enum": [],
+                    }
+                }
+
+            needs_restart = False
+            # when any of the required attributes are not present, add them
+            # and return 'True' to indicate that server needs to be restarted
+            for name, payload in attributes_to_create.items():
+                insert_query = "INSERT INTO attributes (name, scope, data, position) VALUES ($1, $2, $3, (SELECT COALESCE(MAX(position), 0) + 1 FROM attributes)) ON CONFLICT DO NOTHING"
+                await conn.execute(
+                    insert_query,
+                    name,
+                    payload["scope"],
+                    payload["data"],
+                )
+                needs_restart = True
+        return needs_restart
+
+    def _get_jira_current_phase_def(self):
+        return {
+            "name": "jiraCurrentPhase",
+            "type": "list_of_strings",
+            "title": "Jira Current Phase",
+            "scope": ["task"],
+            "enum": [],
+        }
+
+    async def _update_enums(self):
+        """Updates applications and tools enums based on the addon settings.
+        This method is called when the addon is started (after we are sure that the
+        'applications' and 'tools' attributes exist) and when the addon settings are
+        updated (using on_settings_updated method).
+        """
+
+        instance = AddonLibrary.getinstance()
+        app_defs = instance.data.get(self.name)
+        phases_enum = []
+        for addon_version in sort_versions(
+            app_defs.versions.keys(), reverse=True
+        ):
+            addon = app_defs.versions[addon_version]
+            for variant in ("production", "staging"):
+                settings_model = await addon.get_studio_settings(variant)
+                studio_settings = settings_model.dict()
+                phases_enum.extend(studio_settings["phases"])
+
+        jira_attribute_def = self._get_jira_current_phase_def()
+        jira_attribute_name = jira_attribute_def["name"]
+        jira_attribute_def["enum"] = list(phases_enum)
+
+        phases_scope = jira_attribute_def["scope"]
+
+        jira_attribute_def.pop("scope")
+        jira_attribute_def.pop("name")
+
+        phases_matches = False
+        async for row in Postgres.iterate(
+            "SELECT name, position, scope, data from public.attributes"
+        ):
+            if row["name"] == jira_attribute_name:
+                # Check if scope is matching ftrack addon requirements
+                if (
+                    set(row["scope"]) == set(phases_scope)
+                    and row["data"].get("enum") == phases_enum
+                ):
+                    phases_matches = True
+        if phases_matches:
+            return
+
+        if not phases_matches:
+            await Postgres.execute(
+                """
+                UPDATE attributes SET
+                    scope = $1,
+                    data = $2
+                WHERE 
+                    name = $3
+                """,
+                phases_scope,
+                jira_attribute_def,
+                jira_attribute_name,
+            )
+
+        # Reset attributes cache on server
+        await attribute_library.load()
+
+    async def on_settings_changed(self, *args, **kwargs):
+        _ = args, kwargs
+        await self._update_enums()
 
     async def get_templates(self):
         templates_dir = os.path.join(JIRA_ADDON_DIR, "templates")
