@@ -13,7 +13,7 @@ import pyblish.api
 class CollectJiraTicket(pyblish.api.InstancePlugin):
     """Collects id for Jira ticket according to current_stage on the task"""
     order = pyblish.api.CollectorOrder + 0.499
-    label = "Collect Jira Metadata"
+    label = "Collect Jira Ticket"
     families = ["jira"]
 
     def process(self, instance):
@@ -35,9 +35,8 @@ class CollectJiraTicket(pyblish.api.InstancePlugin):
         jira_ticket_key = f"{current_stage}_jira_ticket"
 
         jira_ticket_id = jira_meta.get(jira_ticket_key)
-        instance.data["jira"] = {
-            "jira_ticket_id": jira_ticket_id
-        }
+        instance.data["jira"]["jira_ticket_id"] = jira_ticket_id
+
         self.log.debug(f"Collected ticket id '{jira_ticket_id}'")
 
     def _get_current_stage(self, task_entity):
