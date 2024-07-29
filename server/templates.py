@@ -34,6 +34,8 @@ def run_endpoint(
 
     jira_conn = _get_jira_conn()
 
+    folder_paths = _normalize_folder_paths(project_name, folder_paths)
+
     # create epics and issues in Jira
     custom_id_to_jira_key = _process_jira_template_data(
         jira_conn, jira_project_code, jira_template_data, folder_paths)
@@ -58,6 +60,21 @@ def _get_jira_conn():
     )
 
     return jira_conn
+
+
+def _normalize_folder_paths(project_name, folder_paths):
+    """Remove project_name prefix from folder path.
+
+    Project name could get to folder_by by copy&paste from Server UI, it should
+    be removed.
+    """
+    sanitized_folder_paths = []
+    for folder_path in folder_paths:
+        if folder_path.startswith(project_name):
+            folder_path = folder_path.replace(project_name, "")
+        sanitized_folder_paths.append(folder_path)
+
+    return sanitized_folder_paths
 
 
 def _process_ayon_template_data(
