@@ -1,4 +1,4 @@
-# AYON Frontend Addon
+q# AYON Frontend Addon
 
 This template provides a minimal setup to get AYON Frontend Addon working.
 
