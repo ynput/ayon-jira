@@ -27,6 +27,18 @@ class Profile(BaseSettingsModel):
         description=_desc,
         widget="textarea"
     )
+    upload_thumbnail: bool = SettingsField(
+        False,
+        title="Upload thumbnail"
+    )
+    upload_review: bool = SettingsField(
+        False,
+        title="Upload thumbnail"
+    )
+    review_size_limit: int = SettingsField(
+        5,
+        title="Review file size limit (MB)"
+    )
 
 
 class CollectJiraNotificationsPlugin(BaseSettingsModel):
