@@ -39,7 +39,10 @@ class CollectJiraNotifications(pyblish.api.InstancePlugin,
         instance.data.setdefault("families", []).append("jira")
 
         jira_message_meta = {
-            "jira_message": profile["comment"]
+            "jira_message": profile["comment"],
+            "upload_thumbnail": profile["upload_thumbnail"],
+            "upload_review": profile["upload_review"],
+            "review_size_limit": profile["review_size_limit"],
         }
         attribute_values = self.get_attr_values_from_data(instance.data)
         additional_message = attribute_values.get("additional_message")
