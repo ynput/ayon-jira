@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Fragment } from "react";
 import axios from "axios";
 import {
   Dropdown,
@@ -7,14 +7,20 @@ import {
   SaveButton,
 } from "@ynput/ayon-react-components";
 import * as Styled from "./Jira.styled";
+import dummy_data from "./dummy_data";
 
 const Jira = ({ projectName, addonName, addonVersion }) => {
   const [loading, setLoading] = useState(false);
 
-  const [templates, setTemplates] = useState();
-  const [folderPath, setFolderPath] = useState();
-  const [jiraProjectCode, setJiraProjectCode] = useState();
-  const [selectedTemplate, setSelectedTemplate] = useState();
+  const [templates, setTemplates] = useState([]);
+  const [folderPath, setFolderPath] = useState("");
+  const [jiraProjectCode, setJiraProjectCode] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+
+  // what fields to show based on selected template
+  const [templateFields, setTemplateFields] = useState([]);
+  // the input data for the fields
+  const [templateFieldsForm, setTemplateFieldsForm] = useState({});
 
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState(null);
@@ -81,13 +87,54 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
     }
   };
 
+  const handleTemplateChange = (values = []) => {
+    setSelectedTemplate(values[0]);
+
+    // set dynamic fields based on selected template
+    setTemplateFields(dummy_data);
+    // set default values for dynamic fields
+
+    const typeDefaults = {
+      text: "",
+      number: 0,
+      date: new Date(),
+    };
+
+    const templateFieldsForm = {};
+    dummy_data.forEach((field) => {
+      templateFieldsForm[field.id] =
+        field.default || typeDefaults[field.type] || "";
+    });
+
+    setTemplateFieldsForm(templateFieldsForm);
+  };
+
+  const handleTemplateFieldChange = (e) => {
+    const target = e.target;
+    const { id, value } = target;
+
+    setTemplateFieldsForm((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
   const onClear = () => {
     setFolderPath("");
     setJiraProjectCode("");
     setSelectedTemplate("");
+    setTemplateFields([]);
+    setTemplateFieldsForm({});
   };
 
-  const validateForm = () => folderPath && jiraProjectCode && selectedTemplate;
+  const validateForm = () => {
+    const baseValidated = folderPath && jiraProjectCode && selectedTemplate;
+    const fieldsValidated = templateFields.every(
+      ({ id, required }) => !required || templateFieldsForm[id]
+    );
+
+    return baseValidated && fieldsValidated;
+  };
 
   return (
     <Styled.Container>
@@ -118,12 +165,27 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
           value={[selectedTemplate]}
           options={templates}
           optionLabel="name"
-          onChange={(value) => setSelectedTemplate(value[0])}
+          onChange={handleTemplateChange}
           placeholder="Select template"
           className={"template-dropdown"}
           onClick={(e) => e.stopPropagation()}
           disabled={creating || loading}
         />
+        {templateFields.map(({ id, label, ...props }) => (
+          <Fragment key={id}>
+            <label>{label}</label>
+            <InputText
+              id={id}
+              name={id}
+              value={templateFieldsForm[id]}
+              onChange={handleTemplateFieldChange}
+              disabled={creating}
+              autoComplete="off"
+              {...props}
+              required={false}
+            />
+          </Fragment>
+        ))}
       </Styled.Form>
       {error && (
         <Styled.Error>

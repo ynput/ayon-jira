@@ -1,0 +1,4 @@
+[
+  { "id": "color", "label": "Color", "type": "text", "required": true },
+  { "id": "size", "label": "Size", "default": 10, "type": "number" }
+]
