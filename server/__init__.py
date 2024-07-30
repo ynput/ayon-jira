@@ -1,8 +1,9 @@
 import os
+import re
 import sys
 from nxtools import logging
 from typing import Any, Dict, Type
-from fastapi import Depends, Body
+from fastapi import Depends, Body, Query
 
 from ayon_server.addons import BaseServerAddon, AddonLibrary
 from ayon_server.entities.user import UserEntity
@@ -58,9 +59,11 @@ class JiraAddon(BaseServerAddon):
 
     async def create_required_attributes(self) -> bool:
         """Make sure there are required 'applications' and 'tools' attributes.
-        This only checks for the existence of the attributes, it does not populate
-        them with any data. When an attribute is added, server needs to be restarted,
-        while adding enum data to the attribute does not require a restart.
+        This only checks for the existence of the attributes, it does not
+        populate them with any data. When an attribute is added, server needs
+        to be restarted, while adding enum data to the attribute does not
+        require a restart.
+
         Returns:
             bool: 'True' if an attribute was created or updated.
         """
@@ -175,6 +178,11 @@ class JiraAddon(BaseServerAddon):
         await self._update_enums()
 
     async def get_templates(self):
+        """Get list of name of templates
+
+        Currently from `server/templates` folder. Each template should have 2
+        parts, `Ayon` and `Jira`.
+        """
         templates_dir = os.path.join(JIRA_ADDON_DIR, "templates")
         if not os.path.isdir(TEMPLATES_DIR):
             raise RuntimeError(f"No templates directory at {templates_dir}")
@@ -188,11 +196,26 @@ class JiraAddon(BaseServerAddon):
 
         return template_names
 
-    async def get_placeholders(self, template_name):
+    async def get_placeholders(
+        self,
+        template_name: str = Query(
+            ...,
+            description="Name of template",
+            example="Tier_1_Outfit",
+        )
+    ):
+        """Parses content of JIRA template for unique string in %"""
         template_file_name = f"{template_name}_{TEMPLATE_SUFFIX}"
         template_file_path = os.path.join(TEMPLATES_DIR, template_file_name)
         if not os.path.exists(template_file_path):
             raise RuntimeError(f"{template_file_path} doesn't exist")
+
+        with open(template_file_path, 'r') as file:
+            file_content = file.read()
+
+        pattern = r'%([^%]+)%'
+        matches = re.findall(pattern, file_content)
+        return set(matches)
 
     async def run_template(
         self,
@@ -207,7 +230,7 @@ class JiraAddon(BaseServerAddon):
             ,
         )
     ):
-        """Return a random folder from the database"""
+        """Creates tasks and jira tickets based on selected values in form"""
         from .templates import run_endpoint
 
         await run_endpoint(
@@ -218,25 +241,3 @@ class JiraAddon(BaseServerAddon):
             body["placeholder_map"],
             body["folder_paths"]
         )
-
-    def _set_env_vars(env_path=None):
-        if not env_path:
-            env_path = os.path.join(JIRA_ADDON_DIR, ".env")
-        if not os.path.exists(env_path):
-            raise RuntimeError(f"{env_path} does not exist")
-
-        with open(env_path, "r") as file:
-            lines = file.readlines()
-
-        for line in lines:
-            # Process each line here
-            if "=" not in line:
-                continue
-
-            # jira key can contain '=' to split it in just 2
-            line = line.strip()
-            sign_idx = line.find("=")
-            key = line[:sign_idx]
-            value = line[sign_idx + 1:]
-
-            os.environ[key] = value
