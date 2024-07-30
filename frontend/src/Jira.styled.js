@@ -1,4 +1,4 @@
-import { Panel, theme } from "@ynput/ayon-react-components";
+import { Panel } from "@ynput/ayon-react-components";
 import styled from "styled-components";
 
 export const Container = styled(Panel)`
@@ -14,7 +14,7 @@ export const Container = styled(Panel)`
   }
 
   h2 {
-    ${theme.titleMedium}
+    font-size: 22px;
   }
 `;
 
