@@ -174,3 +174,4 @@ frontend/package-lock.json
 frontend/.pnp.cjs
 frontend/.pnp.loader.mjs
 /server/.creds
+frontend/.env.local
