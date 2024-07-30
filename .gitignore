@@ -173,3 +173,4 @@ frontend/.yarn
 frontend/package-lock.json
 frontend/.pnp.cjs
 frontend/.pnp.loader.mjs
+frontend/.env.local

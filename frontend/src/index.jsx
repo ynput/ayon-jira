@@ -1,51 +1,49 @@
-// Import essential React stuff
-import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
-import ReactDOM from 'react-dom/client'
+import React, { useContext, useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import Jira from "./Jira";
+import { AddonProvider, AddonContext } from "@ynput/ayon-react-addon-provider";
+import axios from "axios";
 
-// Import defaults and context
-import addonData from '/src/common'
-import { AddonProvider, AddonContext } from '@ynput/ayon-react-addon-provider'
-import '@ynput/ayon-react-components/dist/style.css'
+import "@ynput/ayon-react-components/dist/style.css";
+import "./index.scss";
 
-// Import your App
-import App from './App.jsx'
-
-
-function Index() {
-  const accessToken = useContext(AddonContext).accessToken
-  const addonName = useContext(AddonContext).addonName
-  const addonVersion = useContext(AddonContext).addonVersion
-  const [tokenSet, setTokenSet] = useState(false)
-
-  useEffect(() =>{
-    if (addonName && addonVersion){
-      addonData.addonName = addonName
-      addonData.addonVersion = addonVersion
-      addonData.baseUrl = `${window.location.origin}/api/addons/${addonName}/${addonVersion}`
-      console.log("BaseUrl", addonData.baseUrl)
-    }
-      
-  }, [addonName, addonVersion])
+const App = () => {
+  const context = useContext(AddonContext);
+  // const addonName = useContext(AddonContext).addonName
+  const addonName = "jira";
+  // const addonVersion = useContext(AddonContext).addonVersion
+  const addonVersion = "0.0.1";
+  const accessToken = useContext(AddonContext).accessToken;
+  const projectName = useContext(AddonContext).projectName;
+  const userName = useContext(AddonContext).userName;
+  const [tokenSet, setTokenSet] = useState(false);
 
   useEffect(() => {
     if (accessToken && !tokenSet) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-      setTokenSet(true)
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      setTokenSet(true);
     }
-  }, [accessToken, tokenSet])
+  }, [accessToken, tokenSet]);
 
-  if (!tokenSet) {
-    return "no token"
+  if (!(tokenSet && projectName && userName)) {
+    return null;
   }
 
-  return <App />
-}
+  return (
+    <Jira
+      context={context}
+      addonName={addonName}
+      addonVersion={addonVersion}
+      accessToken={accessToken}
+      projectName={projectName}
+    />
+  );
+};
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AddonProvider>
-      <Index />
+    <AddonProvider debug>
+      <App />
     </AddonProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
