@@ -1,7 +1,5 @@
 {
     "ayon_template": {
-        "asset_name": "%Tier1CharacterNameOutfitName%",
-        "directory_path": "Characters\\%Tier1CharacterName%",
         "tasks": {
             "Concept": {
                 "current_phase": "",
