@@ -92,8 +92,8 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
   return (
     <Styled.Container>
       <div>
-        <h2>New Task</h2>
-        <p>Creates a new AYON task and synced Jira ticket.</p>
+        <h2>New Tasks</h2>
+        <p>Creates a new AYON tasks and synced Jira tickets.</p>
       </div>
       <Styled.Form className={loading ? "loading" : ""}>
         <label>Folder Path</label>
