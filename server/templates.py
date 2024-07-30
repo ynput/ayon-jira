@@ -2,6 +2,11 @@ import os
 import json
 import re
 
+from ayon_server.entities import FolderEntity, TaskEntity
+from ayon_server.exceptions import NotFoundException
+from ayon_server.lib.postgres import Postgres
+from api.tasks.tasks import create_task, update_task
+
 # would be be better to use variable from addon, but that way you cannot use
 # this script directly for development as addon init depends on Server code
 CURRENT_DIR = os.path.join(
@@ -15,11 +20,8 @@ AYON_TASK_FIELD = "customfield_10033"  # MUST BE ADDED ON Tasks
 COMPONENT_FIELD = "customfield_10034"  # MUST BE ADDED ON Tasks
 
 
-import ayon_api
-from ayon_api.operations import OperationsSession
-
-
-def run_endpoint(
+async def run_endpoint(
+    current_user,
     project_name,
     jira_project_code,
     template_name,
@@ -41,8 +43,13 @@ def run_endpoint(
         jira_conn, jira_project_code, jira_template_data, folder_paths)
 
     # create ayon tasks, fill Jira keys
-    jira_key_to_ayon_task_id = _process_ayon_template_data(
-        project_name, ayon_template_data, folder_paths, custom_id_to_jira_key)
+    jira_key_to_ayon_task_id = await _process_ayon_template_data(
+        current_user,
+        project_name,
+        ayon_template_data,
+        folder_paths,
+        custom_id_to_jira_key
+    )
 
     # update Jira issues with AYON tasks
     for jira_key, ayon_task_id in jira_key_to_ayon_task_id.items():
@@ -77,8 +84,13 @@ def _normalize_folder_paths(project_name, folder_paths):
     return sanitized_folder_paths
 
 
-def _process_ayon_template_data(
-        project_name, ayon_template_data, folder_paths, custom_id_to_jira_key):
+async def _process_ayon_template_data(
+        current_user,
+        project_name,
+        ayon_template_data,
+        folder_paths,
+        custom_id_to_jira_key
+):
     """Creates tasks in Ayon for `folder_path` and provides Jira metadata
 
     Converts Custom IDs from template into real Jira Ids
@@ -87,56 +99,65 @@ def _process_ayon_template_data(
     tasks = ayon_template_data["ayon_template"]["tasks"]
     if not tasks or not folder_paths:
         return
-    op_session = OperationsSession()
+    tasks_created = tasks_updated = 0
     for folder_path in folder_paths:
-        folder_entity = ayon_api.get_folder_by_path(project_name, folder_path)
+        folder_path = folder_path.strip("/")
+        folder_entity = await _get_folder_by_path(project_name, folder_path)
+
         if not folder_entity:
             print(f"Not found folder for {folder_path}!")
             continue
+        existing_tasks = await _get_tasks_for_folder_id(
+            project_name, folder_entity.id)
 
-        existing_tasks = ayon_api.get_tasks(
-            project_name, folder_ids=[folder_entity["id"]])
-
-        existing_tasks_by_name = {task["name"]: task
+        existing_tasks_by_name = {task.name: task
                                   for task in existing_tasks}
 
         for task_name, task_data in tasks.items():
-            task_data = _replace_custom_ids(custom_id_to_jira_key, task_data)
+            task_data = _replace_custom_ids(custom_id_to_jira_key,
+                                            task_data)
             task_type = _convert_task_type(task_name)
             existing_task = existing_tasks_by_name.get(task_name)
+            post_data = TaskEntity.model.post_model(
+                name=task_name,
+                task_type=task_type,
+                folderId=folder_entity.id,
+                data={"data": {"jira": task_data}}
+            )
             if existing_task:
-                update_data = {"data": {"jira": task_data}}
-                op_session.update_entity(
-                    project_name,
-                    "task",
-                    existing_task["id"],
-                    update_data
+                update_task(
+                    post_data,
+                    background_tasks=[],
+                    user=current_user,
+                    project_name=project_name,
+                    task_id=existing_task.id,
                 )
+                tasks_updated += 1
             else:
-                op_session.create_task(
-                    project_name,
-                    task_name,
-                    task_type,
-                    folder_entity["id"],
-                    data={"jira": task_data}
+                create_task(
+                    post_data,
+                    background_tasks=[],
+                    user=current_user,
+                    project_name=project_name
                 )
+                tasks_created += 1
 
-    op_session.commit()
+    print("In AYON")
+    print(f"Created {tasks_created} issues.")
+    print(f"Updated {tasks_updated} issues.")
 
-    print(f"Created {len(tasks.values())} tasks")
-
-    jira_key_to_ayon_task_id = _get_jira_key_to_ayon_task_id(
+    jira_key_to_ayon_task_id = await _get_jira_key_to_ayon_task_id(
         custom_id_to_jira_key, folder_entity, project_name, tasks)
 
     return jira_key_to_ayon_task_id
 
 
-def _get_jira_key_to_ayon_task_id(custom_id_to_jira_key, folder_entity,
-                                  project_name, tasks):
+async def _get_jira_key_to_ayon_task_id(
+        custom_id_to_jira_key, folder_entity, project_name, tasks):
     """Returns dict of created Jira keys to Ayon task id to link from Jira"""
-    created_tasks = ayon_api.get_tasks(
-        project_name, folder_ids=[folder_entity["id"]])
-    created_tasks = {task["name"]: task["id"] for task in created_tasks}
+    created_tasks = await _get_tasks_for_folder_id(
+        project_name, folder_entity.id)
+    created_tasks = {task.name: task.id for task in created_tasks}
     jira_key_to_ayon_task_id = {}
     for task_name, task_data in tasks.items():
         for key, value in task_data.items():
@@ -207,7 +228,6 @@ def _process_jira_template_data(
                 full_custom_id, epic_id, item, project_code)
             if existing_task:
                 task_key = existing_task["key"]
-                task_content["description"] = task_content["description"] + "huu"
                 existing_task.update(task_content)
                 tasks_updated += 1
             else:
@@ -220,6 +240,7 @@ def _process_jira_template_data(
 
     _add_links(custom_id_to_task_key, jira_conn, jira_template_data)
 
+    print("In Jira: ")
     print(f"Created {tasks_created} issues.")
     print(f"Updated {tasks_updated} issues.")
     print(f"Created {epics_created} epics.")
@@ -463,6 +484,32 @@ def _get_jira_creds(cred_path=None):
         creds[key] = value
 
     return creds
+
+
+async def _get_folder_by_path(project_name, folder_path):
+    res = await Postgres.fetch(
+        f"SELECT id FROM project_{project_name}.hierarchy WHERE path = $1",
+        folder_path)
+    if not res:
+        raise NotFoundException
+    folder_id = res[0]["id"]
+    folder = await FolderEntity.load(project_name, folder_id)
+    return folder
+
+
+async def _get_tasks_for_folder_id(project_name, folder_id):
+    res = await Postgres.fetch(
+        f"SELECT id FROM project_{project_name}.tasks "
+        f"WHERE folder_id = $1", folder_id)
+
+    tasks = []
+
+    for rec in res:
+        task_id = rec["id"]
+        task = await TaskEntity.load(project_name, task_id)
+        tasks.append(task)
+
+    return tasks
 
 
 if __name__ == "__main__":

@@ -19,6 +19,8 @@ from .addon_settings_access import sort_versions
 JIRA_ADDON_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__))
 )
+TEMPLATES_DIR = os.path.join(JIRA_ADDON_DIR, "templates")
+TEMPLATE_SUFFIX = "Jira_Template.json".lower()
 
 
 class JiraAddon(BaseServerAddon):
@@ -40,6 +42,11 @@ class JiraAddon(BaseServerAddon):
         self.add_endpoint(
             "get_templates",
             self.get_templates,
+            method="GET",
+        )
+        self.add_endpoint(
+            "get_placeholders",
+            self.get_placeholders,
             method="GET",
         )
 
@@ -169,18 +176,23 @@ class JiraAddon(BaseServerAddon):
 
     async def get_templates(self):
         templates_dir = os.path.join(JIRA_ADDON_DIR, "templates")
-        if not os.path.isdir(templates_dir):
+        if not os.path.isdir(TEMPLATES_DIR):
             raise RuntimeError(f"No templates directory at {templates_dir}")
 
         template_names = set()
-        template_suffix = "Ayon_Template.json".lower()
         for filename in os.listdir(templates_dir):
             filename = filename.lower()
-            if template_suffix in filename:
-                filename = filename.replace(template_suffix, "").strip("_")
+            if TEMPLATE_SUFFIX in filename:
+                filename = filename.replace(TEMPLATE_SUFFIX, "").strip("_")
                 template_names.add(filename)
 
         return template_names
+
+    async def get_placeholders(self, template_name):
+        template_file_name = f"{template_name}_{TEMPLATE_SUFFIX}"
+        template_file_path = os.path.join(TEMPLATES_DIR, template_file_name)
+        if not os.path.exists(template_file_path):
+            raise RuntimeError(f"{template_file_path} doesn't exist")
 
     async def run_template(
         self,
@@ -197,10 +209,9 @@ class JiraAddon(BaseServerAddon):
     ):
         """Return a random folder from the database"""
         from .templates import run_endpoint
-        logging.info("\n".join(sys.path))
-        logging.info(body)
 
-        run_endpoint(
+        await run_endpoint(
+            user,
             body["project_name"],
             body["jira_project_code"],
             body["template_name"],
