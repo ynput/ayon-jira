@@ -14,10 +14,11 @@ CURRENT_DIR = os.path.join(
 )
 TEMPLATES_DIR = os.path.join(CURRENT_DIR, "templates")
 
-# must be filled with values from Customer !  TODO yank to .ini
-CUSTOM_ID_FIELD = "customfield_10035"  # MUST BE ADDED ON Tasks AND Epics
-AYON_TASK_FIELD = "customfield_10033"  # MUST BE ADDED ON Tasks
-COMPONENT_FIELD = "customfield_10034"  # MUST BE ADDED ON Tasks
+from .custom_fields import (
+    CUSTOM_ID_FIELD,
+    AYON_TASK_FIELD,
+    COMPONENT_FIELD
+)
 
 
 async def run_endpoint(
