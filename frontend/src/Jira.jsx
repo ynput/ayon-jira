@@ -98,23 +98,31 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
       const response = await axios.get(endpoint);
       let placeholders = [];
       for (const placeholder of response.data) {
-        placeholders.push(placeholder);
+        placeholders.push({"id": placeholder, "label": placeholder});
       }
-      console.log(placeholders)
       setTemplateFields(placeholders)
       setError(null);
+
+      const templateFieldsForm = {};
+      placeholders.forEach((placeholder, index) => {
+        let value = "";
+        // parse out last part from folder path if available as first
+        // placeholder would be asset name, most likely
+        if (index === 0) {
+            if (folderPath){
+              const lastPart = folderPath.split('/').pop();
+              value = lastPart;
+            }
+        }
+        templateFieldsForm[placeholder.id] = value;
+      });
+      setTemplateFieldsForm(templateFieldsForm);
     } catch (error) {
       console.error("Error fetching placeholders:", error);
       setError(error.response.data.detail);
     } finally {
       setLoading(false);
     }
-  }, [addonName, addonVersion]);
-
-    const templateFieldsForm = {};
-    let new_placeholders = ['placeholder1']
-    new_placeholders.forEach((placeholder) => templateFieldsForm[placeholder] = "");
-    setTemplateFieldsForm(templateFieldsForm);
   };
 
   const handleTemplateFieldChange = (e) => {
