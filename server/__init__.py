@@ -109,7 +109,7 @@ class JiraAddon(BaseServerAddon):
     def _get_jira_current_phase_def(self):
         return {
             "name": "jiraCurrentPhase",
-            "type": "list_of_strings",
+            "type": "string",
             "title": "Jira Current Phase",
             "scope": ["task"],
             "enum": [],
