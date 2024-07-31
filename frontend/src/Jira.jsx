@@ -5,9 +5,10 @@ import {
   Icon,
   InputText,
   SaveButton,
-  Dialog
+  Dialog,
 } from "@ynput/ayon-react-components";
 import * as Styled from "./Jira.styled";
+import "@ynput/ayon-react-components/dist/style.css";
 
 const Jira = ({ projectName, addonName, addonVersion }) => {
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [processFinished, setProcessFinished] = useState(false)
+  const [processFinished, setProcessFinished] = useState(false);
   const [responseContent, setResponseContent] = useState(null);
 
   const fetchTemplates = useCallback(async () => {
@@ -67,8 +68,9 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
     console.log("payload", payload);
 
     try {
-      content = await axios.post(endpoint, payload);
-      setResponseContent(content)
+      const content = await axios.post(endpoint, payload);
+      setProcessFinished(true);
+      setResponseContent(content);
       setError(null);
       setSuccess(true);
 
@@ -78,11 +80,9 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
       }, 1000);
     } catch (error) {
       setSuccess(false);
-      setError(error.response.data.detail);
-      setResponseContent(error.response.data.detail)
+      setError(error.response.data);
       console.error("Error running template:", error);
     } finally {
-      setProcessFinished(true);
       setCreating(false);
       onClear();
     }
@@ -99,7 +99,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
       const response = await axios.get(endpoint);
       let placeholders = [];
       for (const placeholder of response.data) {
-        placeholders.push({"id": placeholder, "label": placeholder});
+        placeholders.push({ id: placeholder, label: placeholder });
       }
       setTemplateFields(placeholders);
       setError(null);
@@ -110,10 +110,10 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
         // parse out last part from folder path if available as first
         // placeholder would be asset name, most likely
         if (index === 0) {
-            if (folderPath){
-              const lastPart = folderPath.split('/').pop();
-              value = lastPart;
-            }
+          if (folderPath) {
+            const lastPart = folderPath.split("/").pop();
+            value = lastPart;
+          }
         }
         templateFieldsForm[placeholder.id] = value;
       });
@@ -140,6 +140,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
     setFolderPath("");
     setJiraProjectCode("");
     setSelectedTemplate("");
+    setProcessFinished(false);
     setTemplateFields([]);
     setTemplateFieldsForm({});
   };
@@ -155,85 +156,85 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
 
   return (
     <>
-       <Dialog
-          isOpen={processFinished}
-          header={'Process finished'}
-          onClose={onClear}
-          size="md"
-       >
-            <div>{responseContent}</div>
-       </Dialog>
-       <Styled.Container>
-          <div>
-            <h2>New Tasks</h2>
-            <p>Creates a new AYON tasks and synced Jira tickets.</p>
-          </div>
-          <Styled.Form className={loading ? "loading" : ""}>
-            <label>Folder Path</label>
-            <InputText
-              id="folderPath"
-              name="folderPath"
-              value={folderPath}
-              onChange={(e) => setFolderPath(e.target.value)}
-              disabled={creating}
-            />
-            <label>Jira Project Code</label>
-            <InputText
-              id="jiraProjectCode"
-              name="jiraProjectCode"
-              value={jiraProjectCode}
-              onChange={(e) => setJiraProjectCode(e.target.value)}
-              disabled={creating}
-              autoComplete="off"
-            />
-            <label>Template</label>
-            <Dropdown
-              value={[selectedTemplate]}
-              options={templates}
-              optionLabel="name"
-              onChange={handleTemplateChange}
-              placeholder="Select template"
-              className={"template-dropdown"}
-              onClick={(e) => e.stopPropagation()}
-              disabled={creating || loading}
-            />
-            {templateFields.map(({ id, label, ...props }) => (
-              <Fragment key={id}>
-                <label>{label}</label>
-                <InputText
-                  id={id}
-                  name={id}
-                  value={templateFieldsForm[id]}
-                  onChange={handleTemplateFieldChange}
-                  disabled={creating}
-                  autoComplete="off"
-                  {...props}
-                  required={false}
-                />
-              </Fragment>
-            ))}
-          </Styled.Form>
-          {error && (
-            <Styled.Error>
-              <Icon icon="error" />
-              {error}
-            </Styled.Error>
-          )}
-          {success && (
-            <Styled.Success>
-              <Icon icon="check_circle" />
-              Task and ticket created!
-            </Styled.Success>
-          )}
-          <SaveButton
-            className="save"
-            label="Create"
-            icon="send"
-            onClick={create}
-            active={validateForm()}
-            saving={creating}
+      <Dialog
+        isOpen={!!processFinished}
+        header={"Process finished"}
+        onClose={onClear}
+        size="md"
+      >
+        <div>{responseContent}</div>
+      </Dialog>
+      <Styled.Container>
+        <div>
+          <h2>New Tasks</h2>
+          <p>Creates a new AYON tasks and synced Jira tickets.</p>
+        </div>
+        <Styled.Form className={loading ? "loading" : ""}>
+          <label>Folder Path</label>
+          <InputText
+            id="folderPath"
+            name="folderPath"
+            value={folderPath}
+            onChange={(e) => setFolderPath(e.target.value)}
+            disabled={creating}
           />
-       </Styled.Container>
+          <label>Jira Project Code</label>
+          <InputText
+            id="jiraProjectCode"
+            name="jiraProjectCode"
+            value={jiraProjectCode}
+            onChange={(e) => setJiraProjectCode(e.target.value)}
+            disabled={creating}
+            autoComplete="off"
+          />
+          <label>Template</label>
+          <Dropdown
+            value={[selectedTemplate]}
+            options={templates}
+            optionLabel="name"
+            onChange={handleTemplateChange}
+            placeholder="Select template"
+            className={"template-dropdown"}
+            onClick={(e) => e.stopPropagation()}
+            disabled={creating || loading}
+          />
+          {templateFields.map(({ id, label, ...props }) => (
+            <Fragment key={id}>
+              <label>{label}</label>
+              <InputText
+                id={id}
+                name={id}
+                value={templateFieldsForm[id]}
+                onChange={handleTemplateFieldChange}
+                disabled={creating}
+                autoComplete="off"
+                {...props}
+                required={false}
+              />
+            </Fragment>
+          ))}
+        </Styled.Form>
+        {error && (
+          <Styled.Error>
+            <Icon icon="error" />
+            {error}
+          </Styled.Error>
+        )}
+        {success && (
+          <Styled.Success>
+            <Icon icon="check_circle" />
+            Task and ticket created!
+          </Styled.Success>
+        )}
+        <SaveButton
+          className="save"
+          label="Create"
+          icon="send"
+          onClick={create}
+          active={validateForm()}
+          saving={creating}
+        />
+      </Styled.Container>
     </>
   );
 };
