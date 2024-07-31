@@ -87,25 +87,33 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
     }
   };
 
-  const handleTemplateChange = (values = []) => {
-    setSelectedTemplate(values[0]);
+  const handleTemplateChange = async (values = []) => {
+    const template_name = values[0]
+    setSelectedTemplate(template_name);
 
     // set dynamic fields based on selected template
-    setTemplateFields(dummy_data);
-    // set default values for dynamic fields
+    const endpoint = `/api/addons/${addonName}/${addonVersion}/get_placeholders?template_name=${template_name}`;
 
-    const typeDefaults = {
-      text: "",
-      number: 0,
-      date: new Date(),
-    };
+    try {
+      const response = await axios.get(endpoint);
+      let placeholders = [];
+      for (const placeholder of response.data) {
+        placeholders.push(placeholder);
+      }
+      console.log(placeholders)
+      setTemplateFields(placeholders)
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching placeholders:", error);
+      setError(error.response.data.detail);
+    } finally {
+      setLoading(false);
+    }
+  }, [addonName, addonVersion]);
 
     const templateFieldsForm = {};
-    dummy_data.forEach((field) => {
-      templateFieldsForm[field.id] =
-        field.default || typeDefaults[field.type] || "";
-    });
-
+    let new_placeholders = ['placeholder1']
+    new_placeholders.forEach((placeholder) => templateFieldsForm[placeholder] = "");
     setTemplateFieldsForm(templateFieldsForm);
   };
 
