@@ -60,11 +60,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
       jira_project_code: jiraProjectCode,
       template_name: selectedTemplate,
       folder_paths: [folderPath],
-      placeholder_map: {
-        // TODO
-        Tier1CharacterNameOutfitName: "Character1",
-        Tier1CharacterName: "Character1",
-      },
+      placeholder_map: templateFieldsForm,
     };
     console.log("payload", payload);
 
