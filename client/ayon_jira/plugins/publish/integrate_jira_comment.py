@@ -33,6 +33,11 @@ class IntegrateJiraComment(pyblish.api.InstancePlugin):
             self.log.warning("No jira metadata collected, skipping")
             return
 
+        jira_ticket_key = jira_metadata.get("jira_ticket_id")
+        if not jira_ticket_key:
+            self.log.info("Not collected jira ticket key, skipping")
+            return
+
         thumbnail_path = self._get_thumbnail_path(instance)
         review_path = self._get_review_path(instance)
 
@@ -57,19 +62,19 @@ class IntegrateJiraComment(pyblish.api.InstancePlugin):
         )
 
         if jira_metadata["upload_thumbnail"] and thumbnail_path:
-            jira_conn.add_attachment(jira_metadata["jira_ticket_id"],
+            jira_conn.add_attachment(jira_ticket_key,
                                      thumbnail_path)
 
         if jira_metadata["upload_review"] and review_path:
             message = self._handle_review_upload(
                 jira_conn,
-                jira_metadata["jira_ticket_id"],
+                jira_ticket_key,
                 message,
                 jira_metadata["review_size_limit"],
                 review_path
             )
 
-        jira_conn.issue_add_comment(jira_metadata["jira_ticket_id"], message)
+        jira_conn.issue_add_comment(jira_ticket_key, message)
 
     def _handle_review_upload(
             self,

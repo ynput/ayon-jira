@@ -25,8 +25,11 @@ class CollectJiraTicket(pyblish.api.InstancePlugin):
         task_entity = instance.data.get("taskEntity")
         if not task_entity:
             return
+        task_data = task_entity.get("data", {})
+        if not task_data:
+            return
 
-        jira_meta = task_entity["data"].get("jira")
+        jira_meta = task_data.get("jira")
         if not jira_meta:
             return
 

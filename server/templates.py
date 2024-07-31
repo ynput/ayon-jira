@@ -1,6 +1,7 @@
 import os
 import json
 import re
+from fastapi import BackgroundTasks
 
 from ayon_server.entities import FolderEntity, TaskEntity
 from ayon_server.exceptions import NotFoundException
@@ -21,7 +22,30 @@ from .custom_fields import (
 )
 
 
-async def run_endpoint(
+class ProcessStatus(object):
+    """To gather information about process to return via response"""
+    def __init__(self):
+        self._jira_epics_created = 0
+        self._jira_tickets_created = 0
+        self._jira_tickets_updated = 0
+        self._ayon_tasks_created = 0
+        self._ayon_tasks_updated = 0
+
+        self.errors = []
+        self.traceback = None
+
+    def info(self):
+        content = (
+            f"Jira epics created: {self._jira_epics_created} \n"
+            f"Jira tickets created: {self._jira_tickets_created} \n"
+            f"Jira tickets updated: {self._jira_epics_created} \n"
+            f"AYON tickets created: {self._ayon_tasks_created} \n"
+            f"AYON tickets updated: {self._ayon_tasks_updated} \n"
+        )
+        return content
+
+
+async def create_tasks_and_tickets(
     current_user,
     project_name,
     jira_project_code,
@@ -30,31 +54,46 @@ async def run_endpoint(
     folder_paths
 ):
     """Main endpoint - creates Jira and Ayon elements creation."""
-    ayon_template_data = _get_ayon_template_data(
-        template_name, placeholder_map)
-    jira_template_data = _get_jira_template_data(
-        template_name, placeholder_map)
+    status = ProcessStatus()
 
-    jira_conn = _get_jira_conn()
+    try:
+        ayon_template_data = _get_ayon_template_data(
+            template_name, placeholder_map)
+        jira_template_data = _get_jira_template_data(
+            template_name, placeholder_map)
 
-    folder_paths = _normalize_folder_paths(project_name, folder_paths)
+        jira_conn = _get_jira_conn()
 
-    # create epics and issues in Jira
-    custom_id_to_jira_key = _process_jira_template_data(
-        jira_conn, jira_project_code, jira_template_data, folder_paths)
+        folder_paths = _normalize_folder_paths(project_name, folder_paths)
 
-    # create ayon tasks, fill Jira keys
-    jira_key_to_ayon_task_id = await _process_ayon_template_data(
-        current_user,
-        project_name,
-        ayon_template_data,
-        folder_paths,
-        custom_id_to_jira_key
-    )
+        # create epics and issues in Jira
+        custom_id_to_jira_key = _process_jira_template_data(
+            jira_conn,
+            jira_project_code,
+            jira_template_data,
+            folder_paths,
+            status=status
+        )
 
-    # update Jira issues with AYON tasks
-    for jira_key, ayon_task_id in jira_key_to_ayon_task_id.items():
-        jira_conn.issue_update(jira_key, {AYON_TASK_FIELD: ayon_task_id})
+        # create ayon tasks, fill Jira keys
+        jira_key_to_ayon_task_id = await _process_ayon_template_data(
+            current_user,
+            project_name,
+            ayon_template_data,
+            folder_paths,
+            custom_id_to_jira_key,
+            status=status
+        )
+
+        # update Jira issues with AYON tasks
+        for jira_key, ayon_task_id in jira_key_to_ayon_task_id.items():
+            jira_conn.issue_update(jira_key, {AYON_TASK_FIELD: ayon_task_id})
+    except Exception as exp:
+        print(str(exp))
+        status.errors.append(str(exp))
+        status.traceback = exp
+
+    return status
 
 
 def _get_jira_conn():
@@ -90,7 +129,8 @@ async def _process_ayon_template_data(
         project_name,
         ayon_template_data,
         folder_paths,
-        custom_id_to_jira_key
+        custom_id_to_jira_key,
+        status=None
 ):
     """Creates tasks in Ayon for `folder_path` and provides Jira metadata
 
@@ -103,6 +143,7 @@ async def _process_ayon_template_data(
     tasks_created = tasks_updated = 0
     for folder_path in folder_paths:
         folder_path = folder_path.strip("/")
+        print(f"folder_path 111::{folder_path}")
         folder_entity = await _get_folder_by_path(project_name, folder_path)
 
         if not folder_entity:
@@ -126,18 +167,18 @@ async def _process_ayon_template_data(
                 data={"data": {"jira": task_data}}
             )
             if existing_task:
-                update_task(
+                await update_task(
                     post_data,
-                    background_tasks=[],
                     user=current_user,
+                    background_tasks=BackgroundTasks(),
                     project_name=project_name,
                     task_id=existing_task.id,
                 )
                 tasks_updated += 1
             else:
-                create_task(
+                await create_task(
                     post_data,
-                    background_tasks=[],
+                    background_tasks=BackgroundTasks(),
                     user=current_user,
                     project_name=project_name
                 )
@@ -146,6 +187,10 @@ async def _process_ayon_template_data(
     print("In AYON")
     print(f"Created {tasks_created} issues.")
     print(f"Updated {tasks_updated} issues.")
+
+    if status:
+        status._ayon_tasks_created = tasks_created
+        status._ayon_tasks_updated = tasks_updated
 
     jira_key_to_ayon_task_id = await _get_jira_key_to_ayon_task_id(
         custom_id_to_jira_key, folder_entity, project_name, tasks)
@@ -159,6 +204,7 @@ async def _get_jira_key_to_ayon_task_id(
     created_tasks = await _get_tasks_for_folder_id(
         project_name, folder_entity.id)
     created_tasks = {task.name: task.id for task in created_tasks}
+    print(f"created_tasks::{created_tasks}")
     jira_key_to_ayon_task_id = {}
     for task_name, task_data in tasks.items():
         for key, value in task_data.items():
@@ -186,7 +232,12 @@ def _replace_custom_ids(custom_id_to_jira_key, task_data):
 
 
 def _process_jira_template_data(
-        jira_conn, project_code, jira_template_data, folder_paths):
+        jira_conn,
+        project_code,
+        jira_template_data,
+        folder_paths,
+        status=None
+):
     print("Starting JIRA processing")
 
     custom_id_to_task_key = {}
@@ -245,6 +296,12 @@ def _process_jira_template_data(
     print(f"Created {tasks_created} issues.")
     print(f"Updated {tasks_updated} issues.")
     print(f"Created {epics_created} epics.")
+
+    if status:
+        status._jira_epics_created = epics_created
+        status._jira_tickets_created = tasks_created
+        status._jira_tickets_updated = tasks_updated
+
     return custom_id_to_task_key
 
 
@@ -492,7 +549,8 @@ async def _get_folder_by_path(project_name, folder_path):
         f"SELECT id FROM project_{project_name}.hierarchy WHERE path = $1",
         folder_path)
     if not res:
-        raise NotFoundException
+        raise NotFoundException(f"Not found '{folder_path}' in "
+                                f"'{project_name}'")
     folder_id = res[0]["id"]
     folder = await FolderEntity.load(project_name, folder_id)
     return folder
