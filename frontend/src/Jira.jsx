@@ -8,7 +8,6 @@ import {
   Dialog
 } from "@ynput/ayon-react-components";
 import * as Styled from "./Jira.styled";
-import dummy_data from "./dummy_data";
 
 const Jira = ({ projectName, addonName, addonVersion }) => {
   const [loading, setLoading] = useState(false);
@@ -90,7 +89,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
   };
 
   const handleTemplateChange = async (values = []) => {
-    const template_name = values[0]
+    const template_name = values[0];
     setSelectedTemplate(template_name);
 
     // set dynamic fields based on selected template
@@ -102,7 +101,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
       for (const placeholder of response.data) {
         placeholders.push({"id": placeholder, "label": placeholder});
       }
-      setTemplateFields(placeholders)
+      setTemplateFields(placeholders);
       setError(null);
 
       const templateFieldsForm = {};
