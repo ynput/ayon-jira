@@ -12,7 +12,7 @@ const App = () => {
   // const addonName = useContext(AddonContext).addonName
   const addonName = "jira";
   // const addonVersion = useContext(AddonContext).addonVersion
-  const addonVersion = "0.0.1";
+  const addonVersion = "0.0.1-dev.1";
   const accessToken = useContext(AddonContext).accessToken;
   const projectName = useContext(AddonContext).projectName;
   const userName = useContext(AddonContext).userName;
