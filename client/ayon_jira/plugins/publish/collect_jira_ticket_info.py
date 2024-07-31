@@ -34,15 +34,15 @@ class CollectJiraTicket(pyblish.api.InstancePlugin):
             return
 
         current_stage = self._get_current_stage(task_entity)
+        self.log.info(f"Collected stage '{current_stage}'")
 
         jira_ticket_key = f"{current_stage}_jira_ticket"
 
         jira_ticket_id = jira_meta.get(jira_ticket_key)
         instance.data["jira"]["jira_ticket_id"] = jira_ticket_id
 
-        self.log.debug(f"Collected ticket id '{jira_ticket_id}'")
+        self.log.info(f"Collected ticket id '{jira_ticket_id}'")
 
     def _get_current_stage(self, task_entity):
-        phase = task_entity["attrib"]["jiraCurrentPhase"]
-        if phase:
-            return phase[0]
+        return task_entity["attrib"]["jiraCurrentPhase"]
+
