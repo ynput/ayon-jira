@@ -2,6 +2,7 @@ import os
 import json
 import re
 from fastapi import BackgroundTasks
+import traceback
 
 from ayon_server.entities import FolderEntity, TaskEntity
 from ayon_server.exceptions import NotFoundException
@@ -89,9 +90,8 @@ async def create_tasks_and_tickets(
         for jira_key, ayon_task_id in jira_key_to_ayon_task_id.items():
             jira_conn.issue_update(jira_key, {AYON_TASK_FIELD: ayon_task_id})
     except Exception as exp:
-        print(str(exp))
         status.errors.append(str(exp))
-        status.traceback = exp
+        status.traceback = traceback.format_exc()
 
     return status
 
@@ -164,7 +164,7 @@ async def _process_ayon_template_data(
                 name=task_name,
                 task_type=task_type,
                 folderId=folder_entity.id,
-                data={"data": {"jira": task_data}}
+                data={"jira": task_data}
             )
             if existing_task:
                 await update_task(
@@ -184,7 +184,7 @@ async def _process_ayon_template_data(
                 )
                 tasks_created += 1
 
-    print("In AYON")
+    print("In AYONYYY")
     print(f"Created {tasks_created} issues.")
     print(f"Updated {tasks_updated} issues.")
 

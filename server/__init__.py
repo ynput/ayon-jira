@@ -245,8 +245,9 @@ class JiraAddon(BaseServerAddon):
             body["folder_paths"]
         )
         if status.errors:
+            errors = "\n".join(status.errors)
             return Response(
                 status_code=400,
-                content=f"{status.errors} \n {status.traceback}")
+                content=f"{errors} \n\n {status.traceback}")
 
         return Response(status_code=204, content=f"{status.info()}")
