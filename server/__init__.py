@@ -132,7 +132,9 @@ class JiraAddon(BaseServerAddon):
             for variant in ("production", "staging"):
                 settings_model = await addon.get_studio_settings(variant)
                 studio_settings = settings_model.dict()
-                phases_enum.extend(studio_settings["phases"])
+                for phase in studio_settings["phases"]:
+                    if phase not in phases_enum:
+                        phases_enum.append(phase)
 
         jira_attribute_def = self._get_jira_current_phase_def()
         jira_attribute_name = jira_attribute_def["name"]
