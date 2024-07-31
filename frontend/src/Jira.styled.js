@@ -2,7 +2,8 @@ import { Panel } from "@ynput/ayon-react-components";
 import styled from "styled-components";
 
 export const Container = styled(Panel)`
-  max-width: 800px;
+  max-width: 400px;
+  min-width: 400px;
   margin: 32px auto;
   display: flex;
   flex-direction: column;
@@ -23,6 +24,11 @@ export const Form = styled.div`
   grid-template-columns: auto 1fr;
   align-items: center;
   grid-gap: 8px 32px;
+
+  label {
+    word-break: break-all;
+    width: 150px;
+  }
 `;
 
 const Message = styled.span`
