@@ -3,7 +3,7 @@ import re
 import sys
 from nxtools import logging
 from typing import Any, Dict, Type
-from fastapi import Depends, Body, Query
+from fastapi import Depends, Body, Query, Response
 
 from ayon_server.addons import BaseServerAddon, AddonLibrary
 from ayon_server.entities.user import UserEntity
@@ -229,11 +229,11 @@ class JiraAddon(BaseServerAddon):
                         "folder_paths[list[str]]"
             ,
         )
-    ):
+    ) -> Response:
         """Creates tasks and jira tickets based on selected values in form"""
-        from .templates import run_endpoint
+        from .templates import create_tasks_and_tickets
 
-        await run_endpoint(
+        status = await create_tasks_and_tickets(
             user,
             body["project_name"],
             body["jira_project_code"],
@@ -241,3 +241,9 @@ class JiraAddon(BaseServerAddon):
             body["placeholder_map"],
             body["folder_paths"]
         )
+        if status.errors:
+            return Response(
+                status_code=400,
+                content=f"{status.errors} \n {status.traceback}")
+
+        return Response(status_code=204, content=f"{status.info()}")
