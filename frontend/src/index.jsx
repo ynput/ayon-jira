@@ -9,13 +9,11 @@ import "./index.scss";
 
 const App = () => {
   const context = useContext(AddonContext);
-  // const addonName = useContext(AddonContext).addonName
-  const addonName = "jira";
+  const addonName = useContext(AddonContext).addonName || "jira";
   // const addonVersion = useContext(AddonContext).addonVersion
-  const addonVersion = "0.0.1";
+  const addonVersion = useContext(AddonContext).addonVersion;
   const accessToken = useContext(AddonContext).accessToken;
   const projectName = useContext(AddonContext).projectName;
-  const userName = useContext(AddonContext).userName;
   const [tokenSet, setTokenSet] = useState(false);
 
   useEffect(() => {
@@ -24,10 +22,6 @@ const App = () => {
       setTokenSet(true);
     }
   }, [accessToken, tokenSet]);
-
-  if (!(tokenSet && projectName && userName)) {
-    return null;
-  }
 
   return (
     <Jira
