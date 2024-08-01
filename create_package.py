@@ -173,7 +173,7 @@ def find_files_in_subdir(
     return output
 
 
-def _get_executable(app = "npm"):
+def _get_executable(app = "yarn"):
     cmd = "which"
     if platform.system().lower() == "windows":
         cmd = "where"
@@ -207,14 +207,14 @@ def copy_frontend_content(addon_output_dir, current_dir, log, build=True):
     frontend_dist_dirpath: str = os.path.join(frontend_dirpath, "dist")
 
     if build:
-        npm_executable = _get_executable("npm")
+        npm_executable = _get_executable("yarn")
         if npm_executable is None:
-            raise RuntimeError("npm executable was not found.")
+            raise RuntimeError("yarn executable was not found.")
 
         subprocess.run([npm_executable, "install"], cwd=frontend_dirpath)
         subprocess.run([npm_executable, "run", "build"], cwd=frontend_dirpath)
         if not os.path.exists(frontend_dist_dirpath):
-            raise RuntimeError("Build frontend first with `npm install && npm run build`")
+            raise RuntimeError("Build frontend first with `yarn install && yarn run build`")
 
     for item in find_files_in_subdir(frontend_dist_dirpath):
         src_path, dst_subpath = item
