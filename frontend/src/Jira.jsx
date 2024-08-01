@@ -15,7 +15,6 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
 
   const [templates, setTemplates] = useState([]);
   const [folderPath, setFolderPath] = useState("");
-  const [jiraProjectCode, setJiraProjectCode] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   // what fields to show based on selected template
@@ -60,7 +59,6 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
 
     const payload = {
       project_name: projectName,
-      jira_project_code: jiraProjectCode,
       template_name: selectedTemplate,
       folder_paths: [folderPath],
       placeholder_map: templateFieldsForm,
@@ -138,7 +136,6 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
 
   const onClear = () => {
     setFolderPath("");
-    setJiraProjectCode("");
     setSelectedTemplate("");
     setProcessFinished(false);
     setTemplateFields([]);
@@ -146,7 +143,7 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
   };
 
   const validateForm = () => {
-    const baseValidated = folderPath && jiraProjectCode && selectedTemplate;
+    const baseValidated = folderPath && selectedTemplate;
     const fieldsValidated = templateFields.every(
       ({ id, required }) => !required || templateFieldsForm[id]
     );
@@ -177,15 +174,6 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
             value={folderPath}
             onChange={(e) => setFolderPath(e.target.value)}
             disabled={creating}
-          />
-          <label>Jira Project Code</label>
-          <InputText
-            id="jiraProjectCode"
-            name="jiraProjectCode"
-            value={jiraProjectCode}
-            onChange={(e) => setJiraProjectCode(e.target.value)}
-            disabled={creating}
-            autoComplete="off"
           />
           <label>Template</label>
           <Dropdown
