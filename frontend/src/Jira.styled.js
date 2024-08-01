@@ -2,8 +2,8 @@ import { Panel } from "@ynput/ayon-react-components";
 import styled from "styled-components";
 
 export const Container = styled(Panel)`
-  max-width: 600px;
-  min-width: 600px;
+  max-width: 400px;
+  min-width: 400px;
   margin: 32px auto;
   display: flex;
   flex-direction: column;

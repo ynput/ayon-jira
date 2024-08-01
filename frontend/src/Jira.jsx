@@ -9,7 +9,6 @@ import {
 } from "@ynput/ayon-react-components";
 import * as Styled from "./Jira.styled";
 import "@ynput/ayon-react-components/dist/style.css";
-import PathInput from "./PathInput";
 
 const Jira = ({ projectName, addonName, addonVersion }) => {
   const [loading, setLoading] = useState(false);
@@ -172,14 +171,12 @@ const Jira = ({ projectName, addonName, addonVersion }) => {
         </div>
         <Styled.Form className={loading ? "loading" : ""}>
           <label>Folder Path</label>
-          <PathInput
+          <InputText
             id="folderPath"
             name="folderPath"
             value={folderPath}
             onChange={(e) => setFolderPath(e.target.value)}
-            onSelect={setFolderPath}
             disabled={creating}
-            projectName={projectName}
           />
           <label>Jira Project Code</label>
           <InputText
