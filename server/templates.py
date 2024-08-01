@@ -52,7 +52,8 @@ async def create_tasks_and_tickets(
     jira_project_code,
     template_name,
     placeholder_map,
-    folder_paths
+    folder_paths,
+    jira_creds=None
 ):
     """Main endpoint - creates Jira and Ayon elements creation."""
     status = ProcessStatus()
@@ -63,7 +64,7 @@ async def create_tasks_and_tickets(
         jira_template_data = _get_jira_template_data(
             template_name, placeholder_map)
 
-        jira_conn = _get_jira_conn()
+        jira_conn = _get_jira_conn(jira_creds)
 
         folder_paths = _normalize_folder_paths(project_name, folder_paths)
 
@@ -96,10 +97,13 @@ async def create_tasks_and_tickets(
     return status
 
 
-def _get_jira_conn():
+def _get_jira_conn(creds=None):
     from atlassian import Jira
 
-    creds = _get_jira_creds()
+    if not creds:
+        # from ini file - for development
+        creds = _get_jira_creds()
+
     jira_conn = Jira(
         url=creds["url"],
         username=creds["username"],
@@ -125,12 +129,12 @@ def _normalize_folder_paths(project_name, folder_paths):
 
 
 async def _process_ayon_template_data(
-        current_user,
-        project_name,
-        ayon_template_data,
-        folder_paths,
-        custom_id_to_jira_key,
-        status=None
+    current_user,
+    project_name,
+    ayon_template_data,
+    folder_paths,
+    custom_id_to_jira_key,
+    status=None
 ):
     """Creates tasks in Ayon for `folder_path` and provides Jira metadata
 
@@ -575,9 +579,10 @@ if __name__ == "__main__":
     _set_env_vars()
 
     placeholder_map = {"Tier1CharacterNameOutfitName": "Character1",
-                       "Tier1CharacterName": "Character1"}  # possible not importatn
+                       "Tier1CharacterName": "Character1"}
     project_name = "temp_project_sftp"
-    run_endpoint(
+    create_tasks_and_tickets(
+        None,
         project_name,
         "KAN",
         "Tier_1_Outfit",

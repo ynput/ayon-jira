@@ -236,13 +236,16 @@ class JiraAddon(BaseServerAddon):
         """Creates tasks and jira tickets based on selected values in form"""
         from .templates import create_tasks_and_tickets
 
+        creds = await self._get_jira_creds(body["project_name"])
+
         status = await create_tasks_and_tickets(
             user,
             body["project_name"],
-            body["jira_project_code"],
+            creds["project_code"],
             body["template_name"],
             body["placeholder_map"],
-            body["folder_paths"]
+            body["folder_paths"],
+            creds
         )
         if status.errors:
             errors = "\n".join(status.errors)
@@ -251,3 +254,16 @@ class JiraAddon(BaseServerAddon):
                 content=f"{errors} \n\n {status.traceback}")
 
         return Response(status_code=204, content=f"{status.info()}")
+
+    async def _get_jira_creds(self, project_name):
+        """Pulls Jira credentials from Project Settings"""
+        jira_settings = await self.get_project_settings(project_name)
+
+        creds = {
+            "url": jira_settings.jira_server,
+            "username": jira_settings.jira_username,
+            "password": jira_settings.jira_password,
+            "project_code": jira_settings.jira_project_code,
+        }
+
+        return creds
