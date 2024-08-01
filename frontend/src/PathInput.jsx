@@ -43,7 +43,6 @@ const PathInput = ({ onSelect, projectName, ...props }) => {
 
       onSelect(path);
     } catch (error) {
-      // error
       console.error(error);
     }
   };
