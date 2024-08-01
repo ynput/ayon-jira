@@ -155,6 +155,6 @@ with link in the comment for too large review files.
 
 ### Todos
 
-- provide parsing of placeholders from template and provide them to the front end form after template is selected
 - provide possibility to add/update templates via UI (Settings or frontend)
 - provide better logging and reporting
+- add folder Picker to UI
