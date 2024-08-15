@@ -3,14 +3,10 @@ import re
 import sys
 from nxtools import logging
 from typing import Any, Dict, Type
-from fastapi import Depends, Body, Query, Response
+from fastapi import Body, Query, Response
 
 from ayon_server.addons import BaseServerAddon, AddonLibrary
-from ayon_server.entities.user import UserEntity
-from ayon_server.api import (
-    dep_current_user,
-    dep_project_name,
-)
+from ayon_server.api.dependencies import CurrentUser
 from ayon_server.lib.postgres import Postgres
 from ayon_server.entities.core import attribute_library
 
@@ -222,7 +218,7 @@ class JiraAddon(BaseServerAddon):
 
     async def run_template(
         self,
-        user: UserEntity = Depends(dep_current_user),
+        user: CurrentUser,
 
         body: Dict[str, Any] = Body(
             ...,
