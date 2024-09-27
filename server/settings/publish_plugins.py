@@ -33,7 +33,7 @@ class Profile(BaseSettingsModel):
     )
     upload_review: bool = SettingsField(
         False,
-        title="Upload thumbnail"
+        title="Upload review"
     )
     review_size_limit: int = SettingsField(
         5,
