@@ -4,11 +4,11 @@ import pyblish.api
 
 from ayon_core.lib.profiles_filtering import filter_profiles
 from ayon_core.lib import attribute_definitions
-from ayon_core.pipeline import AYONPyblishPluginMixin
+from ayon_core.pipeline import OptionalPyblishPluginMixin
 
 
 class CollectJiraNotifications(pyblish.api.InstancePlugin,
-                               AYONPyblishPluginMixin):
+                               OptionalPyblishPluginMixin):
     """Collects login credentials for Jira"""
     order = pyblish.api.CollectorOrder
     label = "Collect Jira Notifications"
@@ -18,7 +18,8 @@ class CollectJiraNotifications(pyblish.api.InstancePlugin,
 
     @classmethod
     def get_attribute_defs(cls):
-        return [
+        attrs = super().get_attribute_defs()
+        return attrs + [
             attribute_definitions.TextDef(
                 # Key under which it will be stored
                 "additional_message",
