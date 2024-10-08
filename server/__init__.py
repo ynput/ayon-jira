@@ -47,6 +47,10 @@ class JiraAddon(BaseServerAddon):
             method="GET",
         )
 
+    async def get_default_settings(self):
+        settings_model_cls = self.get_settings_model()
+        return settings_model_cls(**DEFAULT_VALUES)
+
     async def setup(self):
         need_restart = await self.create_required_attributes()
         if need_restart:
