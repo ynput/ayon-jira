@@ -178,7 +178,9 @@ def _get_executable(app = "yarn"):
     if platform.system().lower() == "windows":
         cmd = "where"
 
-    for line in subprocess.check_output([cmd, app], encoding="utf-8").splitlines():
+    for line in subprocess.check_output(
+        [cmd, app], encoding="utf-8"
+    ).splitlines():
         if not line or not os.path.exists(line):
             continue
         try:
@@ -214,11 +216,15 @@ def copy_frontend_content(addon_output_dir, current_dir, log, build=True):
         subprocess.run([npm_executable, "install"], cwd=frontend_dirpath)
         subprocess.run([npm_executable, "run", "build"], cwd=frontend_dirpath)
         if not os.path.exists(frontend_dist_dirpath):
-            raise RuntimeError("Build frontend first with `yarn install && yarn run build`")
+            raise RuntimeError(
+                "Build frontend first with `yarn install && yarn run build`"
+            )
 
     for item in find_files_in_subdir(frontend_dist_dirpath):
         src_path, dst_subpath = item
-        dst_path = os.path.join(addon_output_dir, "frontend", "dist", dst_subpath)
+        dst_path = os.path.join(
+            addon_output_dir, "frontend", "dist", dst_subpath
+        )
         filepaths_to_copy.append((src_path, dst_path))
 
     # Copy files

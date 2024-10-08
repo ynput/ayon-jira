@@ -21,7 +21,6 @@ TEMPLATE_SUFFIX = "Jira_Template.json".lower()
 
 
 class JiraAddon(BaseServerAddon):
-
     settings_model: Type[JiraSettings] = JiraSettings
     frontend_scopes: dict[str, Any] = {"project": {}}
     addon_type = "server"
@@ -91,8 +90,13 @@ class JiraAddon(BaseServerAddon):
             needs_restart = False
             # when any of the required attributes are not present, add them
             # and return 'True' to indicate that server needs to be restarted
+            insert_query = (
+                "INSERT INTO attributes (name, scope, data, position)"
+                " VALUES ($1, $2, $3, "
+                "(SELECT COALESCE(MAX(position), 0) + 1 FROM attributes))"
+                " ON CONFLICT DO NOTHING"
+            )
             for name, payload in attributes_to_create.items():
-                insert_query = "INSERT INTO attributes (name, scope, data, position) VALUES ($1, $2, $3, (SELECT COALESCE(MAX(position), 0) + 1 FROM attributes)) ON CONFLICT DO NOTHING"
                 await conn.execute(
                     insert_query,
                     name,
@@ -113,9 +117,9 @@ class JiraAddon(BaseServerAddon):
 
     async def _update_enums(self):
         """Updates applications and tools enums based on the addon settings.
-        This method is called when the addon is started (after we are sure that the
-        'applications' and 'tools' attributes exist) and when the addon settings are
-        updated (using on_settings_updated method).
+        This method is called when the addon is started (after we are sure
+        that the 'applications' and 'tools' attributes exist) and when
+        the addon settings are updated (using on_settings_updated method).
         """
 
         instance = AddonLibrary.getinstance()
