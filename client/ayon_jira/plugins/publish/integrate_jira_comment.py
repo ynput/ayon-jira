@@ -85,7 +85,6 @@ class IntegrateJiraComment(pyblish.api.InstancePlugin):
             review_path
     ):
         """Check if uploaded file is not too large"""
-        still_upload_file_path = ""
         review_file_size_MB = os.path.getsize(review_path) / 1024 / 1024
         if review_file_size_MB > review_upload_limit:
             message += "\nReview upload omitted because of file size."
