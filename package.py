@@ -1,6 +1,6 @@
 name = "jira"
 title = "Jira"
-version = "0.1.0"
+version = "0.1.0+dev"
 
 client_dir = "ayon_jira"
 
