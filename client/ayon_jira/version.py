@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-"""Package declaring jira addon version."""
-__version__ = "0.0.1-dev.1"
+"""Package declaring AYON addon 'jira' version."""
+__version__ = "0.1.0"
