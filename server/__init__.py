@@ -161,7 +161,7 @@ class JiraAddon(BaseServerAddon):
                 UPDATE attributes SET
                     scope = $1,
                     data = $2
-                WHERE 
+                WHERE
                     name = $3
                 """,
                 phases_scope,
