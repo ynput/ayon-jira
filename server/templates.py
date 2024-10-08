@@ -9,6 +9,12 @@ from ayon_server.exceptions import NotFoundException
 from ayon_server.lib.postgres import Postgres
 from api.tasks.tasks import create_task, update_task
 
+from .custom_fields import (
+    CUSTOM_ID_FIELD,
+    AYON_TASK_FIELD,
+    COMPONENT_FIELD
+)
+
 # would be be better to use variable from addon, but that way you cannot use
 # this script directly for development as addon init depends on Server code
 CURRENT_DIR = os.path.join(
@@ -16,11 +22,6 @@ CURRENT_DIR = os.path.join(
 )
 TEMPLATES_DIR = os.path.join(CURRENT_DIR, "templates")
 
-from .custom_fields import (
-    CUSTOM_ID_FIELD,
-    AYON_TASK_FIELD,
-    COMPONENT_FIELD
-)
 
 
 class ProcessStatus(object):

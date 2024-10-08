@@ -1,6 +1,5 @@
 from ayon_server.settings import (
     BaseSettingsModel,
-    ensure_unique_names,
     SettingsField,
 )
 from .publish_plugins import JiraPublishPlugins

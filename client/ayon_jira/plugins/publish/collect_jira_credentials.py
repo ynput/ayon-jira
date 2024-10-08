@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """Collect metadata for Jira integration from Settings."""
-import json
-
 import pyblish.api
 
 
