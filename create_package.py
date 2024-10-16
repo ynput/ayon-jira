@@ -236,12 +236,16 @@ def update_frontend_version(log):
         common_lines = stream.readlines()
 
     new_lines = []
+    lookup_regex = re.compile(
+        r'(?P<head>.*const addonVersion = standAlone [?] ")'
+        r'(?P<version>[^"]*)(?P<tail>.+)',
+        re.DOTALL
+    )
     for line in common_lines:
-        if "const addonVersion = standAlone ? " in line:
-            line = (
-                f"const addonVersion = standAlone ? \"{ADDON_VERSION}\""
-                " : context.addonVersion;"
-            )
+        result = lookup_regex.search(line)
+        if result is not None:
+            head, tail = result.group("head"), result.group("tail")
+            line = f"{head}{ADDON_VERSION}{tail}"
         new_lines.append(line)
 
     with open(index_path, "w") as stream:

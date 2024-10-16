@@ -11,7 +11,7 @@ const App = () => {
   const context = useContext(AddonContext);
   const standAlone = context.standAlone;
   const addonName = standAlone ? "jira" : context.addonName;
-  const addonVersion = standAlone ? "0.0.1-dev.1" : context.addonVersion;
+  const addonVersion = standAlone ? "0.1.0+dev" : context.addonVersion;
   const accessToken = useContext(AddonContext).accessToken;
   const projectName = useContext(AddonContext).projectName;
   const [tokenSet, setTokenSet] = useState(false);
