@@ -1,7 +1,6 @@
 import os
 import re
 import sys
-from nxtools import logging
 from typing import Any, Dict, Type
 from fastapi import Body, Query, Response
 
@@ -26,7 +25,6 @@ class JiraAddon(BaseServerAddon):
     addon_type = "server"
 
     def initialize(self):
-        logging.info("JiraAddon INIT")
 
         # first set ayon-python-api
         sys.path.insert(0, os.path.join(JIRA_ADDON_DIR, "vendor"))
