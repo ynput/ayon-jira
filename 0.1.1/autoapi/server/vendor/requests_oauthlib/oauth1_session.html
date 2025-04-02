@@ -1,0 +1,1144 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=prev href=oauth1_auth.html><link rel=next href=oauth2_auth.html><link rel=icon href=../../../../img/favicon.ico><meta name=generator content="mkdocs-1.6.1, mkdocs-material-9.6.11"><title>oauth1_session - ayon-jira</title><link rel=stylesheet href=../../../../assets/stylesheets/main.4af4bdda.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.06af60db.min.css><script src=https://unpkg.com/iframe-worker/shim></script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style><link rel=stylesheet href=../../../../assets/_mkdocstrings.css><link rel=stylesheet href=../../../../css/custom.css><script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script></head> <body dir=ltr data-md-color-scheme=slate data-md-color-primary=indigo data-md-color-accent=indigo> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#server.vendor.requests_oauthlib.oauth1_session class=md-skip> Skip to content </a> </div> <div data-md-component=announce> </div> <div data-md-color-scheme=default data-md-component=outdated hidden> </div> <header class="md-header md-header--shadow" data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../../index.html title=ayon-jira class="md-header__button md-logo" aria-label=ayon-jira data-md-component=logo> <img src=../../../../img/ay-symbol-blackw-full.png alt=logo> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> ayon-jira </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> oauth1_session </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Switch to light mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg> </label> </form> <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg> </label> <nav class=md-search__options aria-label=Search> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </nav> </form> <div class=md-search__output> <div class=md-search__scrollwrap tabindex=0 data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list role=presentation></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/ynput/ayon-jira title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg> </div> <div class=md-source__repository> GitHub </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../../index.html title=ayon-jira class="md-nav__button md-logo" aria-label=ayon-jira data-md-component=logo> <img src=../../../../img/ay-symbol-blackw-full.png alt=logo> </a> ayon-jira </label> <div class=md-nav__source> <a href=https://github.com/ynput/ayon-jira title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg> </div> <div class=md-source__repository> GitHub </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../index.html class=md-nav__link> <span class=md-ellipsis> Home </span> </a> </li> <li class=md-nav__item> <a href=../../../../license.html class=md-nav__link> <span class=md-ellipsis> License </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3 checked> <label class=md-nav__link for=__nav_3 id=__nav_3_label tabindex> <span class=md-ellipsis> Reference </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_3_label aria-expanded=true> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> Reference </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../client/ayon_jira/addon.html class=md-nav__link> <span class=md-ellipsis> client </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2 checked> <label class=md-nav__link for=__nav_3_2 id=__nav_3_2_label tabindex=0> <span class=md-ellipsis> server </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=2 aria-labelledby=__nav_3_2_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2> <span class="md-nav__icon md-icon"></span> server </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../addon_settings_access.html class=md-nav__link> <span class=md-ellipsis> addon_settings_access </span> </a> </li> <li class=md-nav__item> <a href=../../custom_fields.html class=md-nav__link> <span class=md-ellipsis> custom_fields </span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../settings/main.html class=md-nav__link> <span class=md-ellipsis> settings </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class=md-nav__item> <a href=../../templates.html class=md-nav__link> <span class=md-ellipsis> templates </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2_5 checked> <label class=md-nav__link for=__nav_3_2_5 id=__nav_3_2_5_label tabindex=0> <span class=md-ellipsis> vendor </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=3 aria-labelledby=__nav_3_2_5_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2_5> <span class="md-nav__icon md-icon"></span> vendor </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../atlassian/bamboo.html class=md-nav__link> <span class=md-ellipsis> atlassian </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../deprecated/classic.html class=md-nav__link> <span class=md-ellipsis> deprecated </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../jmespath/ast.html class=md-nav__link> <span class=md-ellipsis> jmespath </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../oauthlib/common.html class=md-nav__link> <span class=md-ellipsis> oauthlib </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2_5_5 checked> <label class=md-nav__link for=__nav_3_2_5_5 id=__nav_3_2_5_5_label tabindex=0> <span class=md-ellipsis> requests_oauthlib </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=4 aria-labelledby=__nav_3_2_5_5_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2_5_5> <span class="md-nav__icon md-icon"></span> requests_oauthlib </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=compliance_fixes/douban.html class=md-nav__link> <span class=md-ellipsis> compliance_fixes </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class=md-nav__item> <a href=oauth1_auth.html class=md-nav__link> <span class=md-ellipsis> oauth1_auth </span> </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> <span class=md-ellipsis> oauth1_session </span> <span class="md-nav__icon md-icon"></span> </label> <a href=oauth1_session.html class="md-nav__link md-nav__link--active"> <span class=md-ellipsis> oauth1_session </span> </a> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session class=md-nav__link> <span class=md-ellipsis> oauth1_session </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session class=md-nav__link> <span class=md-ellipsis> OAuth1Session </span> </a> <nav class=md-nav aria-label=OAuth1Session> <ul class=md-nav__list> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--credentials-obtained-during-the-registration class=md-nav__link> <span class=md-ellipsis> Credentials obtained during the registration. </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--endpoints-found-in-the-oauth-provider-api-documentation class=md-nav__link> <span class=md-ellipsis> Endpoints found in the OAuth provider API documentation </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--first-step-fetch-the-request-token class=md-nav__link> <span class=md-ellipsis> First step, fetch the request token. </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--second-step-follow-this-link-and-authorize class=md-nav__link> <span class=md-ellipsis> Second step. Follow this link and authorize </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--third-step-fetch-the-access-token class=md-nav__link> <span class=md-ellipsis> Third step. Fetch the access token </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--done-you-can-now-make-oauth-requests class=md-nav__link> <span class=md-ellipsis> Done. You can now make OAuth requests. </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.authorized class=md-nav__link> <span class=md-ellipsis> authorized </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.__init__ class=md-nav__link> <span class=md-ellipsis> __init__ </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.authorization_url class=md-nav__link> <span class=md-ellipsis> authorization_url </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.fetch_access_token class=md-nav__link> <span class=md-ellipsis> fetch_access_token </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.fetch_request_token class=md-nav__link> <span class=md-ellipsis> fetch_request_token </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.parse_authorization_response class=md-nav__link> <span class=md-ellipsis> parse_authorization_response </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.rebuild_auth class=md-nav__link> <span class=md-ellipsis> rebuild_auth </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.TokenRequestDenied class=md-nav__link> <span class=md-ellipsis> TokenRequestDenied </span> </a> <nav class=md-nav aria-label=TokenRequestDenied> <ul class=md-nav__list> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.TokenRequestDenied.status_code class=md-nav__link> <span class=md-ellipsis> status_code </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.urldecode class=md-nav__link> <span class=md-ellipsis> urldecode </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=oauth2_auth.html class=md-nav__link> <span class=md-ellipsis> oauth2_auth </span> </a> </li> <li class=md-nav__item> <a href=oauth2_session.html class=md-nav__link> <span class=md-ellipsis> oauth2_session </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../wrapt/__wrapt__.html class=md-nav__link> <span class=md-ellipsis> wrapt </span> <span class="md-nav__icon md-icon"></span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session class=md-nav__link> <span class=md-ellipsis> oauth1_session </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session class=md-nav__link> <span class=md-ellipsis> OAuth1Session </span> </a> <nav class=md-nav aria-label=OAuth1Session> <ul class=md-nav__list> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--credentials-obtained-during-the-registration class=md-nav__link> <span class=md-ellipsis> Credentials obtained during the registration. </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--endpoints-found-in-the-oauth-provider-api-documentation class=md-nav__link> <span class=md-ellipsis> Endpoints found in the OAuth provider API documentation </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--first-step-fetch-the-request-token class=md-nav__link> <span class=md-ellipsis> First step, fetch the request token. </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--second-step-follow-this-link-and-authorize class=md-nav__link> <span class=md-ellipsis> Second step. Follow this link and authorize </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--third-step-fetch-the-access-token class=md-nav__link> <span class=md-ellipsis> Third step. Fetch the access token </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--done-you-can-now-make-oauth-requests class=md-nav__link> <span class=md-ellipsis> Done. You can now make OAuth requests. </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.authorized class=md-nav__link> <span class=md-ellipsis> authorized </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.__init__ class=md-nav__link> <span class=md-ellipsis> __init__ </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.authorization_url class=md-nav__link> <span class=md-ellipsis> authorization_url </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.fetch_access_token class=md-nav__link> <span class=md-ellipsis> fetch_access_token </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.fetch_request_token class=md-nav__link> <span class=md-ellipsis> fetch_request_token </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.parse_authorization_response class=md-nav__link> <span class=md-ellipsis> parse_authorization_response </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.rebuild_auth class=md-nav__link> <span class=md-ellipsis> rebuild_auth </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.TokenRequestDenied class=md-nav__link> <span class=md-ellipsis> TokenRequestDenied </span> </a> <nav class=md-nav aria-label=TokenRequestDenied> <ul class=md-nav__list> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.TokenRequestDenied.status_code class=md-nav__link> <span class=md-ellipsis> status_code </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#server.vendor.requests_oauthlib.oauth1_session.urldecode class=md-nav__link> <span class=md-ellipsis> urldecode </span> </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1>oauth1_session</h1> <div class="doc doc-object doc-module"> <a id=server.vendor.requests_oauthlib.oauth1_session></a> <div class="doc doc-contents first"> <div class="doc doc-children"> <div class="doc doc-object doc-class"> <h2 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session class="doc doc-heading"> <code>OAuth1Session</code> </h2> <div class="doc doc-contents "> <p class="doc doc-class-bases"> Bases: <code><span title=requests.Session>Session</span></code></p> <p>Request signing and convenience methods for the oauth dance.</p> <p>What is the difference between OAuth1Session and OAuth1?</p> <p>OAuth1Session actually uses OAuth1 internally and its purpose is to assist in the OAuth workflow through convenience methods to prepare authorization URLs and parse the various token and redirection responses. It also provide rudimentary validation of responses.</p> <p>An example of the OAuth workflow using a basic CLI app and Twitter.</p> <blockquote> <blockquote> <blockquote> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--credentials-obtained-during-the-registration>Credentials obtained during the registration.</h3> <p>client_key = 'client key' client_secret = 'secret' callback_uri = 'https://127.0.0.1/callback'</p> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--endpoints-found-in-the-oauth-provider-api-documentation>Endpoints found in the OAuth provider API documentation</h3> <p>request_token_url = 'https://api.twitter.com/oauth/request_token' authorization_url = 'https://api.twitter.com/oauth/authorize' access_token_url = 'https://api.twitter.com/oauth/access_token'</p> <p>oauth_session = OAuth1Session(client_key,client_secret=client_secret, callback_uri=callback_uri)</p> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--first-step-fetch-the-request-token>First step, fetch the request token.</h3> <p>oauth_session.fetch_request_token(request_token_url) { 'oauth_token': 'kjerht2309u', 'oauth_token_secret': 'lsdajfh923874', }</p> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--second-step-follow-this-link-and-authorize>Second step. Follow this link and authorize</h3> <p>oauth_session.authorization_url(authorization_url) 'https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;oauth_callback=https%3A%2F%2F127.0.0.1%2Fcallback'</p> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--third-step-fetch-the-access-token>Third step. Fetch the access token</h3> <p>redirect_response = input('Paste the full redirect URL here.') oauth_session.parse_authorization_response(redirect_response) { 'oauth_token: 'kjerht2309u', 'oauth_token_secret: 'lsdajfh923874', 'oauth_verifier: 'w34o8967345', } oauth_session.fetch_access_token(access_token_url) { 'oauth_token': 'sdf0o9823sjdfsdf', 'oauth_token_secret': '2kjshdfp92i34asdasd', }</p> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session--done-you-can-now-make-oauth-requests>Done. You can now make OAuth requests.</h3> <p>status_url = 'http://api.twitter.com/1/statuses/update.json' new_status = {'status': 'hello world!'} oauth_session.post(status_url, data=new_status) <response [200]></p> </blockquote> </blockquote> </blockquote> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal> 47</span>
+<span class=normal> 48</span>
+<span class=normal> 49</span>
+<span class=normal> 50</span>
+<span class=normal> 51</span>
+<span class=normal> 52</span>
+<span class=normal> 53</span>
+<span class=normal> 54</span>
+<span class=normal> 55</span>
+<span class=normal> 56</span>
+<span class=normal> 57</span>
+<span class=normal> 58</span>
+<span class=normal> 59</span>
+<span class=normal> 60</span>
+<span class=normal> 61</span>
+<span class=normal> 62</span>
+<span class=normal> 63</span>
+<span class=normal> 64</span>
+<span class=normal> 65</span>
+<span class=normal> 66</span>
+<span class=normal> 67</span>
+<span class=normal> 68</span>
+<span class=normal> 69</span>
+<span class=normal> 70</span>
+<span class=normal> 71</span>
+<span class=normal> 72</span>
+<span class=normal> 73</span>
+<span class=normal> 74</span>
+<span class=normal> 75</span>
+<span class=normal> 76</span>
+<span class=normal> 77</span>
+<span class=normal> 78</span>
+<span class=normal> 79</span>
+<span class=normal> 80</span>
+<span class=normal> 81</span>
+<span class=normal> 82</span>
+<span class=normal> 83</span>
+<span class=normal> 84</span>
+<span class=normal> 85</span>
+<span class=normal> 86</span>
+<span class=normal> 87</span>
+<span class=normal> 88</span>
+<span class=normal> 89</span>
+<span class=normal> 90</span>
+<span class=normal> 91</span>
+<span class=normal> 92</span>
+<span class=normal> 93</span>
+<span class=normal> 94</span>
+<span class=normal> 95</span>
+<span class=normal> 96</span>
+<span class=normal> 97</span>
+<span class=normal> 98</span>
+<span class=normal> 99</span>
+<span class=normal>100</span>
+<span class=normal>101</span>
+<span class=normal>102</span>
+<span class=normal>103</span>
+<span class=normal>104</span>
+<span class=normal>105</span>
+<span class=normal>106</span>
+<span class=normal>107</span>
+<span class=normal>108</span>
+<span class=normal>109</span>
+<span class=normal>110</span>
+<span class=normal>111</span>
+<span class=normal>112</span>
+<span class=normal>113</span>
+<span class=normal>114</span>
+<span class=normal>115</span>
+<span class=normal>116</span>
+<span class=normal>117</span>
+<span class=normal>118</span>
+<span class=normal>119</span>
+<span class=normal>120</span>
+<span class=normal>121</span>
+<span class=normal>122</span>
+<span class=normal>123</span>
+<span class=normal>124</span>
+<span class=normal>125</span>
+<span class=normal>126</span>
+<span class=normal>127</span>
+<span class=normal>128</span>
+<span class=normal>129</span>
+<span class=normal>130</span>
+<span class=normal>131</span>
+<span class=normal>132</span>
+<span class=normal>133</span>
+<span class=normal>134</span>
+<span class=normal>135</span>
+<span class=normal>136</span>
+<span class=normal>137</span>
+<span class=normal>138</span>
+<span class=normal>139</span>
+<span class=normal>140</span>
+<span class=normal>141</span>
+<span class=normal>142</span>
+<span class=normal>143</span>
+<span class=normal>144</span>
+<span class=normal>145</span>
+<span class=normal>146</span>
+<span class=normal>147</span>
+<span class=normal>148</span>
+<span class=normal>149</span>
+<span class=normal>150</span>
+<span class=normal>151</span>
+<span class=normal>152</span>
+<span class=normal>153</span>
+<span class=normal>154</span>
+<span class=normal>155</span>
+<span class=normal>156</span>
+<span class=normal>157</span>
+<span class=normal>158</span>
+<span class=normal>159</span>
+<span class=normal>160</span>
+<span class=normal>161</span>
+<span class=normal>162</span>
+<span class=normal>163</span>
+<span class=normal>164</span>
+<span class=normal>165</span>
+<span class=normal>166</span>
+<span class=normal>167</span>
+<span class=normal>168</span>
+<span class=normal>169</span>
+<span class=normal>170</span>
+<span class=normal>171</span>
+<span class=normal>172</span>
+<span class=normal>173</span>
+<span class=normal>174</span>
+<span class=normal>175</span>
+<span class=normal>176</span>
+<span class=normal>177</span>
+<span class=normal>178</span>
+<span class=normal>179</span>
+<span class=normal>180</span>
+<span class=normal>181</span>
+<span class=normal>182</span>
+<span class=normal>183</span>
+<span class=normal>184</span>
+<span class=normal>185</span>
+<span class=normal>186</span>
+<span class=normal>187</span>
+<span class=normal>188</span>
+<span class=normal>189</span>
+<span class=normal>190</span>
+<span class=normal>191</span>
+<span class=normal>192</span>
+<span class=normal>193</span>
+<span class=normal>194</span>
+<span class=normal>195</span>
+<span class=normal>196</span>
+<span class=normal>197</span>
+<span class=normal>198</span>
+<span class=normal>199</span>
+<span class=normal>200</span>
+<span class=normal>201</span>
+<span class=normal>202</span>
+<span class=normal>203</span>
+<span class=normal>204</span>
+<span class=normal>205</span>
+<span class=normal>206</span>
+<span class=normal>207</span>
+<span class=normal>208</span>
+<span class=normal>209</span>
+<span class=normal>210</span>
+<span class=normal>211</span>
+<span class=normal>212</span>
+<span class=normal>213</span>
+<span class=normal>214</span>
+<span class=normal>215</span>
+<span class=normal>216</span>
+<span class=normal>217</span>
+<span class=normal>218</span>
+<span class=normal>219</span>
+<span class=normal>220</span>
+<span class=normal>221</span>
+<span class=normal>222</span>
+<span class=normal>223</span>
+<span class=normal>224</span>
+<span class=normal>225</span>
+<span class=normal>226</span>
+<span class=normal>227</span>
+<span class=normal>228</span>
+<span class=normal>229</span>
+<span class=normal>230</span>
+<span class=normal>231</span>
+<span class=normal>232</span>
+<span class=normal>233</span>
+<span class=normal>234</span>
+<span class=normal>235</span>
+<span class=normal>236</span>
+<span class=normal>237</span>
+<span class=normal>238</span>
+<span class=normal>239</span>
+<span class=normal>240</span>
+<span class=normal>241</span>
+<span class=normal>242</span>
+<span class=normal>243</span>
+<span class=normal>244</span>
+<span class=normal>245</span>
+<span class=normal>246</span>
+<span class=normal>247</span>
+<span class=normal>248</span>
+<span class=normal>249</span>
+<span class=normal>250</span>
+<span class=normal>251</span>
+<span class=normal>252</span>
+<span class=normal>253</span>
+<span class=normal>254</span>
+<span class=normal>255</span>
+<span class=normal>256</span>
+<span class=normal>257</span>
+<span class=normal>258</span>
+<span class=normal>259</span>
+<span class=normal>260</span>
+<span class=normal>261</span>
+<span class=normal>262</span>
+<span class=normal>263</span>
+<span class=normal>264</span>
+<span class=normal>265</span>
+<span class=normal>266</span>
+<span class=normal>267</span>
+<span class=normal>268</span>
+<span class=normal>269</span>
+<span class=normal>270</span>
+<span class=normal>271</span>
+<span class=normal>272</span>
+<span class=normal>273</span>
+<span class=normal>274</span>
+<span class=normal>275</span>
+<span class=normal>276</span>
+<span class=normal>277</span>
+<span class=normal>278</span>
+<span class=normal>279</span>
+<span class=normal>280</span>
+<span class=normal>281</span>
+<span class=normal>282</span>
+<span class=normal>283</span>
+<span class=normal>284</span>
+<span class=normal>285</span>
+<span class=normal>286</span>
+<span class=normal>287</span>
+<span class=normal>288</span>
+<span class=normal>289</span>
+<span class=normal>290</span>
+<span class=normal>291</span>
+<span class=normal>292</span>
+<span class=normal>293</span>
+<span class=normal>294</span>
+<span class=normal>295</span>
+<span class=normal>296</span>
+<span class=normal>297</span>
+<span class=normal>298</span>
+<span class=normal>299</span>
+<span class=normal>300</span>
+<span class=normal>301</span>
+<span class=normal>302</span>
+<span class=normal>303</span>
+<span class=normal>304</span>
+<span class=normal>305</span>
+<span class=normal>306</span>
+<span class=normal>307</span>
+<span class=normal>308</span>
+<span class=normal>309</span>
+<span class=normal>310</span>
+<span class=normal>311</span>
+<span class=normal>312</span>
+<span class=normal>313</span>
+<span class=normal>314</span>
+<span class=normal>315</span>
+<span class=normal>316</span>
+<span class=normal>317</span>
+<span class=normal>318</span>
+<span class=normal>319</span>
+<span class=normal>320</span>
+<span class=normal>321</span>
+<span class=normal>322</span>
+<span class=normal>323</span>
+<span class=normal>324</span>
+<span class=normal>325</span>
+<span class=normal>326</span>
+<span class=normal>327</span>
+<span class=normal>328</span>
+<span class=normal>329</span>
+<span class=normal>330</span>
+<span class=normal>331</span>
+<span class=normal>332</span>
+<span class=normal>333</span>
+<span class=normal>334</span>
+<span class=normal>335</span>
+<span class=normal>336</span>
+<span class=normal>337</span>
+<span class=normal>338</span>
+<span class=normal>339</span>
+<span class=normal>340</span>
+<span class=normal>341</span>
+<span class=normal>342</span>
+<span class=normal>343</span>
+<span class=normal>344</span>
+<span class=normal>345</span>
+<span class=normal>346</span>
+<span class=normal>347</span>
+<span class=normal>348</span>
+<span class=normal>349</span>
+<span class=normal>350</span>
+<span class=normal>351</span>
+<span class=normal>352</span>
+<span class=normal>353</span>
+<span class=normal>354</span>
+<span class=normal>355</span>
+<span class=normal>356</span>
+<span class=normal>357</span>
+<span class=normal>358</span>
+<span class=normal>359</span>
+<span class=normal>360</span>
+<span class=normal>361</span>
+<span class=normal>362</span>
+<span class=normal>363</span>
+<span class=normal>364</span>
+<span class=normal>365</span>
+<span class=normal>366</span>
+<span class=normal>367</span>
+<span class=normal>368</span>
+<span class=normal>369</span>
+<span class=normal>370</span>
+<span class=normal>371</span>
+<span class=normal>372</span>
+<span class=normal>373</span>
+<span class=normal>374</span>
+<span class=normal>375</span>
+<span class=normal>376</span>
+<span class=normal>377</span>
+<span class=normal>378</span>
+<span class=normal>379</span>
+<span class=normal>380</span>
+<span class=normal>381</span>
+<span class=normal>382</span>
+<span class=normal>383</span>
+<span class=normal>384</span>
+<span class=normal>385</span>
+<span class=normal>386</span>
+<span class=normal>387</span>
+<span class=normal>388</span>
+<span class=normal>389</span>
+<span class=normal>390</span>
+<span class=normal>391</span>
+<span class=normal>392</span>
+<span class=normal>393</span>
+<span class=normal>394</span>
+<span class=normal>395</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>class</span><span class=w> </span><span class=nc>OAuth1Session</span><span class=p>(</span><span class=n>requests</span><span class=o>.</span><span class=n>Session</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Request signing and convenience methods for the oauth dance.</span>
+
+<span class=sd>    What is the difference between OAuth1Session and OAuth1?</span>
+
+<span class=sd>    OAuth1Session actually uses OAuth1 internally and its purpose is to assist</span>
+<span class=sd>    in the OAuth workflow through convenience methods to prepare authorization</span>
+<span class=sd>    URLs and parse the various token and redirection responses. It also provide</span>
+<span class=sd>    rudimentary validation of responses.</span>
+
+<span class=sd>    An example of the OAuth workflow using a basic CLI app and Twitter.</span>
+
+<span class=sd>    &gt;&gt;&gt; # Credentials obtained during the registration.</span>
+<span class=sd>    &gt;&gt;&gt; client_key = &#39;client key&#39;</span>
+<span class=sd>    &gt;&gt;&gt; client_secret = &#39;secret&#39;</span>
+<span class=sd>    &gt;&gt;&gt; callback_uri = &#39;https://127.0.0.1/callback&#39;</span>
+<span class=sd>    &gt;&gt;&gt;</span>
+<span class=sd>    &gt;&gt;&gt; # Endpoints found in the OAuth provider API documentation</span>
+<span class=sd>    &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>    &gt;&gt;&gt; authorization_url = &#39;https://api.twitter.com/oauth/authorize&#39;</span>
+<span class=sd>    &gt;&gt;&gt; access_token_url = &#39;https://api.twitter.com/oauth/access_token&#39;</span>
+<span class=sd>    &gt;&gt;&gt;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session = OAuth1Session(client_key,client_secret=client_secret, callback_uri=callback_uri)</span>
+<span class=sd>    &gt;&gt;&gt;</span>
+<span class=sd>    &gt;&gt;&gt; # First step, fetch the request token.</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token&#39;: &#39;kjerht2309u&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret&#39;: &#39;lsdajfh923874&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &gt;&gt;&gt;</span>
+<span class=sd>    &gt;&gt;&gt; # Second step. Follow this link and authorize</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.authorization_url(authorization_url)</span>
+<span class=sd>    &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;oauth_callback=https%3A%2F%2F127.0.0.1%2Fcallback&#39;</span>
+<span class=sd>    &gt;&gt;&gt;</span>
+<span class=sd>    &gt;&gt;&gt; # Third step. Fetch the access token</span>
+<span class=sd>    &gt;&gt;&gt; redirect_response = input(&#39;Paste the full redirect URL here.&#39;)</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.parse_authorization_response(redirect_response)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token: &#39;kjerht2309u&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret: &#39;lsdajfh923874&#39;,</span>
+<span class=sd>        &#39;oauth_verifier: &#39;w34o8967345&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.fetch_access_token(access_token_url)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &gt;&gt;&gt; # Done. You can now make OAuth requests.</span>
+<span class=sd>    &gt;&gt;&gt; status_url = &#39;http://api.twitter.com/1/statuses/update.json&#39;</span>
+<span class=sd>    &gt;&gt;&gt; new_status = {&#39;status&#39;:  &#39;hello world!&#39;}</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.post(status_url, data=new_status)</span>
+<span class=sd>    &lt;Response [200]&gt;</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=k>def</span><span class=w> </span><span class=fm>__init__</span><span class=p>(</span>
+        <span class=bp>self</span><span class=p>,</span>
+        <span class=n>client_key</span><span class=p>,</span>
+        <span class=n>client_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>resource_owner_key</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>resource_owner_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>callback_uri</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>signature_method</span><span class=o>=</span><span class=n>SIGNATURE_HMAC</span><span class=p>,</span>
+        <span class=n>signature_type</span><span class=o>=</span><span class=n>SIGNATURE_TYPE_AUTH_HEADER</span><span class=p>,</span>
+        <span class=n>rsa_key</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>verifier</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>client_class</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+        <span class=n>force_include_body</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+        <span class=o>**</span><span class=n>kwargs</span>
+    <span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;Construct the OAuth 1 session.</span>
+
+<span class=sd>        :param client_key: A client specific identifier.</span>
+<span class=sd>        :param client_secret: A client specific secret used to create HMAC and</span>
+<span class=sd>                              plaintext signatures.</span>
+<span class=sd>        :param resource_owner_key: A resource owner key, also referred to as</span>
+<span class=sd>                                   request token or access token depending on</span>
+<span class=sd>                                   when in the workflow it is used.</span>
+<span class=sd>        :param resource_owner_secret: A resource owner secret obtained with</span>
+<span class=sd>                                      either a request or access token. Often</span>
+<span class=sd>                                      referred to as token secret.</span>
+<span class=sd>        :param callback_uri: The URL the user is redirect back to after</span>
+<span class=sd>                             authorization.</span>
+<span class=sd>        :param signature_method: Signature methods determine how the OAuth</span>
+<span class=sd>                                 signature is created. The three options are</span>
+<span class=sd>                                 oauthlib.oauth1.SIGNATURE_HMAC (default),</span>
+<span class=sd>                                 oauthlib.oauth1.SIGNATURE_RSA and</span>
+<span class=sd>                                 oauthlib.oauth1.SIGNATURE_PLAIN.</span>
+<span class=sd>        :param signature_type: Signature type decides where the OAuth</span>
+<span class=sd>                               parameters are added. Either in the</span>
+<span class=sd>                               Authorization header (default) or to the URL</span>
+<span class=sd>                               query parameters or the request body. Defined as</span>
+<span class=sd>                               oauthlib.oauth1.SIGNATURE_TYPE_AUTH_HEADER,</span>
+<span class=sd>                               oauthlib.oauth1.SIGNATURE_TYPE_QUERY and</span>
+<span class=sd>                               oauthlib.oauth1.SIGNATURE_TYPE_BODY</span>
+<span class=sd>                               respectively.</span>
+<span class=sd>        :param rsa_key: The private RSA key as a string. Can only be used with</span>
+<span class=sd>                        signature_method=oauthlib.oauth1.SIGNATURE_RSA.</span>
+<span class=sd>        :param verifier: A verifier string to prove authorization was granted.</span>
+<span class=sd>        :param client_class: A subclass of `oauthlib.oauth1.Client` to use with</span>
+<span class=sd>                             `requests_oauthlib.OAuth1` instead of the default</span>
+<span class=sd>        :param force_include_body: Always include the request body in the</span>
+<span class=sd>                                   signature creation.</span>
+<span class=sd>        :param **kwargs: Additional keyword arguments passed to `OAuth1`</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=nb>super</span><span class=p>(</span><span class=n>OAuth1Session</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_client</span> <span class=o>=</span> <span class=n>OAuth1</span><span class=p>(</span>
+            <span class=n>client_key</span><span class=p>,</span>
+            <span class=n>client_secret</span><span class=o>=</span><span class=n>client_secret</span><span class=p>,</span>
+            <span class=n>resource_owner_key</span><span class=o>=</span><span class=n>resource_owner_key</span><span class=p>,</span>
+            <span class=n>resource_owner_secret</span><span class=o>=</span><span class=n>resource_owner_secret</span><span class=p>,</span>
+            <span class=n>callback_uri</span><span class=o>=</span><span class=n>callback_uri</span><span class=p>,</span>
+            <span class=n>signature_method</span><span class=o>=</span><span class=n>signature_method</span><span class=p>,</span>
+            <span class=n>signature_type</span><span class=o>=</span><span class=n>signature_type</span><span class=p>,</span>
+            <span class=n>rsa_key</span><span class=o>=</span><span class=n>rsa_key</span><span class=p>,</span>
+            <span class=n>verifier</span><span class=o>=</span><span class=n>verifier</span><span class=p>,</span>
+            <span class=n>client_class</span><span class=o>=</span><span class=n>client_class</span><span class=p>,</span>
+            <span class=n>force_include_body</span><span class=o>=</span><span class=n>force_include_body</span><span class=p>,</span>
+            <span class=o>**</span><span class=n>kwargs</span>
+        <span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>auth</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span><span class=w> </span><span class=nf>token</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=n>oauth_token</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_key</span>
+        <span class=n>oauth_token_secret</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_secret</span>
+        <span class=n>oauth_verifier</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>verifier</span>
+
+        <span class=n>token_dict</span> <span class=o>=</span> <span class=p>{}</span>
+        <span class=k>if</span> <span class=n>oauth_token</span><span class=p>:</span>
+            <span class=n>token_dict</span><span class=p>[</span><span class=s2>&quot;oauth_token&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=n>oauth_token</span>
+        <span class=k>if</span> <span class=n>oauth_token_secret</span><span class=p>:</span>
+            <span class=n>token_dict</span><span class=p>[</span><span class=s2>&quot;oauth_token_secret&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=n>oauth_token_secret</span>
+        <span class=k>if</span> <span class=n>oauth_verifier</span><span class=p>:</span>
+            <span class=n>token_dict</span><span class=p>[</span><span class=s2>&quot;oauth_verifier&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=n>oauth_verifier</span>
+
+        <span class=k>return</span> <span class=n>token_dict</span>
+
+    <span class=nd>@token</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span><span class=w> </span><span class=nf>token</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>value</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_populate_attributes</span><span class=p>(</span><span class=n>value</span><span class=p>)</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span><span class=w> </span><span class=nf>authorized</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;Boolean that indicates whether this session has an OAuth token</span>
+<span class=sd>        or not. If `self.authorized` is True, you can reasonably expect</span>
+<span class=sd>        OAuth-protected requests to the resource to succeed. If</span>
+<span class=sd>        `self.authorized` is False, you need the user to go through the OAuth</span>
+<span class=sd>        authentication dance before OAuth-protected requests to the resource</span>
+<span class=sd>        will succeed.</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>signature_method</span> <span class=o>==</span> <span class=n>SIGNATURE_RSA</span><span class=p>:</span>
+            <span class=c1># RSA only uses resource_owner_key</span>
+            <span class=k>return</span> <span class=nb>bool</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_key</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=c1># other methods of authentication use all three pieces</span>
+            <span class=k>return</span> <span class=p>(</span>
+                <span class=nb>bool</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>client_secret</span><span class=p>)</span>
+                <span class=ow>and</span> <span class=nb>bool</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_key</span><span class=p>)</span>
+                <span class=ow>and</span> <span class=nb>bool</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_secret</span><span class=p>)</span>
+            <span class=p>)</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>authorization_url</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=n>request_token</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;Create an authorization URL by appending request_token and optional</span>
+<span class=sd>        kwargs to url.</span>
+
+<span class=sd>        This is the second step in the OAuth 1 workflow. The user should be</span>
+<span class=sd>        redirected to this authorization URL, grant access to you, and then</span>
+<span class=sd>        be redirected back to you. The redirection back can either be specified</span>
+<span class=sd>        during client registration or by supplying a callback URI per request.</span>
+
+<span class=sd>        :param url: The authorization endpoint URL.</span>
+<span class=sd>        :param request_token: The previously obtained request token.</span>
+<span class=sd>        :param kwargs: Optional parameters to append to the URL.</span>
+<span class=sd>        :returns: The authorization URL with new parameters embedded.</span>
+
+<span class=sd>        An example using a registered default callback URI.</span>
+
+<span class=sd>        &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>        &gt;&gt;&gt; authorization_url = &#39;https://api.twitter.com/oauth/authorize&#39;</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>        {</span>
+<span class=sd>            &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>            &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>        }</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.authorization_url(authorization_url)</span>
+<span class=sd>        &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&#39;</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.authorization_url(authorization_url, foo=&#39;bar&#39;)</span>
+<span class=sd>        &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;foo=bar&#39;</span>
+
+<span class=sd>        An example using an explicit callback URI.</span>
+
+<span class=sd>        &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>        &gt;&gt;&gt; authorization_url = &#39;https://api.twitter.com/oauth/authorize&#39;</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;, callback_uri=&#39;https://127.0.0.1/callback&#39;)</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>        {</span>
+<span class=sd>            &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>            &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>        }</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.authorization_url(authorization_url)</span>
+<span class=sd>        &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;oauth_callback=https%3A%2F%2F127.0.0.1%2Fcallback&#39;</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=n>kwargs</span><span class=p>[</span><span class=s2>&quot;oauth_token&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=n>request_token</span> <span class=ow>or</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_key</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Adding parameters </span><span class=si>%s</span><span class=s2> to url </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>kwargs</span><span class=p>,</span> <span class=n>url</span><span class=p>)</span>
+        <span class=k>return</span> <span class=n>add_params_to_uri</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>items</span><span class=p>())</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>fetch_request_token</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=n>realm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;Fetch a request token.</span>
+
+<span class=sd>        This is the first step in the OAuth 1 workflow. A request token is</span>
+<span class=sd>        obtained by making a signed post request to url. The token is then</span>
+<span class=sd>        parsed from the application/x-www-form-urlencoded response and ready</span>
+<span class=sd>        to be used to construct an authorization url.</span>
+
+<span class=sd>        :param url: The request token endpoint URL.</span>
+<span class=sd>        :param realm: A list of realms to request access to.</span>
+<span class=sd>        :param request_kwargs: Optional arguments passed to &#39;&#39;post&#39;&#39;</span>
+<span class=sd>            function in &#39;&#39;requests.Session&#39;&#39;</span>
+<span class=sd>        :returns: The response in dict format.</span>
+
+<span class=sd>        Note that a previously set callback_uri will be reset for your</span>
+<span class=sd>        convenience, or else signature creation will be incorrect on</span>
+<span class=sd>        consecutive requests.</span>
+
+<span class=sd>        &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>        {</span>
+<span class=sd>            &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>            &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>        }</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>realm</span> <span class=o>=</span> <span class=s2>&quot; &quot;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>realm</span><span class=p>)</span> <span class=k>if</span> <span class=n>realm</span> <span class=k>else</span> <span class=kc>None</span>
+        <span class=n>token</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_fetch_token</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Resetting callback_uri and realm (not needed in next phase).&quot;</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>callback_uri</span> <span class=o>=</span> <span class=kc>None</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>realm</span> <span class=o>=</span> <span class=kc>None</span>
+        <span class=k>return</span> <span class=n>token</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>fetch_access_token</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=n>verifier</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;Fetch an access token.</span>
+
+<span class=sd>        This is the final step in the OAuth 1 workflow. An access token is</span>
+<span class=sd>        obtained using all previously obtained credentials, including the</span>
+<span class=sd>        verifier from the authorization step.</span>
+
+<span class=sd>        Note that a previously set verifier will be reset for your</span>
+<span class=sd>        convenience, or else signature creation will be incorrect on</span>
+<span class=sd>        consecutive requests.</span>
+
+<span class=sd>        &gt;&gt;&gt; access_token_url = &#39;https://api.twitter.com/oauth/access_token&#39;</span>
+<span class=sd>        &gt;&gt;&gt; redirect_response = &#39;https://127.0.0.1/callback?oauth_token=kjerht2309uf&amp;oauth_token_secret=lsdajfh923874&amp;oauth_verifier=w34o8967345&#39;</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.parse_authorization_response(redirect_response)</span>
+<span class=sd>        {</span>
+<span class=sd>            &#39;oauth_token: &#39;kjerht2309u&#39;,</span>
+<span class=sd>            &#39;oauth_token_secret: &#39;lsdajfh923874&#39;,</span>
+<span class=sd>            &#39;oauth_verifier: &#39;w34o8967345&#39;,</span>
+<span class=sd>        }</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.fetch_access_token(access_token_url)</span>
+<span class=sd>        {</span>
+<span class=sd>            &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>            &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>        }</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=k>if</span> <span class=n>verifier</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>verifier</span> <span class=o>=</span> <span class=n>verifier</span>
+        <span class=k>if</span> <span class=ow>not</span> <span class=nb>getattr</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=p>,</span> <span class=s2>&quot;verifier&quot;</span><span class=p>,</span> <span class=kc>None</span><span class=p>):</span>
+            <span class=k>raise</span> <span class=n>VerifierMissing</span><span class=p>(</span><span class=s2>&quot;No client verifier has been set.&quot;</span><span class=p>)</span>
+        <span class=n>token</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_fetch_token</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Resetting verifier attribute, should not be used anymore.&quot;</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>verifier</span> <span class=o>=</span> <span class=kc>None</span>
+        <span class=k>return</span> <span class=n>token</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>parse_authorization_response</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;Extract parameters from the post authorization redirect response URL.</span>
+
+<span class=sd>        :param url: The full URL that resulted from the user being redirected</span>
+<span class=sd>                    back from the OAuth provider to you, the client.</span>
+<span class=sd>        :returns: A dict of parameters extracted from the URL.</span>
+
+<span class=sd>        &gt;&gt;&gt; redirect_response = &#39;https://127.0.0.1/callback?oauth_token=kjerht2309uf&amp;oauth_token_secret=lsdajfh923874&amp;oauth_verifier=w34o8967345&#39;</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>        &gt;&gt;&gt; oauth_session.parse_authorization_response(redirect_response)</span>
+<span class=sd>        {</span>
+<span class=sd>            &#39;oauth_token: &#39;kjerht2309u&#39;,</span>
+<span class=sd>            &#39;oauth_token_secret: &#39;lsdajfh923874&#39;,</span>
+<span class=sd>            &#39;oauth_verifier: &#39;w34o8967345&#39;,</span>
+<span class=sd>        }</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Parsing token from query part of url </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>url</span><span class=p>)</span>
+        <span class=n>token</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>(</span><span class=n>urldecode</span><span class=p>(</span><span class=n>urlparse</span><span class=p>(</span><span class=n>url</span><span class=p>)</span><span class=o>.</span><span class=n>query</span><span class=p>))</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Updating internal client token attribute.&quot;</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_populate_attributes</span><span class=p>(</span><span class=n>token</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>token</span> <span class=o>=</span> <span class=n>token</span>
+        <span class=k>return</span> <span class=n>token</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>_populate_attributes</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>token</span><span class=p>):</span>
+        <span class=k>if</span> <span class=s2>&quot;oauth_token&quot;</span> <span class=ow>in</span> <span class=n>token</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_key</span> <span class=o>=</span> <span class=n>token</span><span class=p>[</span><span class=s2>&quot;oauth_token&quot;</span><span class=p>]</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=k>raise</span> <span class=n>TokenMissing</span><span class=p>(</span>
+                <span class=s2>&quot;Response does not contain a token: </span><span class=si>{resp}</span><span class=s2>&quot;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>resp</span><span class=o>=</span><span class=n>token</span><span class=p>),</span> <span class=n>token</span>
+            <span class=p>)</span>
+        <span class=k>if</span> <span class=s2>&quot;oauth_token_secret&quot;</span> <span class=ow>in</span> <span class=n>token</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_secret</span> <span class=o>=</span> <span class=n>token</span><span class=p>[</span><span class=s2>&quot;oauth_token_secret&quot;</span><span class=p>]</span>
+        <span class=k>if</span> <span class=s2>&quot;oauth_verifier&quot;</span> <span class=ow>in</span> <span class=n>token</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>verifier</span> <span class=o>=</span> <span class=n>token</span><span class=p>[</span><span class=s2>&quot;oauth_verifier&quot;</span><span class=p>]</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>_fetch_token</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>):</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Fetching token from </span><span class=si>%s</span><span class=s2> using client </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=p>)</span>
+        <span class=n>r</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span>
+
+        <span class=k>if</span> <span class=n>r</span><span class=o>.</span><span class=n>status_code</span> <span class=o>&gt;=</span> <span class=mi>400</span><span class=p>:</span>
+            <span class=n>error</span> <span class=o>=</span> <span class=s2>&quot;Token request failed with code </span><span class=si>%s</span><span class=s2>, response was &#39;</span><span class=si>%s</span><span class=s2>&#39;.&quot;</span>
+            <span class=k>raise</span> <span class=n>TokenRequestDenied</span><span class=p>(</span><span class=n>error</span> <span class=o>%</span> <span class=p>(</span><span class=n>r</span><span class=o>.</span><span class=n>status_code</span><span class=p>,</span> <span class=n>r</span><span class=o>.</span><span class=n>text</span><span class=p>),</span> <span class=n>r</span><span class=p>)</span>
+
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Decoding token from response &quot;</span><span class=si>%s</span><span class=s1>&quot;&#39;</span><span class=p>,</span> <span class=n>r</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+        <span class=k>try</span><span class=p>:</span>
+            <span class=n>token</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>(</span><span class=n>urldecode</span><span class=p>(</span><span class=n>r</span><span class=o>.</span><span class=n>text</span><span class=o>.</span><span class=n>strip</span><span class=p>()))</span>
+        <span class=k>except</span> <span class=ne>ValueError</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+            <span class=n>error</span> <span class=o>=</span> <span class=p>(</span>
+                <span class=s2>&quot;Unable to decode token from token response. &quot;</span>
+                <span class=s2>&quot;This is commonly caused by an unsuccessful request where&quot;</span>
+                <span class=s2>&quot; a non urlencoded error message is returned. &quot;</span>
+                <span class=s2>&quot;The decoding error was </span><span class=si>%s</span><span class=s2>&quot;</span>
+                <span class=s2>&quot;&quot;</span> <span class=o>%</span> <span class=n>e</span>
+            <span class=p>)</span>
+            <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=n>error</span><span class=p>)</span>
+
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Obtained token </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>token</span><span class=p>)</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Updating internal client attributes from token data.&quot;</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_populate_attributes</span><span class=p>(</span><span class=n>token</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>token</span> <span class=o>=</span> <span class=n>token</span>
+        <span class=k>return</span> <span class=n>token</span>
+
+    <span class=k>def</span><span class=w> </span><span class=nf>rebuild_auth</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>prepared_request</span><span class=p>,</span> <span class=n>response</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>        When being redirected we should always strip Authorization</span>
+<span class=sd>        header, since nonce may not be reused as per OAuth spec.</span>
+<span class=sd>        &quot;&quot;&quot;</span>
+        <span class=k>if</span> <span class=s2>&quot;Authorization&quot;</span> <span class=ow>in</span> <span class=n>prepared_request</span><span class=o>.</span><span class=n>headers</span><span class=p>:</span>
+            <span class=c1># If we get redirected to a new host, we should strip out</span>
+            <span class=c1># any authentication headers.</span>
+            <span class=n>prepared_request</span><span class=o>.</span><span class=n>headers</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=s2>&quot;Authorization&quot;</span><span class=p>,</span> <span class=kc>True</span><span class=p>)</span>
+            <span class=n>prepared_request</span><span class=o>.</span><span class=n>prepare_auth</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>auth</span><span class=p>)</span>
+        <span class=k>return</span>
+</code></pre></div></td></tr></table></div> </details> <div class="doc doc-children"> <div class="doc doc-object doc-attribute"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.authorized class="doc doc-heading"> <code class="highlight language-python"><span class=n>authorized</span></code> <span class="doc doc-labels"> <small class="doc doc-label doc-label-property"><code>property</code></small> </span> </h3> <div class="doc doc-contents "> <p>Boolean that indicates whether this session has an OAuth token or not. If <code>self.authorized</code> is True, you can reasonably expect OAuth-protected requests to the resource to succeed. If <code>self.authorized</code> is False, you need the user to go through the OAuth authentication dance before OAuth-protected requests to the resource will succeed.</p> </div> </div> <div class="doc doc-object doc-function"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.__init__ class="doc doc-heading"> <code class="highlight language-python"><span class=fm>__init__</span><span class=p>(</span><span class=n>client_key</span><span class=p>,</span> <span class=n>client_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>resource_owner_key</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>callback_uri</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>signature_method</span><span class=o>=</span><span class=n>SIGNATURE_HMAC</span><span class=p>,</span> <span class=n>signature_type</span><span class=o>=</span><span class=n>SIGNATURE_TYPE_AUTH_HEADER</span><span class=p>,</span> <span class=n>rsa_key</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>verifier</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>client_class</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>force_include_body</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span></code> </h3> <div class="doc doc-contents "> <p>Construct the OAuth 1 session.</p> <p>:param client_key: A client specific identifier. :param client_secret: A client specific secret used to create HMAC and plaintext signatures. :param resource_owner_key: A resource owner key, also referred to as request token or access token depending on when in the workflow it is used. :param resource_owner_secret: A resource owner secret obtained with either a request or access token. Often referred to as token secret. :param callback_uri: The URL the user is redirect back to after authorization. :param signature_method: Signature methods determine how the OAuth signature is created. The three options are oauthlib.oauth1.SIGNATURE_HMAC (default), oauthlib.oauth1.SIGNATURE_RSA and oauthlib.oauth1.SIGNATURE_PLAIN. :param signature_type: Signature type decides where the OAuth parameters are added. Either in the Authorization header (default) or to the URL query parameters or the request body. Defined as oauthlib.oauth1.SIGNATURE_TYPE_AUTH_HEADER, oauthlib.oauth1.SIGNATURE_TYPE_QUERY and oauthlib.oauth1.SIGNATURE_TYPE_BODY respectively. :param rsa_key: The private RSA key as a string. Can only be used with signature_method=oauthlib.oauth1.SIGNATURE_RSA. :param verifier: A verifier string to prove authorization was granted. :param client_class: A subclass of <code>oauthlib.oauth1.Client</code> to use with <code>requests_oauthlib.OAuth1</code> instead of the default :param force_include_body: Always include the request body in the signature creation. :param **kwargs: Additional keyword arguments passed to <code>OAuth1</code></p> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>102</span>
+<span class=normal>103</span>
+<span class=normal>104</span>
+<span class=normal>105</span>
+<span class=normal>106</span>
+<span class=normal>107</span>
+<span class=normal>108</span>
+<span class=normal>109</span>
+<span class=normal>110</span>
+<span class=normal>111</span>
+<span class=normal>112</span>
+<span class=normal>113</span>
+<span class=normal>114</span>
+<span class=normal>115</span>
+<span class=normal>116</span>
+<span class=normal>117</span>
+<span class=normal>118</span>
+<span class=normal>119</span>
+<span class=normal>120</span>
+<span class=normal>121</span>
+<span class=normal>122</span>
+<span class=normal>123</span>
+<span class=normal>124</span>
+<span class=normal>125</span>
+<span class=normal>126</span>
+<span class=normal>127</span>
+<span class=normal>128</span>
+<span class=normal>129</span>
+<span class=normal>130</span>
+<span class=normal>131</span>
+<span class=normal>132</span>
+<span class=normal>133</span>
+<span class=normal>134</span>
+<span class=normal>135</span>
+<span class=normal>136</span>
+<span class=normal>137</span>
+<span class=normal>138</span>
+<span class=normal>139</span>
+<span class=normal>140</span>
+<span class=normal>141</span>
+<span class=normal>142</span>
+<span class=normal>143</span>
+<span class=normal>144</span>
+<span class=normal>145</span>
+<span class=normal>146</span>
+<span class=normal>147</span>
+<span class=normal>148</span>
+<span class=normal>149</span>
+<span class=normal>150</span>
+<span class=normal>151</span>
+<span class=normal>152</span>
+<span class=normal>153</span>
+<span class=normal>154</span>
+<span class=normal>155</span>
+<span class=normal>156</span>
+<span class=normal>157</span>
+<span class=normal>158</span>
+<span class=normal>159</span>
+<span class=normal>160</span>
+<span class=normal>161</span>
+<span class=normal>162</span>
+<span class=normal>163</span>
+<span class=normal>164</span>
+<span class=normal>165</span>
+<span class=normal>166</span>
+<span class=normal>167</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=fm>__init__</span><span class=p>(</span>
+    <span class=bp>self</span><span class=p>,</span>
+    <span class=n>client_key</span><span class=p>,</span>
+    <span class=n>client_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>resource_owner_key</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>resource_owner_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>callback_uri</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>signature_method</span><span class=o>=</span><span class=n>SIGNATURE_HMAC</span><span class=p>,</span>
+    <span class=n>signature_type</span><span class=o>=</span><span class=n>SIGNATURE_TYPE_AUTH_HEADER</span><span class=p>,</span>
+    <span class=n>rsa_key</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>verifier</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>client_class</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+    <span class=n>force_include_body</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
+    <span class=o>**</span><span class=n>kwargs</span>
+<span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Construct the OAuth 1 session.</span>
+
+<span class=sd>    :param client_key: A client specific identifier.</span>
+<span class=sd>    :param client_secret: A client specific secret used to create HMAC and</span>
+<span class=sd>                          plaintext signatures.</span>
+<span class=sd>    :param resource_owner_key: A resource owner key, also referred to as</span>
+<span class=sd>                               request token or access token depending on</span>
+<span class=sd>                               when in the workflow it is used.</span>
+<span class=sd>    :param resource_owner_secret: A resource owner secret obtained with</span>
+<span class=sd>                                  either a request or access token. Often</span>
+<span class=sd>                                  referred to as token secret.</span>
+<span class=sd>    :param callback_uri: The URL the user is redirect back to after</span>
+<span class=sd>                         authorization.</span>
+<span class=sd>    :param signature_method: Signature methods determine how the OAuth</span>
+<span class=sd>                             signature is created. The three options are</span>
+<span class=sd>                             oauthlib.oauth1.SIGNATURE_HMAC (default),</span>
+<span class=sd>                             oauthlib.oauth1.SIGNATURE_RSA and</span>
+<span class=sd>                             oauthlib.oauth1.SIGNATURE_PLAIN.</span>
+<span class=sd>    :param signature_type: Signature type decides where the OAuth</span>
+<span class=sd>                           parameters are added. Either in the</span>
+<span class=sd>                           Authorization header (default) or to the URL</span>
+<span class=sd>                           query parameters or the request body. Defined as</span>
+<span class=sd>                           oauthlib.oauth1.SIGNATURE_TYPE_AUTH_HEADER,</span>
+<span class=sd>                           oauthlib.oauth1.SIGNATURE_TYPE_QUERY and</span>
+<span class=sd>                           oauthlib.oauth1.SIGNATURE_TYPE_BODY</span>
+<span class=sd>                           respectively.</span>
+<span class=sd>    :param rsa_key: The private RSA key as a string. Can only be used with</span>
+<span class=sd>                    signature_method=oauthlib.oauth1.SIGNATURE_RSA.</span>
+<span class=sd>    :param verifier: A verifier string to prove authorization was granted.</span>
+<span class=sd>    :param client_class: A subclass of `oauthlib.oauth1.Client` to use with</span>
+<span class=sd>                         `requests_oauthlib.OAuth1` instead of the default</span>
+<span class=sd>    :param force_include_body: Always include the request body in the</span>
+<span class=sd>                               signature creation.</span>
+<span class=sd>    :param **kwargs: Additional keyword arguments passed to `OAuth1`</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=nb>super</span><span class=p>(</span><span class=n>OAuth1Session</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_client</span> <span class=o>=</span> <span class=n>OAuth1</span><span class=p>(</span>
+        <span class=n>client_key</span><span class=p>,</span>
+        <span class=n>client_secret</span><span class=o>=</span><span class=n>client_secret</span><span class=p>,</span>
+        <span class=n>resource_owner_key</span><span class=o>=</span><span class=n>resource_owner_key</span><span class=p>,</span>
+        <span class=n>resource_owner_secret</span><span class=o>=</span><span class=n>resource_owner_secret</span><span class=p>,</span>
+        <span class=n>callback_uri</span><span class=o>=</span><span class=n>callback_uri</span><span class=p>,</span>
+        <span class=n>signature_method</span><span class=o>=</span><span class=n>signature_method</span><span class=p>,</span>
+        <span class=n>signature_type</span><span class=o>=</span><span class=n>signature_type</span><span class=p>,</span>
+        <span class=n>rsa_key</span><span class=o>=</span><span class=n>rsa_key</span><span class=p>,</span>
+        <span class=n>verifier</span><span class=o>=</span><span class=n>verifier</span><span class=p>,</span>
+        <span class=n>client_class</span><span class=o>=</span><span class=n>client_class</span><span class=p>,</span>
+        <span class=n>force_include_body</span><span class=o>=</span><span class=n>force_include_body</span><span class=p>,</span>
+        <span class=o>**</span><span class=n>kwargs</span>
+    <span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>auth</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.authorization_url class="doc doc-heading"> <code class="highlight language-python"><span class=n>authorization_url</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>request_token</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span></code> </h3> <div class="doc doc-contents "> <p>Create an authorization URL by appending request_token and optional kwargs to url.</p> <p>This is the second step in the OAuth 1 workflow. The user should be redirected to this authorization URL, grant access to you, and then be redirected back to you. The redirection back can either be specified during client registration or by supplying a callback URI per request.</p> <p>:param url: The authorization endpoint URL. :param request_token: The previously obtained request token. :param kwargs: Optional parameters to append to the URL. :returns: The authorization URL with new parameters embedded.</p> <p>An example using a registered default callback URI.</p> <blockquote> <blockquote> <blockquote> <p>request_token_url = 'https://api.twitter.com/oauth/request_token' authorization_url = 'https://api.twitter.com/oauth/authorize' oauth_session = OAuth1Session('client-key', client_secret='secret') oauth_session.fetch_request_token(request_token_url) { 'oauth_token': 'sdf0o9823sjdfsdf', 'oauth_token_secret': '2kjshdfp92i34asdasd', } oauth_session.authorization_url(authorization_url) 'https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf' oauth_session.authorization_url(authorization_url, foo='bar') 'https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;foo=bar'</p> </blockquote> </blockquote> </blockquote> <p>An example using an explicit callback URI.</p> <blockquote> <blockquote> <blockquote> <p>request_token_url = 'https://api.twitter.com/oauth/request_token' authorization_url = 'https://api.twitter.com/oauth/authorize' oauth_session = OAuth1Session('client-key', client_secret='secret', callback_uri='https://127.0.0.1/callback') oauth_session.fetch_request_token(request_token_url) { 'oauth_token': 'sdf0o9823sjdfsdf', 'oauth_token_secret': '2kjshdfp92i34asdasd', } oauth_session.authorization_url(authorization_url) 'https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;oauth_callback=https%3A%2F%2F127.0.0.1%2Fcallback'</p> </blockquote> </blockquote> </blockquote> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>209</span>
+<span class=normal>210</span>
+<span class=normal>211</span>
+<span class=normal>212</span>
+<span class=normal>213</span>
+<span class=normal>214</span>
+<span class=normal>215</span>
+<span class=normal>216</span>
+<span class=normal>217</span>
+<span class=normal>218</span>
+<span class=normal>219</span>
+<span class=normal>220</span>
+<span class=normal>221</span>
+<span class=normal>222</span>
+<span class=normal>223</span>
+<span class=normal>224</span>
+<span class=normal>225</span>
+<span class=normal>226</span>
+<span class=normal>227</span>
+<span class=normal>228</span>
+<span class=normal>229</span>
+<span class=normal>230</span>
+<span class=normal>231</span>
+<span class=normal>232</span>
+<span class=normal>233</span>
+<span class=normal>234</span>
+<span class=normal>235</span>
+<span class=normal>236</span>
+<span class=normal>237</span>
+<span class=normal>238</span>
+<span class=normal>239</span>
+<span class=normal>240</span>
+<span class=normal>241</span>
+<span class=normal>242</span>
+<span class=normal>243</span>
+<span class=normal>244</span>
+<span class=normal>245</span>
+<span class=normal>246</span>
+<span class=normal>247</span>
+<span class=normal>248</span>
+<span class=normal>249</span>
+<span class=normal>250</span>
+<span class=normal>251</span>
+<span class=normal>252</span>
+<span class=normal>253</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>authorization_url</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=n>request_token</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Create an authorization URL by appending request_token and optional</span>
+<span class=sd>    kwargs to url.</span>
+
+<span class=sd>    This is the second step in the OAuth 1 workflow. The user should be</span>
+<span class=sd>    redirected to this authorization URL, grant access to you, and then</span>
+<span class=sd>    be redirected back to you. The redirection back can either be specified</span>
+<span class=sd>    during client registration or by supplying a callback URI per request.</span>
+
+<span class=sd>    :param url: The authorization endpoint URL.</span>
+<span class=sd>    :param request_token: The previously obtained request token.</span>
+<span class=sd>    :param kwargs: Optional parameters to append to the URL.</span>
+<span class=sd>    :returns: The authorization URL with new parameters embedded.</span>
+
+<span class=sd>    An example using a registered default callback URI.</span>
+
+<span class=sd>    &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>    &gt;&gt;&gt; authorization_url = &#39;https://api.twitter.com/oauth/authorize&#39;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.authorization_url(authorization_url)</span>
+<span class=sd>    &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&#39;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.authorization_url(authorization_url, foo=&#39;bar&#39;)</span>
+<span class=sd>    &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;foo=bar&#39;</span>
+
+<span class=sd>    An example using an explicit callback URI.</span>
+
+<span class=sd>    &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>    &gt;&gt;&gt; authorization_url = &#39;https://api.twitter.com/oauth/authorize&#39;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;, callback_uri=&#39;https://127.0.0.1/callback&#39;)</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.authorization_url(authorization_url)</span>
+<span class=sd>    &#39;https://api.twitter.com/oauth/authorize?oauth_token=sdf0o9823sjdfsdf&amp;oauth_callback=https%3A%2F%2F127.0.0.1%2Fcallback&#39;</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>kwargs</span><span class=p>[</span><span class=s2>&quot;oauth_token&quot;</span><span class=p>]</span> <span class=o>=</span> <span class=n>request_token</span> <span class=ow>or</span> <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>resource_owner_key</span>
+    <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Adding parameters </span><span class=si>%s</span><span class=s2> to url </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>kwargs</span><span class=p>,</span> <span class=n>url</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>add_params_to_uri</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>kwargs</span><span class=o>.</span><span class=n>items</span><span class=p>())</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.fetch_access_token class="doc doc-heading"> <code class="highlight language-python"><span class=n>fetch_access_token</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>verifier</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span></code> </h3> <div class="doc doc-contents "> <p>Fetch an access token.</p> <p>This is the final step in the OAuth 1 workflow. An access token is obtained using all previously obtained credentials, including the verifier from the authorization step.</p> <p>Note that a previously set verifier will be reset for your convenience, or else signature creation will be incorrect on consecutive requests.</p> <blockquote> <blockquote> <blockquote> <p>access_token_url = 'https://api.twitter.com/oauth/access_token' redirect_response = 'https://127.0.0.1/callback?oauth_token=kjerht2309uf&amp;oauth_token_secret=lsdajfh923874&amp;oauth_verifier=w34o8967345' oauth_session = OAuth1Session('client-key', client_secret='secret') oauth_session.parse_authorization_response(redirect_response) { 'oauth_token: 'kjerht2309u', 'oauth_token_secret: 'lsdajfh923874', 'oauth_verifier: 'w34o8967345', } oauth_session.fetch_access_token(access_token_url) { 'oauth_token': 'sdf0o9823sjdfsdf', 'oauth_token_secret': '2kjshdfp92i34asdasd', }</p> </blockquote> </blockquote> </blockquote> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>288</span>
+<span class=normal>289</span>
+<span class=normal>290</span>
+<span class=normal>291</span>
+<span class=normal>292</span>
+<span class=normal>293</span>
+<span class=normal>294</span>
+<span class=normal>295</span>
+<span class=normal>296</span>
+<span class=normal>297</span>
+<span class=normal>298</span>
+<span class=normal>299</span>
+<span class=normal>300</span>
+<span class=normal>301</span>
+<span class=normal>302</span>
+<span class=normal>303</span>
+<span class=normal>304</span>
+<span class=normal>305</span>
+<span class=normal>306</span>
+<span class=normal>307</span>
+<span class=normal>308</span>
+<span class=normal>309</span>
+<span class=normal>310</span>
+<span class=normal>311</span>
+<span class=normal>312</span>
+<span class=normal>313</span>
+<span class=normal>314</span>
+<span class=normal>315</span>
+<span class=normal>316</span>
+<span class=normal>317</span>
+<span class=normal>318</span>
+<span class=normal>319</span>
+<span class=normal>320</span>
+<span class=normal>321</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>fetch_access_token</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=n>verifier</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Fetch an access token.</span>
+
+<span class=sd>    This is the final step in the OAuth 1 workflow. An access token is</span>
+<span class=sd>    obtained using all previously obtained credentials, including the</span>
+<span class=sd>    verifier from the authorization step.</span>
+
+<span class=sd>    Note that a previously set verifier will be reset for your</span>
+<span class=sd>    convenience, or else signature creation will be incorrect on</span>
+<span class=sd>    consecutive requests.</span>
+
+<span class=sd>    &gt;&gt;&gt; access_token_url = &#39;https://api.twitter.com/oauth/access_token&#39;</span>
+<span class=sd>    &gt;&gt;&gt; redirect_response = &#39;https://127.0.0.1/callback?oauth_token=kjerht2309uf&amp;oauth_token_secret=lsdajfh923874&amp;oauth_verifier=w34o8967345&#39;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.parse_authorization_response(redirect_response)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token: &#39;kjerht2309u&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret: &#39;lsdajfh923874&#39;,</span>
+<span class=sd>        &#39;oauth_verifier: &#39;w34o8967345&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.fetch_access_token(access_token_url)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=k>if</span> <span class=n>verifier</span><span class=p>:</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>verifier</span> <span class=o>=</span> <span class=n>verifier</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=nb>getattr</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=p>,</span> <span class=s2>&quot;verifier&quot;</span><span class=p>,</span> <span class=kc>None</span><span class=p>):</span>
+        <span class=k>raise</span> <span class=n>VerifierMissing</span><span class=p>(</span><span class=s2>&quot;No client verifier has been set.&quot;</span><span class=p>)</span>
+    <span class=n>token</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_fetch_token</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span>
+    <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Resetting verifier attribute, should not be used anymore.&quot;</span><span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>verifier</span> <span class=o>=</span> <span class=kc>None</span>
+    <span class=k>return</span> <span class=n>token</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.fetch_request_token class="doc doc-heading"> <code class="highlight language-python"><span class=n>fetch_request_token</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>realm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span></code> </h3> <div class="doc doc-contents "> <p>Fetch a request token.</p> <p>This is the first step in the OAuth 1 workflow. A request token is obtained by making a signed post request to url. The token is then parsed from the application/x-www-form-urlencoded response and ready to be used to construct an authorization url.</p> <p>:param url: The request token endpoint URL. :param realm: A list of realms to request access to. :param request_kwargs: Optional arguments passed to ''post'' function in ''requests.Session'' :returns: The response in dict format.</p> <p>Note that a previously set callback_uri will be reset for your convenience, or else signature creation will be incorrect on consecutive requests.</p> <blockquote> <blockquote> <blockquote> <p>request_token_url = 'https://api.twitter.com/oauth/request_token' oauth_session = OAuth1Session('client-key', client_secret='secret') oauth_session.fetch_request_token(request_token_url) { 'oauth_token': 'sdf0o9823sjdfsdf', 'oauth_token_secret': '2kjshdfp92i34asdasd', }</p> </blockquote> </blockquote> </blockquote> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>255</span>
+<span class=normal>256</span>
+<span class=normal>257</span>
+<span class=normal>258</span>
+<span class=normal>259</span>
+<span class=normal>260</span>
+<span class=normal>261</span>
+<span class=normal>262</span>
+<span class=normal>263</span>
+<span class=normal>264</span>
+<span class=normal>265</span>
+<span class=normal>266</span>
+<span class=normal>267</span>
+<span class=normal>268</span>
+<span class=normal>269</span>
+<span class=normal>270</span>
+<span class=normal>271</span>
+<span class=normal>272</span>
+<span class=normal>273</span>
+<span class=normal>274</span>
+<span class=normal>275</span>
+<span class=normal>276</span>
+<span class=normal>277</span>
+<span class=normal>278</span>
+<span class=normal>279</span>
+<span class=normal>280</span>
+<span class=normal>281</span>
+<span class=normal>282</span>
+<span class=normal>283</span>
+<span class=normal>284</span>
+<span class=normal>285</span>
+<span class=normal>286</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>fetch_request_token</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>,</span> <span class=n>realm</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Fetch a request token.</span>
+
+<span class=sd>    This is the first step in the OAuth 1 workflow. A request token is</span>
+<span class=sd>    obtained by making a signed post request to url. The token is then</span>
+<span class=sd>    parsed from the application/x-www-form-urlencoded response and ready</span>
+<span class=sd>    to be used to construct an authorization url.</span>
+
+<span class=sd>    :param url: The request token endpoint URL.</span>
+<span class=sd>    :param realm: A list of realms to request access to.</span>
+<span class=sd>    :param request_kwargs: Optional arguments passed to &#39;&#39;post&#39;&#39;</span>
+<span class=sd>        function in &#39;&#39;requests.Session&#39;&#39;</span>
+<span class=sd>    :returns: The response in dict format.</span>
+
+<span class=sd>    Note that a previously set callback_uri will be reset for your</span>
+<span class=sd>    convenience, or else signature creation will be incorrect on</span>
+<span class=sd>    consecutive requests.</span>
+
+<span class=sd>    &gt;&gt;&gt; request_token_url = &#39;https://api.twitter.com/oauth/request_token&#39;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.fetch_request_token(request_token_url)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token&#39;: &#39;sdf0o9823sjdfsdf&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret&#39;: &#39;2kjshdfp92i34asdasd&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>realm</span> <span class=o>=</span> <span class=s2>&quot; &quot;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>realm</span><span class=p>)</span> <span class=k>if</span> <span class=n>realm</span> <span class=k>else</span> <span class=kc>None</span>
+    <span class=n>token</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_fetch_token</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=o>**</span><span class=n>request_kwargs</span><span class=p>)</span>
+    <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Resetting callback_uri and realm (not needed in next phase).&quot;</span><span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>callback_uri</span> <span class=o>=</span> <span class=kc>None</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_client</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>realm</span> <span class=o>=</span> <span class=kc>None</span>
+    <span class=k>return</span> <span class=n>token</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.parse_authorization_response class="doc doc-heading"> <code class="highlight language-python"><span class=n>parse_authorization_response</span><span class=p>(</span><span class=n>url</span><span class=p>)</span></code> </h3> <div class="doc doc-contents "> <p>Extract parameters from the post authorization redirect response URL.</p> <p>:param url: The full URL that resulted from the user being redirected back from the OAuth provider to you, the client. :returns: A dict of parameters extracted from the URL.</p> <blockquote> <blockquote> <blockquote> <p>redirect_response = 'https://127.0.0.1/callback?oauth_token=kjerht2309uf&amp;oauth_token_secret=lsdajfh923874&amp;oauth_verifier=w34o8967345' oauth_session = OAuth1Session('client-key', client_secret='secret') oauth_session.parse_authorization_response(redirect_response) { 'oauth_token: 'kjerht2309u', 'oauth_token_secret: 'lsdajfh923874', 'oauth_verifier: 'w34o8967345', }</p> </blockquote> </blockquote> </blockquote> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>323</span>
+<span class=normal>324</span>
+<span class=normal>325</span>
+<span class=normal>326</span>
+<span class=normal>327</span>
+<span class=normal>328</span>
+<span class=normal>329</span>
+<span class=normal>330</span>
+<span class=normal>331</span>
+<span class=normal>332</span>
+<span class=normal>333</span>
+<span class=normal>334</span>
+<span class=normal>335</span>
+<span class=normal>336</span>
+<span class=normal>337</span>
+<span class=normal>338</span>
+<span class=normal>339</span>
+<span class=normal>340</span>
+<span class=normal>341</span>
+<span class=normal>342</span>
+<span class=normal>343</span>
+<span class=normal>344</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>parse_authorization_response</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Extract parameters from the post authorization redirect response URL.</span>
+
+<span class=sd>    :param url: The full URL that resulted from the user being redirected</span>
+<span class=sd>                back from the OAuth provider to you, the client.</span>
+<span class=sd>    :returns: A dict of parameters extracted from the URL.</span>
+
+<span class=sd>    &gt;&gt;&gt; redirect_response = &#39;https://127.0.0.1/callback?oauth_token=kjerht2309uf&amp;oauth_token_secret=lsdajfh923874&amp;oauth_verifier=w34o8967345&#39;</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session = OAuth1Session(&#39;client-key&#39;, client_secret=&#39;secret&#39;)</span>
+<span class=sd>    &gt;&gt;&gt; oauth_session.parse_authorization_response(redirect_response)</span>
+<span class=sd>    {</span>
+<span class=sd>        &#39;oauth_token: &#39;kjerht2309u&#39;,</span>
+<span class=sd>        &#39;oauth_token_secret: &#39;lsdajfh923874&#39;,</span>
+<span class=sd>        &#39;oauth_verifier: &#39;w34o8967345&#39;,</span>
+<span class=sd>    }</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Parsing token from query part of url </span><span class=si>%s</span><span class=s2>&quot;</span><span class=p>,</span> <span class=n>url</span><span class=p>)</span>
+    <span class=n>token</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>(</span><span class=n>urldecode</span><span class=p>(</span><span class=n>urlparse</span><span class=p>(</span><span class=n>url</span><span class=p>)</span><span class=o>.</span><span class=n>query</span><span class=p>))</span>
+    <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s2>&quot;Updating internal client token attribute.&quot;</span><span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_populate_attributes</span><span class=p>(</span><span class=n>token</span><span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>token</span> <span class=o>=</span> <span class=n>token</span>
+    <span class=k>return</span> <span class=n>token</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.OAuth1Session.rebuild_auth class="doc doc-heading"> <code class="highlight language-python"><span class=n>rebuild_auth</span><span class=p>(</span><span class=n>prepared_request</span><span class=p>,</span> <span class=n>response</span><span class=p>)</span></code> </h3> <div class="doc doc-contents "> <p>When being redirected we should always strip Authorization header, since nonce may not be reused as per OAuth spec.</p> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>385</span>
+<span class=normal>386</span>
+<span class=normal>387</span>
+<span class=normal>388</span>
+<span class=normal>389</span>
+<span class=normal>390</span>
+<span class=normal>391</span>
+<span class=normal>392</span>
+<span class=normal>393</span>
+<span class=normal>394</span>
+<span class=normal>395</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>rebuild_auth</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>prepared_request</span><span class=p>,</span> <span class=n>response</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    When being redirected we should always strip Authorization</span>
+<span class=sd>    header, since nonce may not be reused as per OAuth spec.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=k>if</span> <span class=s2>&quot;Authorization&quot;</span> <span class=ow>in</span> <span class=n>prepared_request</span><span class=o>.</span><span class=n>headers</span><span class=p>:</span>
+        <span class=c1># If we get redirected to a new host, we should strip out</span>
+        <span class=c1># any authentication headers.</span>
+        <span class=n>prepared_request</span><span class=o>.</span><span class=n>headers</span><span class=o>.</span><span class=n>pop</span><span class=p>(</span><span class=s2>&quot;Authorization&quot;</span><span class=p>,</span> <span class=kc>True</span><span class=p>)</span>
+        <span class=n>prepared_request</span><span class=o>.</span><span class=n>prepare_auth</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>auth</span><span class=p>)</span>
+    <span class=k>return</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> </div> </div> </div> <div class="doc doc-object doc-class"> <h2 id=server.vendor.requests_oauthlib.oauth1_session.TokenRequestDenied class="doc doc-heading"> <code>TokenRequestDenied</code> </h2> <div class="doc doc-contents "> <p class="doc doc-class-bases"> Bases: <code><span title=ValueError>ValueError</span></code></p> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>26</span>
+<span class=normal>27</span>
+<span class=normal>28</span>
+<span class=normal>29</span>
+<span class=normal>30</span>
+<span class=normal>31</span>
+<span class=normal>32</span>
+<span class=normal>33</span>
+<span class=normal>34</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>class</span><span class=w> </span><span class=nc>TokenRequestDenied</span><span class=p>(</span><span class=ne>ValueError</span><span class=p>):</span>
+    <span class=k>def</span><span class=w> </span><span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>message</span><span class=p>,</span> <span class=n>response</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>(</span><span class=n>TokenRequestDenied</span><span class=p>,</span> <span class=bp>self</span><span class=p>)</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>message</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>response</span> <span class=o>=</span> <span class=n>response</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span><span class=w> </span><span class=nf>status_code</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+<span class=w>        </span><span class=sd>&quot;&quot;&quot;For backwards-compatibility purposes&quot;&quot;&quot;</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>response</span><span class=o>.</span><span class=n>status_code</span>
+</code></pre></div></td></tr></table></div> </details> <div class="doc doc-children"> <div class="doc doc-object doc-attribute"> <h3 id=server.vendor.requests_oauthlib.oauth1_session.TokenRequestDenied.status_code class="doc doc-heading"> <code class="highlight language-python"><span class=n>status_code</span></code> <span class="doc doc-labels"> <small class="doc doc-label doc-label-property"><code>property</code></small> </span> </h3> <div class="doc doc-contents "> <p>For backwards-compatibility purposes</p> </div> </div> </div> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.requests_oauthlib.oauth1_session.urldecode class="doc doc-heading"> <code class="highlight language-python"><span class=n>urldecode</span><span class=p>(</span><span class=n>body</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Parse query or json to python dictionary</p> <details class=quote> <summary>Source code in <code>server/vendor/requests_oauthlib/oauth1_session.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>16</span>
+<span class=normal>17</span>
+<span class=normal>18</span>
+<span class=normal>19</span>
+<span class=normal>20</span>
+<span class=normal>21</span>
+<span class=normal>22</span>
+<span class=normal>23</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>urldecode</span><span class=p>(</span><span class=n>body</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Parse query or json to python dictionary&quot;&quot;&quot;</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=k>return</span> <span class=n>_urldecode</span><span class=p>(</span><span class=n>body</span><span class=p>)</span>
+    <span class=k>except</span> <span class=ne>Exception</span><span class=p>:</span>
+        <span class=kn>import</span><span class=w> </span><span class=nn>json</span>
+
+        <span class=k>return</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>body</span><span class=p>)</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> </div> </div> </div> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.path", "navigation.prune"], "search": "../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script> <script src=../../../../assets/javascripts/bundle.c8b220af.min.js></script> </body> </html>

@@ -1,0 +1,816 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=prev href=request_validator.html><link rel=next href=utils.html><link rel=icon href=../../../../../../img/favicon.ico><meta name=generator content="mkdocs-1.6.1, mkdocs-material-9.6.11"><title>signature - ayon-jira</title><link rel=stylesheet href=../../../../../../assets/stylesheets/main.4af4bdda.min.css><link rel=stylesheet href=../../../../../../assets/stylesheets/palette.06af60db.min.css><script src=https://unpkg.com/iframe-worker/shim></script><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style><link rel=stylesheet href=../../../../../../assets/_mkdocstrings.css><link rel=stylesheet href=../../../../../../css/custom.css><script>__md_scope=new URL("../../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script></head> <body dir=ltr data-md-color-scheme=slate data-md-color-primary=indigo data-md-color-accent=indigo> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature class=md-skip> Skip to content </a> </div> <div data-md-component=announce> </div> <div data-md-color-scheme=default data-md-component=outdated hidden> </div> <header class="md-header md-header--shadow" data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../../../../index.html title=ayon-jira class="md-header__button md-logo" aria-label=ayon-jira data-md-component=logo> <img src=../../../../../../img/ay-symbol-blackw-full.png alt=logo> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> ayon-jira </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> signature </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Switch to light mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg> </label> </form> <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg> </label> <nav class=md-search__options aria-label=Search> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </nav> </form> <div class=md-search__output> <div class=md-search__scrollwrap tabindex=0 data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list role=presentation></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/ynput/ayon-jira title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg> </div> <div class=md-source__repository> GitHub </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../../../../index.html title=ayon-jira class="md-nav__button md-logo" aria-label=ayon-jira data-md-component=logo> <img src=../../../../../../img/ay-symbol-blackw-full.png alt=logo> </a> ayon-jira </label> <div class=md-nav__source> <a href=https://github.com/ynput/ayon-jira title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg> </div> <div class=md-source__repository> GitHub </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../../index.html class=md-nav__link> <span class=md-ellipsis> Home </span> </a> </li> <li class=md-nav__item> <a href=../../../../../../license.html class=md-nav__link> <span class=md-ellipsis> License </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3 checked> <label class=md-nav__link for=__nav_3 id=__nav_3_label tabindex> <span class=md-ellipsis> Reference </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_3_label aria-expanded=true> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> Reference </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../../../client/ayon_jira/addon.html class=md-nav__link> <span class=md-ellipsis> client </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2 checked> <label class=md-nav__link for=__nav_3_2 id=__nav_3_2_label tabindex=0> <span class=md-ellipsis> server </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=2 aria-labelledby=__nav_3_2_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2> <span class="md-nav__icon md-icon"></span> server </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../addon_settings_access.html class=md-nav__link> <span class=md-ellipsis> addon_settings_access </span> </a> </li> <li class=md-nav__item> <a href=../../../../custom_fields.html class=md-nav__link> <span class=md-ellipsis> custom_fields </span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../../settings/main.html class=md-nav__link> <span class=md-ellipsis> settings </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class=md-nav__item> <a href=../../../../templates.html class=md-nav__link> <span class=md-ellipsis> templates </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2_5 checked> <label class=md-nav__link for=__nav_3_2_5 id=__nav_3_2_5_label tabindex=0> <span class=md-ellipsis> vendor </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=3 aria-labelledby=__nav_3_2_5_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2_5> <span class="md-nav__icon md-icon"></span> vendor </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../atlassian/bamboo.html class=md-nav__link> <span class=md-ellipsis> atlassian </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../deprecated/classic.html class=md-nav__link> <span class=md-ellipsis> deprecated </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../jmespath/ast.html class=md-nav__link> <span class=md-ellipsis> jmespath </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2_5_4 checked> <label class=md-nav__link for=__nav_3_2_5_4 id=__nav_3_2_5_4_label tabindex=0> <span class=md-ellipsis> oauthlib </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=4 aria-labelledby=__nav_3_2_5_4_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2_5_4> <span class="md-nav__icon md-icon"></span> oauthlib </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../common.html class=md-nav__link> <span class=md-ellipsis> common </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2_5_4_2 checked> <label class=md-nav__link for=__nav_3_2_5_4_2 id=__nav_3_2_5_4_2_label tabindex=0> <span class=md-ellipsis> oauth1 </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=5 aria-labelledby=__nav_3_2_5_4_2_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2_5_4_2> <span class="md-nav__icon md-icon"></span> oauth1 </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_3_2_5_4_2_1 checked> <label class=md-nav__link for=__nav_3_2_5_4_2_1 id=__nav_3_2_5_4_2_1_label tabindex=0> <span class=md-ellipsis> rfc5849 </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=6 aria-labelledby=__nav_3_2_5_4_2_1_label aria-expanded=true> <label class=md-nav__title for=__nav_3_2_5_4_2_1> <span class="md-nav__icon md-icon"></span> rfc5849 </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=endpoints/access_token.html class=md-nav__link> <span class=md-ellipsis> endpoints </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class=md-nav__item> <a href=errors.html class=md-nav__link> <span class=md-ellipsis> errors </span> </a> </li> <li class=md-nav__item> <a href=parameters.html class=md-nav__link> <span class=md-ellipsis> parameters </span> </a> </li> <li class=md-nav__item> <a href=request_validator.html class=md-nav__link> <span class=md-ellipsis> request_validator </span> </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> <span class=md-ellipsis> signature </span> <span class="md-nav__icon md-icon"></span> </label> <a href=signature.html class="md-nav__link md-nav__link--active"> <span class=md-ellipsis> signature </span> </a> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature class=md-nav__link> <span class=md-ellipsis> signature </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.base_string_uri class=md-nav__link> <span class=md-ellipsis> base_string_uri </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.collect_parameters class=md-nav__link> <span class=md-ellipsis> collect_parameters </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.normalize_parameters class=md-nav__link> <span class=md-ellipsis> normalize_parameters </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_hmac_sha1 class=md-nav__link> <span class=md-ellipsis> sign_hmac_sha1 </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_hmac_sha256 class=md-nav__link> <span class=md-ellipsis> sign_hmac_sha256 </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_plaintext class=md-nav__link> <span class=md-ellipsis> sign_plaintext </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_rsa_sha1 class=md-nav__link> <span class=md-ellipsis> sign_rsa_sha1 </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.signature_base_string class=md-nav__link> <span class=md-ellipsis> signature_base_string </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.verify_plaintext class=md-nav__link> <span class=md-ellipsis> verify_plaintext </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=utils.html class=md-nav__link> <span class=md-ellipsis> utils </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../oauth2/rfc6749/clients/backend_application.html class=md-nav__link> <span class=md-ellipsis> oauth2 </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../openid/connect/core/endpoints/pre_configured.html class=md-nav__link> <span class=md-ellipsis> openid </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class=md-nav__item> <a href=../../signals.html class=md-nav__link> <span class=md-ellipsis> signals </span> </a> </li> <li class=md-nav__item> <a href=../../uri_validate.html class=md-nav__link> <span class=md-ellipsis> uri_validate </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../requests_oauthlib/compliance_fixes/douban.html class=md-nav__link> <span class=md-ellipsis> requests_oauthlib </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=../../../wrapt/__wrapt__.html class=md-nav__link> <span class=md-ellipsis> wrapt </span> <span class="md-nav__icon md-icon"></span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature class=md-nav__link> <span class=md-ellipsis> signature </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.base_string_uri class=md-nav__link> <span class=md-ellipsis> base_string_uri </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.collect_parameters class=md-nav__link> <span class=md-ellipsis> collect_parameters </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.normalize_parameters class=md-nav__link> <span class=md-ellipsis> normalize_parameters </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_hmac_sha1 class=md-nav__link> <span class=md-ellipsis> sign_hmac_sha1 </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_hmac_sha256 class=md-nav__link> <span class=md-ellipsis> sign_hmac_sha256 </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_plaintext class=md-nav__link> <span class=md-ellipsis> sign_plaintext </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.sign_rsa_sha1 class=md-nav__link> <span class=md-ellipsis> sign_rsa_sha1 </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.signature_base_string class=md-nav__link> <span class=md-ellipsis> signature_base_string </span> </a> </li> <li class=md-nav__item> <a href=#server.vendor.oauthlib.oauth1.rfc5849.signature.verify_plaintext class=md-nav__link> <span class=md-ellipsis> verify_plaintext </span> </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1>signature</h1> <div class="doc doc-object doc-module"> <a id=server.vendor.oauthlib.oauth1.rfc5849.signature></a> <div class="doc doc-contents first"> <p>This module is an implementation of <code>section 3.4</code>_ of RFC 5849.</p> <p><strong>Usage</strong></p> <p>Steps for signing a request:</p> <ol> <li>Collect parameters from the request using <code>collect_parameters</code>.</li> <li>Normalize those parameters using <code>normalize_parameters</code>.</li> <li>Create the <em>base string URI</em> using <code>base_string_uri</code>.</li> <li>Create the <em>signature base string</em> from the above three components using <code>signature_base_string</code>.</li> <li>Pass the <em>signature base string</em> and the client credentials to one of the sign-with-client functions. The HMAC-based signing functions needs client credentials with secrets. The RSA-based signing functions needs client credentials with an RSA private key.</li> </ol> <p>To verify a request, pass the request and credentials to one of the verify functions. The HMAC-based signing functions needs the shared secrets. The RSA-based verify functions needs the RSA public key.</p> <p><strong>Scope</strong></p> <p>All of the functions in this module should be considered internal to OAuthLib, since they are not imported into the "oauthlib.oauth1" module. Programs using OAuthLib should not use directly invoke any of the functions in this module.</p> <p><strong>Deprecated functions</strong></p> <p>The "sign_" methods that are not "_with_client" have been deprecated. They may be removed in a future release. Since they are all internal functions, this should have no impact on properly behaving programs.</p> <p>.. _<code>section 3.4</code>: https://tools.ietf.org/html/rfc5849#section-3.4</p> <div class="doc doc-children"> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.base_string_uri class="doc doc-heading"> <code class="highlight language-python"><span class=n>base_string_uri</span><span class=p>(</span><span class=n>uri</span><span class=p>,</span> <span class=n>host</span><span class=o>=</span><span class=kc>None</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Calculates the <em>base string URI</em>.</p> <p>The <em>base string URI</em> is one of the components that make up the <em>signature base string</em>.</p> <p>The <code>host</code> is optional. If provided, it is used to override any host and port values in the <code>uri</code>. The value for <code>host</code> is usually extracted from the "Host" request header from the HTTP request. Its value may be just the hostname, or the hostname followed by a colon and a TCP/IP port number (hostname:port). If a value for the<code>host</code> is provided but it does not contain a port number, the default port number is used (i.e. if the <code>uri</code> contained a port number, it will be discarded).</p> <p>The rules for calculating the <em>base string URI</em> are defined in section 3.4.1.2`_ of RFC 5849.</p> <p>.. _<code>section 3.4.1.2</code>: https://tools.ietf.org/html/rfc5849#section-3.4.1.2</p> <p>:param uri: URI :param host: hostname with optional port number, separated by a colon :return: base string URI</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>105</span>
+<span class=normal>106</span>
+<span class=normal>107</span>
+<span class=normal>108</span>
+<span class=normal>109</span>
+<span class=normal>110</span>
+<span class=normal>111</span>
+<span class=normal>112</span>
+<span class=normal>113</span>
+<span class=normal>114</span>
+<span class=normal>115</span>
+<span class=normal>116</span>
+<span class=normal>117</span>
+<span class=normal>118</span>
+<span class=normal>119</span>
+<span class=normal>120</span>
+<span class=normal>121</span>
+<span class=normal>122</span>
+<span class=normal>123</span>
+<span class=normal>124</span>
+<span class=normal>125</span>
+<span class=normal>126</span>
+<span class=normal>127</span>
+<span class=normal>128</span>
+<span class=normal>129</span>
+<span class=normal>130</span>
+<span class=normal>131</span>
+<span class=normal>132</span>
+<span class=normal>133</span>
+<span class=normal>134</span>
+<span class=normal>135</span>
+<span class=normal>136</span>
+<span class=normal>137</span>
+<span class=normal>138</span>
+<span class=normal>139</span>
+<span class=normal>140</span>
+<span class=normal>141</span>
+<span class=normal>142</span>
+<span class=normal>143</span>
+<span class=normal>144</span>
+<span class=normal>145</span>
+<span class=normal>146</span>
+<span class=normal>147</span>
+<span class=normal>148</span>
+<span class=normal>149</span>
+<span class=normal>150</span>
+<span class=normal>151</span>
+<span class=normal>152</span>
+<span class=normal>153</span>
+<span class=normal>154</span>
+<span class=normal>155</span>
+<span class=normal>156</span>
+<span class=normal>157</span>
+<span class=normal>158</span>
+<span class=normal>159</span>
+<span class=normal>160</span>
+<span class=normal>161</span>
+<span class=normal>162</span>
+<span class=normal>163</span>
+<span class=normal>164</span>
+<span class=normal>165</span>
+<span class=normal>166</span>
+<span class=normal>167</span>
+<span class=normal>168</span>
+<span class=normal>169</span>
+<span class=normal>170</span>
+<span class=normal>171</span>
+<span class=normal>172</span>
+<span class=normal>173</span>
+<span class=normal>174</span>
+<span class=normal>175</span>
+<span class=normal>176</span>
+<span class=normal>177</span>
+<span class=normal>178</span>
+<span class=normal>179</span>
+<span class=normal>180</span>
+<span class=normal>181</span>
+<span class=normal>182</span>
+<span class=normal>183</span>
+<span class=normal>184</span>
+<span class=normal>185</span>
+<span class=normal>186</span>
+<span class=normal>187</span>
+<span class=normal>188</span>
+<span class=normal>189</span>
+<span class=normal>190</span>
+<span class=normal>191</span>
+<span class=normal>192</span>
+<span class=normal>193</span>
+<span class=normal>194</span>
+<span class=normal>195</span>
+<span class=normal>196</span>
+<span class=normal>197</span>
+<span class=normal>198</span>
+<span class=normal>199</span>
+<span class=normal>200</span>
+<span class=normal>201</span>
+<span class=normal>202</span>
+<span class=normal>203</span>
+<span class=normal>204</span>
+<span class=normal>205</span>
+<span class=normal>206</span>
+<span class=normal>207</span>
+<span class=normal>208</span>
+<span class=normal>209</span>
+<span class=normal>210</span>
+<span class=normal>211</span>
+<span class=normal>212</span>
+<span class=normal>213</span>
+<span class=normal>214</span>
+<span class=normal>215</span>
+<span class=normal>216</span>
+<span class=normal>217</span>
+<span class=normal>218</span>
+<span class=normal>219</span>
+<span class=normal>220</span>
+<span class=normal>221</span>
+<span class=normal>222</span>
+<span class=normal>223</span>
+<span class=normal>224</span>
+<span class=normal>225</span>
+<span class=normal>226</span>
+<span class=normal>227</span>
+<span class=normal>228</span>
+<span class=normal>229</span>
+<span class=normal>230</span>
+<span class=normal>231</span>
+<span class=normal>232</span>
+<span class=normal>233</span>
+<span class=normal>234</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>base_string_uri</span><span class=p>(</span><span class=n>uri</span><span class=p>:</span> <span class=nb>str</span><span class=p>,</span> <span class=n>host</span><span class=p>:</span> <span class=nb>str</span> <span class=o>=</span> <span class=kc>None</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>str</span><span class=p>:</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Calculates the _base string URI_.</span>
+
+<span class=sd>    The *base string URI* is one of the components that make up the</span>
+<span class=sd>     *signature base string*.</span>
+
+<span class=sd>    The ``host`` is optional. If provided, it is used to override any host and</span>
+<span class=sd>    port values in the ``uri``. The value for ``host`` is usually extracted from</span>
+<span class=sd>    the &quot;Host&quot; request header from the HTTP request. Its value may be just the</span>
+<span class=sd>    hostname, or the hostname followed by a colon and a TCP/IP port number</span>
+<span class=sd>    (hostname:port). If a value for the``host`` is provided but it does not</span>
+<span class=sd>    contain a port number, the default port number is used (i.e. if the ``uri``</span>
+<span class=sd>    contained a port number, it will be discarded).</span>
+
+<span class=sd>    The rules for calculating the *base string URI* are defined in</span>
+<span class=sd>    section 3.4.1.2`_ of RFC 5849.</span>
+
+<span class=sd>    .. _`section 3.4.1.2`: https://tools.ietf.org/html/rfc5849#section-3.4.1.2</span>
+
+<span class=sd>    :param uri: URI</span>
+<span class=sd>    :param host: hostname with optional port number, separated by a colon</span>
+<span class=sd>    :return: base string URI</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=k>if</span> <span class=ow>not</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>uri</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
+        <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;uri must be a string.&#39;</span><span class=p>)</span>
+
+    <span class=c1># FIXME: urlparse does not support unicode</span>
+    <span class=n>output</span> <span class=o>=</span> <span class=n>urlparse</span><span class=o>.</span><span class=n>urlparse</span><span class=p>(</span><span class=n>uri</span><span class=p>)</span>
+    <span class=n>scheme</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>scheme</span>
+    <span class=n>hostname</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>hostname</span>
+    <span class=n>port</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>port</span>
+    <span class=n>path</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>path</span>
+    <span class=n>params</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>params</span>
+
+    <span class=c1># The scheme, authority, and path of the request resource URI `RFC3986`</span>
+    <span class=c1># are included by constructing an &quot;http&quot; or &quot;https&quot; URI representing</span>
+    <span class=c1># the request resource (without the query or fragment) as follows:</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`RFC3986`: https://tools.ietf.org/html/rfc3986</span>
+
+    <span class=k>if</span> <span class=ow>not</span> <span class=n>scheme</span><span class=p>:</span>
+        <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;missing scheme&#39;</span><span class=p>)</span>
+
+    <span class=c1># Per `RFC 2616 section 5.1.2`_:</span>
+    <span class=c1>#</span>
+    <span class=c1># Note that the absolute path cannot be empty; if none is present in</span>
+    <span class=c1># the original URI, it MUST be given as &quot;/&quot; (the server root).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`RFC 2616 5.1.2`: https://tools.ietf.org/html/rfc2616#section-5.1.2</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=n>path</span><span class=p>:</span>
+        <span class=n>path</span> <span class=o>=</span> <span class=s1>&#39;/&#39;</span>
+
+    <span class=c1># 1.  The scheme and host MUST be in lowercase.</span>
+    <span class=n>scheme</span> <span class=o>=</span> <span class=n>scheme</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+    <span class=c1># Note: if ``host`` is used, it will be converted to lowercase below</span>
+    <span class=k>if</span> <span class=n>hostname</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+        <span class=n>hostname</span> <span class=o>=</span> <span class=n>hostname</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+
+    <span class=c1># 2.  The host and port values MUST match the content of the HTTP</span>
+    <span class=c1>#     request &quot;Host&quot; header field.</span>
+    <span class=k>if</span> <span class=n>host</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+        <span class=c1># NOTE: override value in uri with provided host</span>
+        <span class=c1># Host argument is equal to netloc. It means it&#39;s missing scheme.</span>
+        <span class=c1># Add it back, before parsing.</span>
+
+        <span class=n>host</span> <span class=o>=</span> <span class=n>host</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+        <span class=n>host</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>scheme</span><span class=si>}</span><span class=s2>://</span><span class=si>{</span><span class=n>host</span><span class=si>}</span><span class=s2>&quot;</span>
+        <span class=n>output</span> <span class=o>=</span> <span class=n>urlparse</span><span class=o>.</span><span class=n>urlparse</span><span class=p>(</span><span class=n>host</span><span class=p>)</span>
+        <span class=n>hostname</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>hostname</span>
+        <span class=n>port</span> <span class=o>=</span> <span class=n>output</span><span class=o>.</span><span class=n>port</span>
+
+    <span class=c1># 3.  The port MUST be included if it is not the default port for the</span>
+    <span class=c1>#     scheme, and MUST be excluded if it is the default.  Specifically,</span>
+    <span class=c1>#     the port MUST be excluded when making an HTTP request `RFC2616`_</span>
+    <span class=c1>#     to port 80 or when making an HTTPS request `RFC2818`_ to port 443.</span>
+    <span class=c1>#     All other non-default port numbers MUST be included.</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`RFC2616`: https://tools.ietf.org/html/rfc2616</span>
+    <span class=c1># .. _`RFC2818`: https://tools.ietf.org/html/rfc2818</span>
+
+    <span class=k>if</span> <span class=n>hostname</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+        <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;missing host&#39;</span><span class=p>)</span>
+
+    <span class=c1># NOTE: Try guessing if we&#39;re dealing with IP or hostname</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=n>hostname</span> <span class=o>=</span> <span class=n>ipaddress</span><span class=o>.</span><span class=n>ip_address</span><span class=p>(</span><span class=n>hostname</span><span class=p>)</span>
+    <span class=k>except</span> <span class=ne>ValueError</span><span class=p>:</span>
+        <span class=k>pass</span>
+
+    <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>hostname</span><span class=p>,</span> <span class=n>ipaddress</span><span class=o>.</span><span class=n>IPv6Address</span><span class=p>):</span>
+        <span class=n>hostname</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;[</span><span class=si>{</span><span class=n>hostname</span><span class=si>}</span><span class=s2>]&quot;</span>
+    <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>hostname</span><span class=p>,</span> <span class=n>ipaddress</span><span class=o>.</span><span class=n>IPv4Address</span><span class=p>):</span>
+        <span class=n>hostname</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>hostname</span><span class=si>}</span><span class=s2>&quot;</span>
+
+    <span class=k>if</span> <span class=n>port</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span> <span class=ow>and</span> <span class=ow>not</span> <span class=p>(</span><span class=mi>0</span> <span class=o>&lt;</span> <span class=n>port</span> <span class=o>&lt;=</span> <span class=mi>65535</span><span class=p>):</span>
+        <span class=k>raise</span> <span class=ne>ValueError</span><span class=p>(</span><span class=s1>&#39;port out of range&#39;</span><span class=p>)</span>  <span class=c1># 16-bit unsigned ints</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>scheme</span><span class=p>,</span> <span class=n>port</span><span class=p>)</span> <span class=ow>in</span> <span class=p>((</span><span class=s1>&#39;http&#39;</span><span class=p>,</span> <span class=mi>80</span><span class=p>),</span> <span class=p>(</span><span class=s1>&#39;https&#39;</span><span class=p>,</span> <span class=mi>443</span><span class=p>)):</span>
+        <span class=n>netloc</span> <span class=o>=</span> <span class=n>hostname</span>  <span class=c1># default port for scheme: exclude port num</span>
+    <span class=k>elif</span> <span class=n>port</span><span class=p>:</span>
+        <span class=n>netloc</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>hostname</span><span class=si>}</span><span class=s2>:</span><span class=si>{</span><span class=n>port</span><span class=si>}</span><span class=s2>&quot;</span>  <span class=c1># use hostname:port</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=n>netloc</span> <span class=o>=</span> <span class=n>hostname</span>
+
+    <span class=n>v</span> <span class=o>=</span> <span class=n>urlparse</span><span class=o>.</span><span class=n>urlunparse</span><span class=p>((</span><span class=n>scheme</span><span class=p>,</span> <span class=n>netloc</span><span class=p>,</span> <span class=n>path</span><span class=p>,</span> <span class=n>params</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>))</span>
+
+    <span class=c1># RFC 5849 does not specify which characters are encoded in the</span>
+    <span class=c1># &quot;base string URI&quot;, nor how they are encoded - which is very bad, since</span>
+    <span class=c1># the signatures won&#39;t match if there are any differences. Fortunately,</span>
+    <span class=c1># most URIs only use characters that are clearly not encoded (e.g. digits</span>
+    <span class=c1># and A-Z, a-z), so have avoided any differences between implementations.</span>
+    <span class=c1>#</span>
+    <span class=c1># The example from its section 3.4.1.2 illustrates that spaces in</span>
+    <span class=c1># the path are percent encoded. But it provides no guidance as to what other</span>
+    <span class=c1># characters (if any) must be encoded (nor how); nor if characters in the</span>
+    <span class=c1># other components are to be encoded or not.</span>
+    <span class=c1>#</span>
+    <span class=c1># This implementation **assumes** that **only** the space is percent-encoded</span>
+    <span class=c1># and it is done to the entire value (not just to spaces in the path).</span>
+    <span class=c1>#</span>
+    <span class=c1># This code may need to be changed if it is discovered that other characters</span>
+    <span class=c1># are expected to be encoded.</span>
+    <span class=c1>#</span>
+    <span class=c1># Note: the &quot;base string URI&quot; returned by this function will be encoded</span>
+    <span class=c1># again before being concatenated into the &quot;signature base string&quot;. So any</span>
+    <span class=c1># spaces in the URI will actually appear in the &quot;signature base string&quot;</span>
+    <span class=c1># as &quot;%2520&quot; (the &quot;%20&quot; further encoded according to section 3.6).</span>
+
+    <span class=k>return</span> <span class=n>v</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s1>&#39; &#39;</span><span class=p>,</span> <span class=s1>&#39;%20&#39;</span><span class=p>)</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.collect_parameters class="doc doc-heading"> <code class="highlight language-python"><span class=n>collect_parameters</span><span class=p>(</span><span class=n>uri_query</span><span class=o>=</span><span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=n>body</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>headers</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>exclude_oauth_signature</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>with_realm</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Gather the request parameters from all the parameter sources.</p> <p>This function is used to extract all the parameters, which are then passed to <code>normalize_parameters</code> to produce one of the components that make up the <em>signature base string</em>.</p> <p>Parameters starting with <code>oauth_</code> will be unescaped.</p> <p>Body parameters must be supplied as a dict, a list of 2-tuples, or a form encoded query string.</p> <p>Headers must be supplied as a dict.</p> <p>The rules where the parameters must be sourced from are defined in <code>section 3.4.1.3.1</code>_ of RFC 5849.</p> <p>.. _<code>Sec 3.4.1.3.1</code>: https://tools.ietf.org/html/rfc5849#section-3.4.1.3.1</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>237</span>
+<span class=normal>238</span>
+<span class=normal>239</span>
+<span class=normal>240</span>
+<span class=normal>241</span>
+<span class=normal>242</span>
+<span class=normal>243</span>
+<span class=normal>244</span>
+<span class=normal>245</span>
+<span class=normal>246</span>
+<span class=normal>247</span>
+<span class=normal>248</span>
+<span class=normal>249</span>
+<span class=normal>250</span>
+<span class=normal>251</span>
+<span class=normal>252</span>
+<span class=normal>253</span>
+<span class=normal>254</span>
+<span class=normal>255</span>
+<span class=normal>256</span>
+<span class=normal>257</span>
+<span class=normal>258</span>
+<span class=normal>259</span>
+<span class=normal>260</span>
+<span class=normal>261</span>
+<span class=normal>262</span>
+<span class=normal>263</span>
+<span class=normal>264</span>
+<span class=normal>265</span>
+<span class=normal>266</span>
+<span class=normal>267</span>
+<span class=normal>268</span>
+<span class=normal>269</span>
+<span class=normal>270</span>
+<span class=normal>271</span>
+<span class=normal>272</span>
+<span class=normal>273</span>
+<span class=normal>274</span>
+<span class=normal>275</span>
+<span class=normal>276</span>
+<span class=normal>277</span>
+<span class=normal>278</span>
+<span class=normal>279</span>
+<span class=normal>280</span>
+<span class=normal>281</span>
+<span class=normal>282</span>
+<span class=normal>283</span>
+<span class=normal>284</span>
+<span class=normal>285</span>
+<span class=normal>286</span>
+<span class=normal>287</span>
+<span class=normal>288</span>
+<span class=normal>289</span>
+<span class=normal>290</span>
+<span class=normal>291</span>
+<span class=normal>292</span>
+<span class=normal>293</span>
+<span class=normal>294</span>
+<span class=normal>295</span>
+<span class=normal>296</span>
+<span class=normal>297</span>
+<span class=normal>298</span>
+<span class=normal>299</span>
+<span class=normal>300</span>
+<span class=normal>301</span>
+<span class=normal>302</span>
+<span class=normal>303</span>
+<span class=normal>304</span>
+<span class=normal>305</span>
+<span class=normal>306</span>
+<span class=normal>307</span>
+<span class=normal>308</span>
+<span class=normal>309</span>
+<span class=normal>310</span>
+<span class=normal>311</span>
+<span class=normal>312</span>
+<span class=normal>313</span>
+<span class=normal>314</span>
+<span class=normal>315</span>
+<span class=normal>316</span>
+<span class=normal>317</span>
+<span class=normal>318</span>
+<span class=normal>319</span>
+<span class=normal>320</span>
+<span class=normal>321</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>collect_parameters</span><span class=p>(</span><span class=n>uri_query</span><span class=o>=</span><span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=n>body</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>headers</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span>
+                       <span class=n>exclude_oauth_signature</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>with_realm</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Gather the request parameters from all the parameter sources.</span>
+
+<span class=sd>    This function is used to extract all the parameters, which are then passed</span>
+<span class=sd>    to ``normalize_parameters`` to produce one of the components that make up</span>
+<span class=sd>    the *signature base string*.</span>
+
+<span class=sd>    Parameters starting with `oauth_` will be unescaped.</span>
+
+<span class=sd>    Body parameters must be supplied as a dict, a list of 2-tuples, or a</span>
+<span class=sd>    form encoded query string.</span>
+
+<span class=sd>    Headers must be supplied as a dict.</span>
+
+<span class=sd>    The rules where the parameters must be sourced from are defined in</span>
+<span class=sd>    `section 3.4.1.3.1`_ of RFC 5849.</span>
+
+<span class=sd>    .. _`Sec 3.4.1.3.1`: https://tools.ietf.org/html/rfc5849#section-3.4.1.3.1</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=k>if</span> <span class=n>body</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+        <span class=n>body</span> <span class=o>=</span> <span class=p>[]</span>
+    <span class=n>headers</span> <span class=o>=</span> <span class=n>headers</span> <span class=ow>or</span> <span class=p>{}</span>
+    <span class=n>params</span> <span class=o>=</span> <span class=p>[]</span>
+
+    <span class=c1># The parameters from the following sources are collected into a single</span>
+    <span class=c1># list of name/value pairs:</span>
+
+    <span class=c1># *  The query component of the HTTP request URI as defined by</span>
+    <span class=c1>#    `RFC3986, Section 3.4`_.  The query component is parsed into a list</span>
+    <span class=c1>#    of name/value pairs by treating it as an</span>
+    <span class=c1>#    &quot;application/x-www-form-urlencoded&quot; string, separating the names</span>
+    <span class=c1>#    and values and decoding them as defined by W3C.REC-html40-19980424</span>
+    <span class=c1>#    `W3C-HTML-4.0`_, Section 17.13.4.</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`RFC3986, Sec 3.4`: https://tools.ietf.org/html/rfc3986#section-3.4</span>
+    <span class=c1># .. _`W3C-HTML-4.0`: https://www.w3.org/TR/1998/REC-html40-19980424/</span>
+    <span class=k>if</span> <span class=n>uri_query</span><span class=p>:</span>
+        <span class=n>params</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>urldecode</span><span class=p>(</span><span class=n>uri_query</span><span class=p>))</span>
+
+    <span class=c1># *  The OAuth HTTP &quot;Authorization&quot; header field (`Section 3.5.1`_) if</span>
+    <span class=c1>#    present.  The header&#39;s content is parsed into a list of name/value</span>
+    <span class=c1>#    pairs excluding the &quot;realm&quot; parameter if present.  The parameter</span>
+    <span class=c1>#    values are decoded as defined by `Section 3.5.1`_.</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.5.1`: https://tools.ietf.org/html/rfc5849#section-3.5.1</span>
+    <span class=k>if</span> <span class=n>headers</span><span class=p>:</span>
+        <span class=n>headers_lower</span> <span class=o>=</span> <span class=p>{</span><span class=n>k</span><span class=o>.</span><span class=n>lower</span><span class=p>():</span> <span class=n>v</span> <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=ow>in</span> <span class=n>headers</span><span class=o>.</span><span class=n>items</span><span class=p>()}</span>
+        <span class=n>authorization_header</span> <span class=o>=</span> <span class=n>headers_lower</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;authorization&#39;</span><span class=p>)</span>
+        <span class=k>if</span> <span class=n>authorization_header</span> <span class=ow>is</span> <span class=ow>not</span> <span class=kc>None</span><span class=p>:</span>
+            <span class=n>params</span><span class=o>.</span><span class=n>extend</span><span class=p>([</span><span class=n>i</span> <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=n>utils</span><span class=o>.</span><span class=n>parse_authorization_header</span><span class=p>(</span>
+                <span class=n>authorization_header</span><span class=p>)</span> <span class=k>if</span> <span class=n>with_realm</span> <span class=ow>or</span> <span class=n>i</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>!=</span> <span class=s1>&#39;realm&#39;</span><span class=p>])</span>
+
+    <span class=c1># *  The HTTP request entity-body, but only if all of the following</span>
+    <span class=c1>#    conditions are met:</span>
+    <span class=c1>#     *  The entity-body is single-part.</span>
+    <span class=c1>#</span>
+    <span class=c1>#     *  The entity-body follows the encoding requirements of the</span>
+    <span class=c1>#        &quot;application/x-www-form-urlencoded&quot; content-type as defined by</span>
+    <span class=c1>#        W3C.REC-html40-19980424 `W3C-HTML-4.0`_.</span>
+
+    <span class=c1>#     *  The HTTP request entity-header includes the &quot;Content-Type&quot;</span>
+    <span class=c1>#        header field set to &quot;application/x-www-form-urlencoded&quot;.</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`W3C-HTML-4.0`: https://www.w3.org/TR/1998/REC-html40-19980424/</span>
+
+    <span class=c1># TODO: enforce header param inclusion conditions</span>
+    <span class=n>bodyparams</span> <span class=o>=</span> <span class=n>extract_params</span><span class=p>(</span><span class=n>body</span><span class=p>)</span> <span class=ow>or</span> <span class=p>[]</span>
+    <span class=n>params</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>bodyparams</span><span class=p>)</span>
+
+    <span class=c1># ensure all oauth params are unescaped</span>
+    <span class=n>unescaped_params</span> <span class=o>=</span> <span class=p>[]</span>
+    <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=ow>in</span> <span class=n>params</span><span class=p>:</span>
+        <span class=k>if</span> <span class=n>k</span><span class=o>.</span><span class=n>startswith</span><span class=p>(</span><span class=s1>&#39;oauth_&#39;</span><span class=p>):</span>
+            <span class=n>v</span> <span class=o>=</span> <span class=n>utils</span><span class=o>.</span><span class=n>unescape</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+        <span class=n>unescaped_params</span><span class=o>.</span><span class=n>append</span><span class=p>((</span><span class=n>k</span><span class=p>,</span> <span class=n>v</span><span class=p>))</span>
+
+    <span class=c1># The &quot;oauth_signature&quot; parameter MUST be excluded from the signature</span>
+    <span class=c1># base string if present.</span>
+    <span class=k>if</span> <span class=n>exclude_oauth_signature</span><span class=p>:</span>
+        <span class=n>unescaped_params</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=nb>filter</span><span class=p>(</span><span class=k>lambda</span> <span class=n>i</span><span class=p>:</span> <span class=n>i</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>!=</span> <span class=s1>&#39;oauth_signature&#39;</span><span class=p>,</span>
+                                       <span class=n>unescaped_params</span><span class=p>))</span>
+
+    <span class=k>return</span> <span class=n>unescaped_params</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.normalize_parameters class="doc doc-heading"> <code class="highlight language-python"><span class=n>normalize_parameters</span><span class=p>(</span><span class=n>params</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Calculate the normalized request parameters.</p> <p>The <em>normalized request parameters</em> is one of the components that make up the <em>signature base string</em>.</p> <p>The rules for parameter normalization are defined in <code>section 3.4.1.3.2</code>_ of RFC 5849.</p> <p>.. _<code>Sec 3.4.1.3.2</code>: https://tools.ietf.org/html/rfc5849#section-3.4.1.3.2</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>324</span>
+<span class=normal>325</span>
+<span class=normal>326</span>
+<span class=normal>327</span>
+<span class=normal>328</span>
+<span class=normal>329</span>
+<span class=normal>330</span>
+<span class=normal>331</span>
+<span class=normal>332</span>
+<span class=normal>333</span>
+<span class=normal>334</span>
+<span class=normal>335</span>
+<span class=normal>336</span>
+<span class=normal>337</span>
+<span class=normal>338</span>
+<span class=normal>339</span>
+<span class=normal>340</span>
+<span class=normal>341</span>
+<span class=normal>342</span>
+<span class=normal>343</span>
+<span class=normal>344</span>
+<span class=normal>345</span>
+<span class=normal>346</span>
+<span class=normal>347</span>
+<span class=normal>348</span>
+<span class=normal>349</span>
+<span class=normal>350</span>
+<span class=normal>351</span>
+<span class=normal>352</span>
+<span class=normal>353</span>
+<span class=normal>354</span>
+<span class=normal>355</span>
+<span class=normal>356</span>
+<span class=normal>357</span>
+<span class=normal>358</span>
+<span class=normal>359</span>
+<span class=normal>360</span>
+<span class=normal>361</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>normalize_parameters</span><span class=p>(</span><span class=n>params</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>str</span><span class=p>:</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Calculate the normalized request parameters.</span>
+
+<span class=sd>    The *normalized request parameters* is one of the components that make up</span>
+<span class=sd>    the *signature base string*.</span>
+
+<span class=sd>    The rules for parameter normalization are defined in `section 3.4.1.3.2`_ of</span>
+<span class=sd>    RFC 5849.</span>
+
+<span class=sd>    .. _`Sec 3.4.1.3.2`: https://tools.ietf.org/html/rfc5849#section-3.4.1.3.2</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># The parameters collected in `Section 3.4.1.3`_ are normalized into a</span>
+    <span class=c1># single string as follows:</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.4.1.3`: https://tools.ietf.org/html/rfc5849#section-3.4.1.3</span>
+
+    <span class=c1># 1.  First, the name and value of each parameter are encoded</span>
+    <span class=c1>#     (`Section 3.6`_).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.6`: https://tools.ietf.org/html/rfc5849#section-3.6</span>
+    <span class=n>key_values</span> <span class=o>=</span> <span class=p>[(</span><span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>k</span><span class=p>),</span> <span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>v</span><span class=p>))</span> <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=ow>in</span> <span class=n>params</span><span class=p>]</span>
+
+    <span class=c1># 2.  The parameters are sorted by name, using ascending byte value</span>
+    <span class=c1>#     ordering.  If two or more parameters share the same name, they</span>
+    <span class=c1>#     are sorted by their value.</span>
+    <span class=n>key_values</span><span class=o>.</span><span class=n>sort</span><span class=p>()</span>
+
+    <span class=c1># 3.  The name of each parameter is concatenated to its corresponding</span>
+    <span class=c1>#     value using an &quot;=&quot; character (ASCII code 61) as a separator, even</span>
+    <span class=c1>#     if the value is empty.</span>
+    <span class=n>parameter_parts</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;</span><span class=si>{}</span><span class=s1>=</span><span class=si>{}</span><span class=s1>&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>k</span><span class=p>,</span> <span class=n>v</span><span class=p>)</span> <span class=k>for</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=ow>in</span> <span class=n>key_values</span><span class=p>]</span>
+
+    <span class=c1># 4.  The sorted name/value pairs are concatenated together into a</span>
+    <span class=c1>#     single string by using an &quot;&amp;&quot; character (ASCII code 38) as</span>
+    <span class=c1>#     separator.</span>
+    <span class=k>return</span> <span class=s1>&#39;&amp;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>parameter_parts</span><span class=p>)</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.sign_hmac_sha1 class="doc doc-heading"> <code class="highlight language-python"><span class=n>sign_hmac_sha1</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Deprecated function for calculating a HMAC-SHA1 signature.</p> <p>This function has been replaced by invoking <code>sign_hmac</code> with "SHA-1" as the hash algorithm name.</p> <p>This function was invoked by sign_hmac_sha1_with_client and test_signatures.py, but does any application invoke it directly? If not, it can be removed.</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>473</span>
+<span class=normal>474</span>
+<span class=normal>475</span>
+<span class=normal>476</span>
+<span class=normal>477</span>
+<span class=normal>478</span>
+<span class=normal>479</span>
+<span class=normal>480</span>
+<span class=normal>481</span>
+<span class=normal>482</span>
+<span class=normal>483</span>
+<span class=normal>484</span>
+<span class=normal>485</span>
+<span class=normal>486</span>
+<span class=normal>487</span>
+<span class=normal>488</span>
+<span class=normal>489</span>
+<span class=normal>490</span>
+<span class=normal>491</span>
+<span class=normal>492</span>
+<span class=normal>493</span>
+<span class=normal>494</span>
+<span class=normal>495</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>sign_hmac_sha1</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Deprecated function for calculating a HMAC-SHA1 signature.</span>
+
+<span class=sd>    This function has been replaced by invoking ``sign_hmac`` with &quot;SHA-1&quot;</span>
+<span class=sd>    as the hash algorithm name.</span>
+
+<span class=sd>    This function was invoked by sign_hmac_sha1_with_client and</span>
+<span class=sd>    test_signatures.py, but does any application invoke it directly? If not,</span>
+<span class=sd>    it can be removed.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span><span class=s1>&#39;use sign_hmac_sha1_with_client instead of sign_hmac_sha1&#39;</span><span class=p>,</span>
+                  <span class=ne>DeprecationWarning</span><span class=p>)</span>
+
+    <span class=c1># For some unknown reason, the original implementation assumed base_string</span>
+    <span class=c1># could either be bytes or str. The signature base string calculating</span>
+    <span class=c1># function always returned a str, so the new ``sign_rsa`` only expects that.</span>
+
+    <span class=n>base_string</span> <span class=o>=</span> <span class=n>base_string</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;ascii&#39;</span><span class=p>)</span> \
+        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=nb>bytes</span><span class=p>)</span> <span class=k>else</span> <span class=n>base_string</span>
+
+    <span class=k>return</span> <span class=n>_sign_hmac</span><span class=p>(</span><span class=s1>&#39;SHA-1&#39;</span><span class=p>,</span> <span class=n>base_string</span><span class=p>,</span>
+                      <span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>)</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.sign_hmac_sha256 class="doc doc-heading"> <code class="highlight language-python"><span class=n>sign_hmac_sha256</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Deprecated function for calculating a HMAC-SHA256 signature.</p> <p>This function has been replaced by invoking <code>sign_hmac</code> with "SHA-256" as the hash algorithm name.</p> <p>This function was invoked by sign_hmac_sha256_with_client and test_signatures.py, but does any application invoke it directly? If not, it can be removed.</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>510</span>
+<span class=normal>511</span>
+<span class=normal>512</span>
+<span class=normal>513</span>
+<span class=normal>514</span>
+<span class=normal>515</span>
+<span class=normal>516</span>
+<span class=normal>517</span>
+<span class=normal>518</span>
+<span class=normal>519</span>
+<span class=normal>520</span>
+<span class=normal>521</span>
+<span class=normal>522</span>
+<span class=normal>523</span>
+<span class=normal>524</span>
+<span class=normal>525</span>
+<span class=normal>526</span>
+<span class=normal>527</span>
+<span class=normal>528</span>
+<span class=normal>529</span>
+<span class=normal>530</span>
+<span class=normal>531</span>
+<span class=normal>532</span>
+<span class=normal>533</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>sign_hmac_sha256</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Deprecated function for calculating a HMAC-SHA256 signature.</span>
+
+<span class=sd>    This function has been replaced by invoking ``sign_hmac`` with &quot;SHA-256&quot;</span>
+<span class=sd>    as the hash algorithm name.</span>
+
+<span class=sd>    This function was invoked by sign_hmac_sha256_with_client and</span>
+<span class=sd>    test_signatures.py, but does any application invoke it directly? If not,</span>
+<span class=sd>    it can be removed.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span>
+        <span class=s1>&#39;use sign_hmac_sha256_with_client instead of sign_hmac_sha256&#39;</span><span class=p>,</span>
+        <span class=ne>DeprecationWarning</span><span class=p>)</span>
+
+    <span class=c1># For some unknown reason, the original implementation assumed base_string</span>
+    <span class=c1># could either be bytes or str. The signature base string calculating</span>
+    <span class=c1># function always returned a str, so the new ``sign_rsa`` only expects that.</span>
+
+    <span class=n>base_string</span> <span class=o>=</span> <span class=n>base_string</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;ascii&#39;</span><span class=p>)</span> \
+        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=nb>bytes</span><span class=p>)</span> <span class=k>else</span> <span class=n>base_string</span>
+
+    <span class=k>return</span> <span class=n>_sign_hmac</span><span class=p>(</span><span class=s1>&#39;SHA-256&#39;</span><span class=p>,</span> <span class=n>base_string</span><span class=p>,</span>
+                      <span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>)</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.sign_plaintext class="doc doc-heading"> <code class="highlight language-python"><span class=n>sign_plaintext</span><span class=p>(</span><span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Sign a request using plaintext.</p> <p>Per <code>section 3.4.4</code>_ of the spec.</p> <p>The "PLAINTEXT" method does not employ a signature algorithm. It MUST be used with a transport-layer mechanism such as TLS or SSL (or sent over a secure channel with equivalent protections). It does not utilize the signature base string or the "oauth_timestamp" and "oauth_nonce" parameters.</p> <p>.. _<code>section 3.4.4</code>: https://tools.ietf.org/html/rfc5849#section-3.4.4</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>806</span>
+<span class=normal>807</span>
+<span class=normal>808</span>
+<span class=normal>809</span>
+<span class=normal>810</span>
+<span class=normal>811</span>
+<span class=normal>812</span>
+<span class=normal>813</span>
+<span class=normal>814</span>
+<span class=normal>815</span>
+<span class=normal>816</span>
+<span class=normal>817</span>
+<span class=normal>818</span>
+<span class=normal>819</span>
+<span class=normal>820</span>
+<span class=normal>821</span>
+<span class=normal>822</span>
+<span class=normal>823</span>
+<span class=normal>824</span>
+<span class=normal>825</span>
+<span class=normal>826</span>
+<span class=normal>827</span>
+<span class=normal>828</span>
+<span class=normal>829</span>
+<span class=normal>830</span>
+<span class=normal>831</span>
+<span class=normal>832</span>
+<span class=normal>833</span>
+<span class=normal>834</span>
+<span class=normal>835</span>
+<span class=normal>836</span>
+<span class=normal>837</span>
+<span class=normal>838</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>sign_plaintext</span><span class=p>(</span><span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Sign a request using plaintext.</span>
+
+<span class=sd>    Per `section 3.4.4`_ of the spec.</span>
+
+<span class=sd>    The &quot;PLAINTEXT&quot; method does not employ a signature algorithm.  It</span>
+<span class=sd>    MUST be used with a transport-layer mechanism such as TLS or SSL (or</span>
+<span class=sd>    sent over a secure channel with equivalent protections).  It does not</span>
+<span class=sd>    utilize the signature base string or the &quot;oauth_timestamp&quot; and</span>
+<span class=sd>    &quot;oauth_nonce&quot; parameters.</span>
+
+<span class=sd>    .. _`section 3.4.4`: https://tools.ietf.org/html/rfc5849#section-3.4.4</span>
+
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># The &quot;oauth_signature&quot; protocol parameter is set to the concatenated</span>
+    <span class=c1># value of:</span>
+
+    <span class=c1># 1.  The client shared-secret, after being encoded (`Section 3.6`_).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.6`: https://tools.ietf.org/html/rfc5849#section-3.6</span>
+    <span class=n>signature</span> <span class=o>=</span> <span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>client_secret</span> <span class=ow>or</span> <span class=s1>&#39;&#39;</span><span class=p>)</span>
+
+    <span class=c1># 2.  An &quot;&amp;&quot; character (ASCII code 38), which MUST be included even</span>
+    <span class=c1>#     when either secret is empty.</span>
+    <span class=n>signature</span> <span class=o>+=</span> <span class=s1>&#39;&amp;&#39;</span>
+
+    <span class=c1># 3.  The token shared-secret, after being encoded (`Section 3.6`_).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.6`: https://tools.ietf.org/html/rfc5849#section-3.6</span>
+    <span class=n>signature</span> <span class=o>+=</span> <span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>resource_owner_secret</span> <span class=ow>or</span> <span class=s1>&#39;&#39;</span><span class=p>)</span>
+
+    <span class=k>return</span> <span class=n>signature</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.sign_rsa_sha1 class="doc doc-heading"> <code class="highlight language-python"><span class=n>sign_rsa_sha1</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=n>rsa_private_key</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Deprecated function for calculating a RSA-SHA1 signature.</p> <p>This function has been replaced by invoking <code>sign_rsa</code> with "SHA-1" as the hash algorithm name.</p> <p>This function was invoked by sign_rsa_sha1_with_client and test_signatures.py, but does any application invoke it directly? If not, it can be removed.</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>758</span>
+<span class=normal>759</span>
+<span class=normal>760</span>
+<span class=normal>761</span>
+<span class=normal>762</span>
+<span class=normal>763</span>
+<span class=normal>764</span>
+<span class=normal>765</span>
+<span class=normal>766</span>
+<span class=normal>767</span>
+<span class=normal>768</span>
+<span class=normal>769</span>
+<span class=normal>770</span>
+<span class=normal>771</span>
+<span class=normal>772</span>
+<span class=normal>773</span>
+<span class=normal>774</span>
+<span class=normal>775</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>sign_rsa_sha1</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=n>rsa_private_key</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Deprecated function for calculating a RSA-SHA1 signature.</span>
+
+<span class=sd>    This function has been replaced by invoking ``sign_rsa`` with &quot;SHA-1&quot;</span>
+<span class=sd>    as the hash algorithm name.</span>
+
+<span class=sd>    This function was invoked by sign_rsa_sha1_with_client and</span>
+<span class=sd>    test_signatures.py, but does any application invoke it directly? If not,</span>
+<span class=sd>    it can be removed.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>warnings</span><span class=o>.</span><span class=n>warn</span><span class=p>(</span><span class=s1>&#39;use _sign_rsa(&quot;SHA-1&quot;, ...) instead of sign_rsa_sha1&#39;</span><span class=p>,</span>
+                  <span class=ne>DeprecationWarning</span><span class=p>)</span>
+
+    <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>base_string</span><span class=p>,</span> <span class=nb>bytes</span><span class=p>):</span>
+        <span class=n>base_string</span> <span class=o>=</span> <span class=n>base_string</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;ascii&#39;</span><span class=p>)</span>
+
+    <span class=k>return</span> <span class=n>_sign_rsa</span><span class=p>(</span><span class=s1>&#39;SHA-1&#39;</span><span class=p>,</span> <span class=n>base_string</span><span class=p>,</span> <span class=n>rsa_private_key</span><span class=p>)</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.signature_base_string class="doc doc-heading"> <code class="highlight language-python"><span class=n>signature_base_string</span><span class=p>(</span><span class=n>http_method</span><span class=p>,</span> <span class=n>base_str_uri</span><span class=p>,</span> <span class=n>normalized_encoded_request_parameters</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Construct the signature base string.</p> <p>The <em>signature base string</em> is the value that is calculated and signed by the client. It is also independently calculated by the server to verify the signature, and therefore must produce the exact same value at both ends or the signature won't verify.</p> <p>The rules for calculating the <em>signature base string</em> are defined in section 3.4.1.1`_ of RFC 5849.</p> <p>.. _<code>section 3.4.1.1</code>: https://tools.ietf.org/html/rfc5849#section-3.4.1.1</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal> 54</span>
+<span class=normal> 55</span>
+<span class=normal> 56</span>
+<span class=normal> 57</span>
+<span class=normal> 58</span>
+<span class=normal> 59</span>
+<span class=normal> 60</span>
+<span class=normal> 61</span>
+<span class=normal> 62</span>
+<span class=normal> 63</span>
+<span class=normal> 64</span>
+<span class=normal> 65</span>
+<span class=normal> 66</span>
+<span class=normal> 67</span>
+<span class=normal> 68</span>
+<span class=normal> 69</span>
+<span class=normal> 70</span>
+<span class=normal> 71</span>
+<span class=normal> 72</span>
+<span class=normal> 73</span>
+<span class=normal> 74</span>
+<span class=normal> 75</span>
+<span class=normal> 76</span>
+<span class=normal> 77</span>
+<span class=normal> 78</span>
+<span class=normal> 79</span>
+<span class=normal> 80</span>
+<span class=normal> 81</span>
+<span class=normal> 82</span>
+<span class=normal> 83</span>
+<span class=normal> 84</span>
+<span class=normal> 85</span>
+<span class=normal> 86</span>
+<span class=normal> 87</span>
+<span class=normal> 88</span>
+<span class=normal> 89</span>
+<span class=normal> 90</span>
+<span class=normal> 91</span>
+<span class=normal> 92</span>
+<span class=normal> 93</span>
+<span class=normal> 94</span>
+<span class=normal> 95</span>
+<span class=normal> 96</span>
+<span class=normal> 97</span>
+<span class=normal> 98</span>
+<span class=normal> 99</span>
+<span class=normal>100</span>
+<span class=normal>101</span>
+<span class=normal>102</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>signature_base_string</span><span class=p>(</span>
+        <span class=n>http_method</span><span class=p>:</span> <span class=nb>str</span><span class=p>,</span>
+        <span class=n>base_str_uri</span><span class=p>:</span> <span class=nb>str</span><span class=p>,</span>
+        <span class=n>normalized_encoded_request_parameters</span><span class=p>:</span> <span class=nb>str</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>str</span><span class=p>:</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Construct the signature base string.</span>
+
+<span class=sd>    The *signature base string* is the value that is calculated and signed by</span>
+<span class=sd>    the client. It is also independently calculated by the server to verify</span>
+<span class=sd>    the signature, and therefore must produce the exact same value at both</span>
+<span class=sd>    ends or the signature won&#39;t verify.</span>
+
+<span class=sd>    The rules for calculating the *signature base string* are defined in</span>
+<span class=sd>    section 3.4.1.1`_ of RFC 5849.</span>
+
+<span class=sd>    .. _`section 3.4.1.1`: https://tools.ietf.org/html/rfc5849#section-3.4.1.1</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># The signature base string is constructed by concatenating together,</span>
+    <span class=c1># in order, the following HTTP request elements:</span>
+
+    <span class=c1># 1.  The HTTP request method in uppercase.  For example: &quot;HEAD&quot;,</span>
+    <span class=c1>#     &quot;GET&quot;, &quot;POST&quot;, etc.  If the request uses a custom HTTP method, it</span>
+    <span class=c1>#     MUST be encoded (`Section 3.6`_).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.6`: https://tools.ietf.org/html/rfc5849#section-3.6</span>
+    <span class=n>base_string</span> <span class=o>=</span> <span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>http_method</span><span class=o>.</span><span class=n>upper</span><span class=p>())</span>
+
+    <span class=c1># 2.  An &quot;&amp;&quot; character (ASCII code 38).</span>
+    <span class=n>base_string</span> <span class=o>+=</span> <span class=s1>&#39;&amp;&#39;</span>
+
+    <span class=c1># 3.  The base string URI from `Section 3.4.1.2`_, after being encoded</span>
+    <span class=c1>#     (`Section 3.6`_).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Section 3.4.1.2`: https://tools.ietf.org/html/rfc5849#section-3.4.1.2</span>
+    <span class=c1># .. _`Section 3.6`: https://tools.ietf.org/html/rfc5849#section-3.6</span>
+    <span class=n>base_string</span> <span class=o>+=</span> <span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>base_str_uri</span><span class=p>)</span>
+
+    <span class=c1># 4.  An &quot;&amp;&quot; character (ASCII code 38).</span>
+    <span class=n>base_string</span> <span class=o>+=</span> <span class=s1>&#39;&amp;&#39;</span>
+
+    <span class=c1># 5.  The request parameters as normalized in `Section 3.4.1.3.2`_, after</span>
+    <span class=c1>#     being encoded (`Section 3.6`).</span>
+    <span class=c1>#</span>
+    <span class=c1># .. _`Sec 3.4.1.3.2`: https://tools.ietf.org/html/rfc5849#section-3.4.1.3.2</span>
+    <span class=c1># .. _`Section 3.6`: https://tools.ietf.org/html/rfc5849#section-3.6</span>
+    <span class=n>base_string</span> <span class=o>+=</span> <span class=n>utils</span><span class=o>.</span><span class=n>escape</span><span class=p>(</span><span class=n>normalized_encoded_request_parameters</span><span class=p>)</span>
+
+    <span class=k>return</span> <span class=n>base_string</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> <div class="doc doc-object doc-function"> <h2 id=server.vendor.oauthlib.oauth1.rfc5849.signature.verify_plaintext class="doc doc-heading"> <code class="highlight language-python"><span class=n>verify_plaintext</span><span class=p>(</span><span class=n>request</span><span class=p>,</span> <span class=n>client_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>)</span></code> </h2> <div class="doc doc-contents "> <p>Verify a PLAINTEXT signature.</p> <p>Per <code>section 3.4</code>_ of the spec.</p> <p>.. _<code>section 3.4</code>: https://tools.ietf.org/html/rfc5849#section-3.4</p> <details class=quote> <summary>Source code in <code>server/vendor/oauthlib/oauth1/rfc5849/signature.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>841</span>
+<span class=normal>842</span>
+<span class=normal>843</span>
+<span class=normal>844</span>
+<span class=normal>845</span>
+<span class=normal>846</span>
+<span class=normal>847</span>
+<span class=normal>848</span>
+<span class=normal>849</span>
+<span class=normal>850</span>
+<span class=normal>851</span>
+<span class=normal>852</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>verify_plaintext</span><span class=p>(</span><span class=n>request</span><span class=p>,</span> <span class=n>client_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+<span class=w>    </span><span class=sd>&quot;&quot;&quot;Verify a PLAINTEXT signature.</span>
+
+<span class=sd>    Per `section 3.4`_ of the spec.</span>
+
+<span class=sd>    .. _`section 3.4`: https://tools.ietf.org/html/rfc5849#section-3.4</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>signature</span> <span class=o>=</span> <span class=n>sign_plaintext</span><span class=p>(</span><span class=n>client_secret</span><span class=p>,</span> <span class=n>resource_owner_secret</span><span class=p>)</span>
+    <span class=n>match</span> <span class=o>=</span> <span class=n>safe_string_equals</span><span class=p>(</span><span class=n>signature</span><span class=p>,</span> <span class=n>request</span><span class=o>.</span><span class=n>signature</span><span class=p>)</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=n>match</span><span class=p>:</span>
+        <span class=n>log</span><span class=o>.</span><span class=n>debug</span><span class=p>(</span><span class=s1>&#39;Verify PLAINTEXT failed&#39;</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>match</span>
+</code></pre></div></td></tr></table></div> </details> </div> </div> </div> </div> </div> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../../../..", "features": ["navigation.sections", "navigation.path", "navigation.prune"], "search": "../../../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script> <script src=../../../../../../assets/javascripts/bundle.c8b220af.min.js></script> </body> </html>
