@@ -175,3 +175,6 @@ frontend/.pnp.cjs
 frontend/.pnp.loader.mjs
 /server/.creds
 frontend/.env.local
+
+# ignore mkdocs build
+site/
