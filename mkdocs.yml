@@ -48,7 +48,7 @@ plugins:
         - tools/**/*
         - stubs/**/*        # mocha fix
         - ./**/pythonrc.py  # houdini fix
-        - server/vendor/*
+        - server/vendor/**/
         - .*/**/*
         - ./*.py
   - mkdocstrings:
