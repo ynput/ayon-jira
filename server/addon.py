@@ -23,7 +23,6 @@ TEMPLATE_SUFFIX = "Jira_Template.json".lower()
 class JiraAddon(BaseServerAddon):
     settings_model: Type[JiraSettings] = JiraSettings
     frontend_scopes: dict[str, Any] = {"project": {}}
-    addon_type = "server"
 
     def initialize(self):
 
