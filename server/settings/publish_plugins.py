@@ -6,7 +6,9 @@ from ayon_server.settings import (
 
 
 class Profile(BaseSettingsModel):
-    hosts: list[str] = SettingsField(default_factory=list, title="Hosts")
+    host_names: list[str] = SettingsField(
+        default_factory=list, title="Host names"
+    )
     task_types: list[str] = SettingsField(
         default_factory=list,
         title="Task types",
@@ -16,8 +18,8 @@ class Profile(BaseSettingsModel):
         default_factory=list, title="Task names")
     product_names: list[str] = SettingsField(
         default_factory=list, title="Product names")
-    product_types: list[str] = SettingsField(
-        default_factory=list, title="Product types")
+    product_base_types: list[str] = SettingsField(
+        default_factory=list, title="Product base types")
 
     _desc = ("Message sent to ticked selected by profile. "
              "Message template can contain {} placeholders from anatomyData ")

@@ -1,3 +1,7 @@
+from .conversion import (
+    convert_settings_overrides,
+)
+
 from .main import (
     JiraSettings,
     DEFAULT_VALUES,
@@ -5,6 +9,8 @@ from .main import (
 
 
 __all__ = (
+    "convert_settings_overrides",
+
     "JiraSettings",
     "DEFAULT_VALUES",
 )
