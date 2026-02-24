@@ -2,7 +2,12 @@ from typing import Any
 
 
 def _convert_product_base_types_0_2_0(overrides: dict) -> None:
-    profiles = overrides.get("publish", {}).get("CollectJiraNotifications", {}).get("profiles")
+    profiles = (
+        overrides
+        .get("publish", {})
+        .get("CollectJiraNotifications", {})
+        .get("profiles")
+    )
     if not profiles:
         return
 
