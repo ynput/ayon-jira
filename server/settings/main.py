@@ -65,11 +65,11 @@ DEFAULT_VALUES = {
             "optional": True,
             "profiles": [
                 {
-                    "hosts": [],
+                    "host_names": [],
                     "task_names": [],
                     "task_types": [],
                     "product_names": [],
-                    "product_types": [],
+                    "product_base_types": [],
                     # "comment": ""
                 }
             ]

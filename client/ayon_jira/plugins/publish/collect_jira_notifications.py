@@ -57,12 +57,14 @@ class CollectJiraNotifications(pyblish.api.InstancePlugin,
         if task_entity:
             task_name = task_entity["name"]
             task_type = task_entity["taskType"]
-        product_type = instance.data["productType"]
+        product_base_type = instance.data.get("productBaseType")
+        if not product_base_type:
+            product_base_type = instance.data["productType"]
         key_values = {
-            "product_types": product_type,
+            "host_names": instance.context.data["hostName"],
             "task_names": task_name,
             "task_types": task_type,
-            "hosts": instance.context.data["hostName"],
+            "product_base_types": product_base_type,
             "product_names": instance.data["productName"],
         }
         # Filter 'key_values' for backwards compatibility
