@@ -10,7 +10,11 @@ from ayon_server.api.dependencies import CurrentUser
 from ayon_server.lib.postgres import Postgres
 from ayon_server.entities.core import attribute_library
 
-from .settings import JiraSettings, DEFAULT_VALUES
+from .settings import (
+    convert_settings_overrides,
+    JiraSettings,
+    DEFAULT_VALUES,
+)
 from .addon_settings_access import sort_versions
 
 JIRA_ADDON_DIR = os.path.join(
@@ -48,6 +52,16 @@ class JiraAddon(BaseServerAddon):
     async def get_default_settings(self):
         settings_model_cls = self.get_settings_model()
         return settings_model_cls(**DEFAULT_VALUES)
+
+    async def convert_settings_overrides(
+        self,
+        source_version: str,
+        overrides: dict[str, Any],
+    ) -> dict[str, Any]:
+        convert_settings_overrides(source_version, overrides)
+        return await super().convert_settings_overrides(
+            source_version, overrides
+        )
 
     async def setup(self):
         need_restart = await self.create_required_attributes()
